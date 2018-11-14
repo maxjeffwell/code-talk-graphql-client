@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import { CreateUser } from './components/CreateUser';
 import { Login } from './components/Login';
+import { Landing } from './components/Landing';
+import About from './components/About';
 
 class App extends Component {
   render() {
@@ -21,6 +23,8 @@ class App extends Component {
                 <li><Link to="/createuser">Create User</Link></li>
               </ul>
             </nav>
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/about" component={About} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/createuser" component={CreateUser} />
           </main>
