@@ -6,17 +6,19 @@ export class CreateUser extends Component {
   constructor(props){
     super(props);
     this.state = {
+      username: '',
       email: '',
       password: ''
     }
   }
   render(){
-    const {email, password} = this.state;
+    const {username, email, password} = this.state;
     return (
       <section>
+        <input type="text" placeholder="Username" value={username} onChange={e => this.setState({username: e.target.value})} />
         <input type="text" placeholder="Email" value={email} onChange={e => this.setState({email: e.target.value})} />
         <input type="text" placeholder="Password" value={password} onChange={e => this.setState({password: e.target.value})} />
-        <Mutation mutation={CREATE_USER} variables={{email, password}} update={(store, { data: { signup } }) =>{
+        <Mutation mutation={CREATE_USER} variables={{username, email, password}} update={(store, { data: { signup } }) =>{
           console.log('Access Token:', signup);
         }}>
           {parsedLink => <button onClick={parsedLink}>Create</button>}
