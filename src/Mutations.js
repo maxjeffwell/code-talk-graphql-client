@@ -10,3 +10,9 @@ mutation LoginMutation($email: String!, $password: String!){
   login(email: $email, password: $password)
 }
 `;
+
+export const CREATE_MESSAGE = gql`
+  mutation CreateMessageMutation($body: String!, $user: String!){
+      message(body: $body, user: $user)
+  }
+`;
