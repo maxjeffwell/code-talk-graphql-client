@@ -6,5 +6,6 @@ export const NEW_MESSAGE_SUBSCRIPTION = gql`
           body
           user
       }
-  }`;
+  }
+`;
 

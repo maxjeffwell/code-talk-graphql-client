@@ -27,6 +27,7 @@ subscribeToNewMessages(subscribeToMore){
 
 render() {
     const { body, user } = this.state;
+
     return (
       <section>
         <input type="text" placeholder="body" value={body} onChange={e => this.setState({body: e.target.value})} />
@@ -52,12 +53,9 @@ render() {
               <p>{message.body}</p>
               <p>{message.user}</p>
                 </div>)}
-
                 </div>
-
         }}
       </Query>
-
       </section>
     );
 }
