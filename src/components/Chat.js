@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
-import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
+import { NEW_MESSAGE_SUBSCRIPTION} from "./Test-Sub";
 
 
 export class Chat extends Component {
@@ -14,11 +14,11 @@ export class Chat extends Component {
   }
 
   componentDidMount() {
-    this.subscribeToNewMessages = this.props.allMessagesQuery.subscribeToMore({
+    this.subscribeToNewMessages = this.props.subscribeToMore({
       document: NEW_MESSAGE_SUBSCRIPTION,
       updateQuery: (prev, {subscriptionData}) => {
         if (!subscriptionData) return prev;
-        const newMessage = subscriptionData.data.Message.node;
+        const newMessage = subscriptionData.data.message.node;
         return Object.assign({}, prev, {
           allMessages: [...prev.allMessages, newMessage]
         });

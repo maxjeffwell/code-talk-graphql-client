@@ -13,15 +13,12 @@ mutation LoginMutation($email: String!, $password: String!){
 `;
 
 export const CREATE_MESSAGE = gql`
-  mutation CreateMessageMutation($text: String!, $sentById: ID!){
-  createMessage(text: $text, sentById: $sentById) {
-      id
+  mutation CreateMessageMutation($text: String!, 
+  $username: String!) {
+  createMessage(message: {text: $text, username: $username
+  }){
       text
-      createdAt
-      sentBy {
-          id
-          name
-      }
+      username
   }
   }
 `;
