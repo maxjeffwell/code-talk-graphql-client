@@ -5,32 +5,11 @@ import './App.css';
 import { CreateUser } from './components/CreateUser';
 import { Login } from './components/Login';
 import { Landing } from './components/Landing';
-import { Messages } from './components/Messages'
+import { Chat } from './components/Chat'
+import { TestSub } from './components/Test-Sub';
 import About from './components/About';
 
 class App extends Component {
-
-  componentDidMount() {
-    const query = `{
-    message(id: 1){
-      body
-      user
-      }
-  }`;
-
-    fetch('http://localhost:4000', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    body: JSON.stringify({
-      query
-    })
-    })
-      .then(res => res.json())
-      .then(res => console.log(res));
-  }
 
   render() {
     return (
@@ -52,7 +31,8 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/createuser" component={CreateUser} />
-            <Route exact path="/messages" component={Messages} />
+            <Route exact path="/messages" component={Chat} />
+            <Route exact path="/test-sub" component={TestSub} />
           </main>
         </Router>
       </div>
