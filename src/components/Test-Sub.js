@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Subscription } from 'react-apollo';
 import gql from 'graphql-tag';
 
+
 export const NEW_MESSAGE_SUBSCRIPTION = gql`    
     subscription {
       newMessage {

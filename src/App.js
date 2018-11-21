@@ -5,7 +5,7 @@ import './App.css';
 import { CreateUser } from './components/CreateUser';
 import { Login } from './components/Login';
 import { Landing } from './components/Landing';
-import { Chat } from './components/Chat'
+import { Messages } from './components/Messages'
 import { TestSub } from './components/Test-Sub';
 import About from './components/About';
 
@@ -31,7 +31,7 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/createuser" component={CreateUser} />
-            <Route exact path="/messages" component={Chat} />
+            <Route exact path="/messages" component={Messages} />
             <Route exact path="/test-sub" component={TestSub} />
           </main>
         </Router>
