@@ -8,7 +8,8 @@ export class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
+      username: 'unknown'
     }
   }
 
@@ -35,12 +36,12 @@ export class Messages extends Component {
     }
 
   render() {
-    const { text } = this.state;
+    const { text, username } = this.state;
     return (
       <section>
         <input type="text" placeholder="Send a message..." value={text} onChange={e => this.setState({text: e.target.value})}/>
         {/*<input type="text" placeholder="username" value={username} onChange={e => this.setState({username: e.target.value})}/>*/}
-        <Mutation mutation={CREATE_MESSAGE} variables={{ text }} update={(store, {data: {createMessage}}) => {
+        <Mutation mutation={CREATE_MESSAGE} variables={{ text, username }} update={(store, {data: {createMessage}}) => {
           const currentStoreState = store.readQuery({query: FEED_MESSAGES});
           const newStoreState = [...currentStoreState.messages, createMessage];
           store.writeQuery({
@@ -59,8 +60,7 @@ export class Messages extends Component {
 
             return <div>
               {data.messages.map(message => <div>
-                <p>{message.text}</p>
-                {/*<p>{message.username}</p>*/}
+                <p>{message.username}: {message.text}</p>
               </div>)}
             </div>
           }}
