@@ -19,7 +19,7 @@ export class Login extends Component{
         <input type="text" placeholder="Password" value={password} onChange={e => this.setState({password: e.target.value})} />
         <Mutation mutation={LOGIN_USER} variables={{email, password}} onCompleted={data => {
           localStorage.setItem('AUTH_TOKEN', data.login);
-          this.props.history.push('/login');
+          this.props.history.push('/');
         }}>
           {parsedLink => <button onClick={parsedLink}>Login</button>}
         </Mutation>

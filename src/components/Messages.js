@@ -2,38 +2,45 @@ import React, { Component } from 'react';
 import { Mutation, Query } from 'react-apollo';
 import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
-import { NEW_MESSAGE_SUBSCRIPTION} from "./Test-Sub";
+import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
 
-
-export class Chat extends Component {
+export class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
+      text: '',
+      username: 'unknown'
     }
   }
 
-  componentDidMount() {
-    this.subscribeToNewMessages = this.props.subscribeToMore({
-      document: NEW_MESSAGE_SUBSCRIPTION,
-      updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData) return prev;
-        const newMessage = subscriptionData.data.message.node;
-        return Object.assign({}, prev, {
-          allMessages: [...prev.allMessages, newMessage]
-        });
-      },
-      onError: (err) => console.error(err),
-    })
-  }
+  subscribeToNewMessages(subscribeToMore) {
+    subscribeToMore({
+        document: NEW_MESSAGE_SUBSCRIPTION,
+        updateQuery:
+          (prev, {subscriptionData}) => {
+            if (!subscriptionData.data) {
+              return prev;
+            }
+            const newMessage = subscriptionData.data.newMessage;
+            // return Object.assign({}, prev, {
+            //   messages: [...prev.messages, newMessage]
+            // });
 
+            // es6 syntax
+            return {
+              ...prev,
+              messages: [...prev.messages, newMessage]
+            };
+          }
+      })
+    }
 
   render() {
-
+    const { text, username } = this.state;
     return (
       <section>
-        <input type="text" placeholder="Send a message..." value={this.props.data} onChange={e => this.setState({data: e.target.value})}/>
-        <Mutation mutation={CREATE_MESSAGE} update={(store, {data: {createMessage}}) => {
+        <input type="text" placeholder="Send a message..." value={text} onChange={e => this.setState({text: e.target.value})}/>
+        <Mutation mutation={CREATE_MESSAGE} variables={{ text, username }} update={(store, {data: {createMessage}}) => {
           const currentStoreState = store.readQuery({query: FEED_MESSAGES});
           const newStoreState = [...currentStoreState.messages, createMessage];
           store.writeQuery({
@@ -52,7 +59,7 @@ export class Chat extends Component {
 
             return <div>
               {data.messages.map(message => <div>
-                <p>{message.data}</p>
+                <p>{message.username}: {message.text}</p>
               </div>)}
             </div>
           }}
