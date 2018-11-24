@@ -40,7 +40,6 @@ export class Messages extends Component {
     return (
       <section>
         <input type="text" placeholder="Send a message..." value={text} onChange={e => this.setState({text: e.target.value})}/>
-        {/*<input type="text" placeholder="username" value={username} onChange={e => this.setState({username: e.target.value})}/>*/}
         <Mutation mutation={CREATE_MESSAGE} variables={{ text, username }} update={(store, {data: {createMessage}}) => {
           const currentStoreState = store.readQuery({query: FEED_MESSAGES});
           const newStoreState = [...currentStoreState.messages, createMessage];
