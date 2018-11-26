@@ -4,6 +4,11 @@ import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
 import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
 
+import { split as SplitEditor } from 'react-ace';
+import brace from 'brace';
+import 'brace/mode/javascript';
+import 'brace/theme/solarized_light';
+
 export class Messages extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +69,22 @@ export class Messages extends Component {
             </div>
           }}
         </Query>
-      </section>
-    );
+        <div className="text-editor">
+            <h4>Text Editor</h4>
+            <SplitEditor
+                mode="javascript"
+                theme="solarized_light"
+                splits={2}
+                orientation="beside"
+                width="100%"
+                value={['hi', 'hello']}
+                fontSize="16px"
+                tabSize={2}
+                editorProps={{ $blockScrolling: true}}
+                wrapEnabled={true}
+                />
+        </div>
+        </section>
+  );
   }
 }
