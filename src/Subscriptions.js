@@ -5,6 +5,7 @@ export const NEW_MESSAGE_SUBSCRIPTION = gql`
     newMessage {
         text
         username
+        sentBy
     }
   }
 `;

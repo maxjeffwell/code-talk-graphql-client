@@ -5,6 +5,8 @@ export const FEED_MESSAGES = gql`
         messages {
             text
             username
+            createdAt
+            sentBy
         }
     }
 `;

@@ -12,9 +12,16 @@ mutation LoginMutation($email: String!, $password: String!){
 }
 `;
 
+// export const CREATE_MESSAGE = gql`
+//   mutation CreateMessageMutation($text: String!,
+//   $username: String!) {
+//   createMessage(message: {text: $text, username: $username
+//   })}
+// `;
+
 export const CREATE_MESSAGE = gql`
-  mutation CreateMessageMutation($text: String!,
-  $username: String!) {
-  createMessage(message: {text: $text, username: $username
-  })}
+    mutation CreateMessageMutation($text: String!, $username: String!, $sentBy: String!) {
+        createMessage(text: $text, username: $username, sentBy: $sentBy)
+    }
 `;
+

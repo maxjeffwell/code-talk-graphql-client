@@ -7,14 +7,15 @@ import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
 import { split as SplitEditor } from 'react-ace';
 import brace from 'brace';
 import 'brace/mode/javascript';
-import 'brace/theme/solarized_light';
+import 'brace/theme/solarized_dark';
 
 export class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
-      username: 'unknown'
+        username: '',
+        sentBy: ''
     }
   }
 
@@ -41,11 +42,11 @@ export class Messages extends Component {
     }
 
   render() {
-    const { text, username } = this.state;
+    const { text, username, sentBy } = this.state;
     return (
       <section>
         <input type="text" placeholder="Send a message..." value={text} onChange={e => this.setState({text: e.target.value})}/>
-        <Mutation mutation={CREATE_MESSAGE} variables={{ text, username }} update={(store, {data: {createMessage}}) => {
+        <Mutation mutation={CREATE_MESSAGE} variables={{ text, username, sentBy }} update={(store, {data: {createMessage}}) => {
           const currentStoreState = store.readQuery({query: FEED_MESSAGES});
           const newStoreState = [...currentStoreState.messages, createMessage];
           store.writeQuery({
@@ -64,7 +65,7 @@ export class Messages extends Component {
 
             return <div>
               {data.messages.map(message => <div>
-                <p>{message.username}: {message.text}</p>
+                <p>{message.text}</p>
               </div>)}
             </div>
           }}
@@ -73,7 +74,7 @@ export class Messages extends Component {
             <h4>Text Editor</h4>
             <SplitEditor
                 mode="javascript"
-                theme="solarized_light"
+                theme="solarized_dark"
                 splits={2}
                 orientation="beside"
                 width="100%"
