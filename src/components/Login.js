@@ -23,7 +23,7 @@ export class Login extends Component{
         }}>
           {parsedLink => <button onClick={parsedLink}>Login</button>}
         </Mutation>
-        <a href="#" onClick={e => localStorage.removeItem('AUTH_TOKEN')}>Logout</a>
+        <a href="#" onClick={e => localStorage.removeItem('AUTH_TOKEN')}>Logout</a href="#">
       </section>
     )
   }

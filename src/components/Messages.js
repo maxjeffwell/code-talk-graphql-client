@@ -5,7 +5,6 @@ import { FEED_MESSAGES } from '../Queries';
 import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
 
 import { split as SplitEditor } from 'react-ace';
-import brace from 'brace';
 import 'brace/mode/javascript';
 import 'brace/theme/solarized_light';
 
@@ -63,9 +62,15 @@ export class Messages extends Component {
             refetch();
 
             return <div>
-              {data.messages.map(message => <div>
-                <p>{message.username}: {message.text}</p>
-              </div>)}
+              {data.messages.map((message, i) =>
+                <li key={i}>
+                  <span className="sender">
+                    {message.username}:
+                  </span>
+                  <span className="message">
+                    {message.text}
+                  </span>
+                </li>)}
             </div>
           }}
         </Query>
