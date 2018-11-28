@@ -73,7 +73,7 @@ export class Messages extends Component {
                     {message.text}
                   </span>
                 </li>)}
-            </div>
+              </div>}}
           }}
         </Query>
         <div className="text-editor">
