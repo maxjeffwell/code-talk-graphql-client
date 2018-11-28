@@ -4,17 +4,32 @@ export const FEED_MESSAGES = gql`
     query { 
         messages {
             text
-            username
         }
     }
 `;
 
-export const CHAT_ROOM_QUERY = gql`
+export const CURRENT_USER = gql`
   query {
-      chatRooms {
+      currentUser {
           id
-          name
-          description
+          email
+          username
       }
   }
 `;
+
+export const INFO = gql`
+  query {
+      info
+  }
+`;
+
+// export const CHAT_ROOM_QUERY = gql`
+//   query {
+//       chatRooms {
+//           id
+//           name
+//           description
+//       }
+//   }
+// `;

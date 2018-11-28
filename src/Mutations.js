@@ -8,13 +8,20 @@ mutation CreateUserMutation($username: String!, $email: String!, $password: Stri
 
 export const LOGIN_USER = gql`
 mutation LoginMutation($email: String!, $password: String!){
-  login(email: $email, password: $password)
+    login(email: $email, password: $password)
 }
 `;
 
+export const LOGOUT_USER = gql`
+  mutation LogoutMutation {
+      logout {
+          id
+      }
+  }
+`;
+
 export const CREATE_MESSAGE = gql`
-  mutation CreateMessageMutation($text: String!,
-  $username: String!) {
-  createMessage(message: {text: $text, username: $username
-  })}
+  mutation CreateMessageMutation($text: String!) {
+  createMessage(message: {text: $text})
+  }
 `;
