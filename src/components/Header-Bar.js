@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Logout } from './Logout';
 
 export class HeaderBar extends Component {
   render() {
@@ -10,7 +9,6 @@ export class HeaderBar extends Component {
           <Link to="/Landing">
           </Link>
         </div>
-        <Logout />
       </div>
     )
   }
