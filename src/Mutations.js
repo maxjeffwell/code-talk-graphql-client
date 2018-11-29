@@ -24,5 +24,6 @@ export const CREATE_MESSAGE = gql`
   mutation CreateMessageMutation($text: String!) {
   createMessage(message: {text: $text})
   } 
+  `;
 
-  
+
