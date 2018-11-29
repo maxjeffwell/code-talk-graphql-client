@@ -3,17 +3,17 @@ import { Mutation, Query } from 'react-apollo';
 import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
 import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
+import { User } from './User';
 
 import { split as SplitEditor } from 'react-ace';
 import 'brace/mode/javascript';
-import 'brace/theme/solarized_light';
+import 'brace/theme/solarized_dark';
 
 export class Messages extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      username: 'unknown'
+      text: ''
     }
   }
 
@@ -26,11 +26,13 @@ export class Messages extends Component {
               return prev;
             }
             const newMessage = subscriptionData.data.newMessage;
+
             // return Object.assign({}, prev, {
             //   messages: [...prev.messages, newMessage]
             // });
 
             // es6 syntax
+
             return {
               ...prev,
               messages: [...prev.messages, newMessage]
@@ -40,11 +42,11 @@ export class Messages extends Component {
     }
 
   render() {
-    const { text, username } = this.state;
+    const { text } = this.state;
     return (
       <section>
         <input type="text" placeholder="Send a message..." value={text} onChange={e => this.setState({text: e.target.value})}/>
-        <Mutation mutation={CREATE_MESSAGE} variables={{ text, username }} update={(store, {data: {createMessage}}) => {
+        <Mutation mutation={CREATE_MESSAGE} variables={{ text }} update={(store, {data: {createMessage}}) => {
           const currentStoreState = store.readQuery({query: FEED_MESSAGES});
           const newStoreState = [...currentStoreState.messages, createMessage];
           store.writeQuery({
@@ -65,7 +67,7 @@ export class Messages extends Component {
               {data.messages.map((message, i) =>
                 <li key={i}>
                   <span className="sender">
-                    {message.username}:
+                    <User children={this.props.children}/>
                   </span>
                   <span className="message">
                     {message.text}
@@ -78,7 +80,7 @@ export class Messages extends Component {
             <h4>Text Editor</h4>
             <SplitEditor
                 mode="javascript"
-                theme="solarized_light"
+                theme="solarized_dark"
                 splits={2}
                 orientation="beside"
                 width="100%"

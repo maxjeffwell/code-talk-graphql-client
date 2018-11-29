@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import { CREATE_USER } from '../Mutations';
+import { CURRENT_USER } from "../Queries";
 
 export class CreateUser extends Component {
   constructor(props){
@@ -18,10 +19,14 @@ export class CreateUser extends Component {
         <input type="text" placeholder="Username" value={username} onChange={e => this.setState({username: e.target.value})} />
         <input type="text" placeholder="Email" value={email} onChange={e => this.setState({email: e.target.value})} />
         <input type="text" placeholder="Password" value={password} onChange={e => this.setState({password: e.target.value})} />
-        <Mutation mutation={CREATE_USER} variables={{username, email, password}} update={(store, { data: { signup } }) =>{
+        <Mutation
+          mutation={CREATE_USER}
+          variables={{username, email, password}}
+          refetchQueries={[{query: CURRENT_USER}]}
+          update={(store, { data: { signup } }) =>{
           console.log('Access Token:', signup);
         }}>
-          {parsedLink => <button onClick={parsedLink}>Create</button>}
+          {parsedLink => <button onClick={parsedLink}>Create Account</button>}
         </Mutation>
       </section>
     )
