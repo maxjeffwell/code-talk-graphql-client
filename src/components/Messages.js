@@ -3,7 +3,7 @@ import { Mutation, Query } from 'react-apollo';
 import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
 import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
-import { User } from './User';
+import User from './User';
 
 import { split as SplitEditor } from 'react-ace';
 import 'brace/mode/javascript';
@@ -67,7 +67,13 @@ export class Messages extends Component {
               {data.messages.map((message, i) =>
                 <li key={i}>
                   <span className="sender">
-                    <User children={this.props.children}/>
+
+                    <User>{({ data: { currentUser } }) => { // gives us payload.data.currentUser in currentUser variable
+                        console.log(currentUser);
+                        if (currentUser) return <p>{currentUser.username}</p>;
+                        return null;
+                      }}</User>
+
                   </span>
                   <span className="message">
                     {message.text}

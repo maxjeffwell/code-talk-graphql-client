@@ -1,17 +1,25 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo';
-import { LOGOUT_USER } from '../Mutations';
+import React from 'react';
+import { ApolloConsumer } from 'react-apollo';
+import { Redirect } from 'react-router-dom';
 
-export class Logout extends Component {
-  render(key) {
-    return (
-    <Mutation mutation={LOGOUT_USER} onClick={() => {
-      localStorage.removeItem('AUTH_TOKEN');
-      this.props.history.push('/');
-    }} >
-      {parsedLink => <button onClick={parsedLink}>Log Out</button>}
-  </Mutation>
-    );
-  }
-}
+export default () => (
+  <ApolloConsumer>
+
+    {/*direct access to apollo store*/}
+
+    {client => {
+      client.resetStore();
+
+      /*wipes apollo's cache*/
+
+      localStorage.setItem('AUTH_TOKEN', '');
+      return <Redirect to="/logout" />
+    }}
+  </ApolloConsumer>
+);
+
+
+
+
+
 

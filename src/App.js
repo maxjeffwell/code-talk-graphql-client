@@ -7,7 +7,7 @@ import { CreateUser } from './components/CreateUser';
 import { Login } from './components/Login';
 import { Landing } from './components/Landing';
 import { Messages } from './components/Messages';
-import { Logout } from './components/Logout';
+import Logout  from './components/Logout';
 import About from './components/About';
 
 class App extends Component {
@@ -26,6 +26,7 @@ class App extends Component {
                 <li><Link to="/login">Login</Link></li>
                 <li><Link to="/createuser">Create User</Link></li>
                 <li><Link to="/messages">Messages</Link></li>
+                <li><Link to="/logout">Sign Out</Link></li>
               </ul>
             </nav>
             <HeaderBar />
