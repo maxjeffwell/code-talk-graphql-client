@@ -4,9 +4,7 @@ export const NEW_MESSAGE_SUBSCRIPTION = gql`
   subscription {
     newMessage {
         text
-        user {
-            username
-        }
+        username
     }
   }
 `;
