@@ -66,17 +66,18 @@ export class Messages extends Component {
             return <div>
               {data.messages.map((message, i) =>
                 <li key={i}>
-                  <span className="sender">
+                  {/*<span className="sender">*/}
 
-                    <User>{({ data: { currentUser } }) => { // gives us payload.data.currentUser in currentUser variable
-                        console.log(currentUser);
-                        if (currentUser) return <p>{currentUser.username}</p>;
-                        return null;
-                      }}</User>
+                    {/*<User>{({ data: { currentUser } }) => { // gives us payload.data.currentUser in currentUser variable*/}
+                        {/*console.log(currentUser);*/}
+                        {/*if (currentUser) return <p>{currentUser.username}</p>;*/}
+                        {/*return null;*/}
+                      {/*}}</User>*/}
 
-                  </span>
+
+                      {/*</span>*/}
                   <span className="message">
-                    {message.text}
+                    {message.username}: {message.text}
                   </span>
                 </li>)}
             </div>
