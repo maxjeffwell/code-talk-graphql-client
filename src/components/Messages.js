@@ -3,7 +3,6 @@ import { Mutation, Query } from 'react-apollo';
 import { CREATE_MESSAGE } from '../Mutations';
 import { FEED_MESSAGES } from '../Queries';
 import { NEW_MESSAGE_SUBSCRIPTION} from "../Subscriptions";
-import User from './User';
 
 import { split as SplitEditor } from 'react-ace';
 import 'brace/mode/javascript';
@@ -66,16 +65,6 @@ export class Messages extends Component {
             return <div>
               {data.messages.map((message, i) =>
                 <li key={i}>
-                  {/*<span className="sender">*/}
-
-                    {/*<User>{({ data: { currentUser } }) => { // gives us payload.data.currentUser in currentUser variable*/}
-                        {/*console.log(currentUser);*/}
-                        {/*if (currentUser) return <p>{currentUser.username}</p>;*/}
-                        {/*return null;*/}
-                      {/*}}</User>*/}
-
-
-                      {/*</span>*/}
                   <span className="message">
                     {message.username}: {message.text}
                   </span>
@@ -92,7 +81,8 @@ export class Messages extends Component {
                 orientation="beside"
                 width="100%"
                 value={['hi', 'hello']}
-                fontSize="16px"
+88ZIAhtp3
+          fontSize="16px"
                 tabSize={2}
                 editorProps={{ $blockScrolling: true}}
                 wrapEnabled={true}

@@ -13,7 +13,7 @@ export default () => (
       /*wipes apollo's cache*/
 
       localStorage.setItem('AUTH_TOKEN', '');
-      return <Redirect to="/logout" />
+      return <Redirect to="/login" />
     }}
   </ApolloConsumer>
 );

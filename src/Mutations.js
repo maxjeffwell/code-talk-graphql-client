@@ -2,7 +2,13 @@ import gql from 'graphql-tag';
 
 export const CREATE_USER = gql`
 mutation CreateUserMutation($username: String!, $email: String!, $password: String!){
-  signup(username: $username, email: $email, password: $password)
+  signup(username: $username, email: $email, password: $password) {
+      ok
+      errors {
+          path
+          message
+      }
+  }
 }
 `;
 
@@ -13,7 +19,7 @@ mutation LoginMutation($email: String!, $password: String!){
 `;
 
 export const CREATE_MESSAGE = gql`    
-    mutation CreateMessageMutation($text: String!,) {
+    mutation CreateMessageMutation($text: String!) {
     createMessage(text: $text, created_at: Date, id: ID)
     }
   `;

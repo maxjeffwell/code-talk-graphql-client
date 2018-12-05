@@ -17,7 +17,7 @@ export class Login extends Component{
       <section>
         <p>Logged In: {localStorage.getItem('AUTH_TOKEN') ? 'true' : 'false'}</p>
         <input type="text" placeholder="Email" value={email} onChange={e => this.setState({email: e.target.value})} />
-        <input type="text" placeholder="Password" value={password} onChange={e => this.setState({password: e.target.value})} />
+        <input type="password" placeholder="Password" value={password} onChange={e => this.setState({password: e.target.value})} />
         <Mutation mutation={LOGIN_USER}
                   variables={{email, password}}
                   refetchQueries={[{ query: CURRENT_USER }]}

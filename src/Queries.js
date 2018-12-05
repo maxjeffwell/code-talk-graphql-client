@@ -3,10 +3,11 @@ import gql from 'graphql-tag';
 export const FEED_MESSAGES = gql`
     query { 
         messages {
-            id
             text
-            created_at
-            sentBy
+            user {
+                username
+            }
+            createdAt
         }
     }
 `;
