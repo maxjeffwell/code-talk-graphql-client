@@ -51,7 +51,7 @@ class MessageContainer extends Component {
 
 				return {
 					...prev,
-					messages: [...prev.messages, subscriptionData.newChannelMessage],
+					messages: [subscriptionData.newChannelMessage, ...prev.messages],
 				};
 			},
 		});
@@ -84,8 +84,8 @@ class MessageContainer extends Component {
 const messagesQuery = gql`
     query($channelId: Int!) {
         messages(channelId: $channelId) {
-            id
-            text
+						id
+		        text
             user {
                 username
             }
@@ -95,10 +95,10 @@ const messagesQuery = gql`
 `;
 
 export default graphql(messagesQuery, {
-	variables: props => ({
-		channelId: props.channelId,
-	}),
-	options: {
+	options: props => ({
 		fetchPolicy: 'network-only',
-	},
+		variables: {
+			channelId: props.channelId,
+		},
+	}),
 })(MessageContainer);

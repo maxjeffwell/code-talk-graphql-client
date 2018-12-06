@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { extendObservable } from 'mobx';
 import { observer } from 'mobx-react';
 import { Message, Form, Button, Input, Container, Header } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class CreateTeam extends React.Component {
+class CreateTeam extends Component {
 	constructor(props) {
 		super(props);
 

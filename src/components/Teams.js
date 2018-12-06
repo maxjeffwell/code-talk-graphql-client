@@ -20,8 +20,7 @@ const TeamListItem = styled.li`
   width: 50px;
   background-color: #676066;
   color: #fff;
-  margin: auto;
-  margin-bottom: 10px;
+  margin: auto auto 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,6 +41,11 @@ const team = ({ id, letter }) => (
 
 export default ({ teams }) => (
 	<TeamWrapper>
-		<TeamList>{teams.map(team)}</TeamList>
+		<TeamList>
+		{teams.map(team)}
+		<Link key="add-team" to="/create-team">
+			<TeamListItem>+</TeamListItem>
+		</Link>
+	</TeamList>
 	</TeamWrapper>
 );

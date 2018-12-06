@@ -32,7 +32,6 @@ class Register extends React.Component {
 		} else {
 			const err = {};
 			errors.forEach(({ path, message }) => {
-				// err['passwordError'] = 'too long..';
 				err[`${path}Error`] = message;
 			});
 
@@ -44,7 +43,6 @@ class Register extends React.Component {
 
 	onChange = (e) => {
 		const { name, value } = e.target;
-		// name = "email";
 		this.setState({ [name]: value });
 	};
 
@@ -96,7 +94,7 @@ class Register extends React.Component {
 					<Button onClick={this.onSubmit}>Submit</Button>
 				</Form>
 				{errorList.length ? (
-					<Message error header="There was some errors with your submission" list={errorList} />
+					<Message error header="Registration Error" list={errorList} />
 				) : null}
 			</Container>
 		);

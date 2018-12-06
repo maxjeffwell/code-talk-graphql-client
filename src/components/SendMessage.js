@@ -16,7 +16,7 @@ const SendMessage = ({
 	                     handleChange,
 	                     handleBlur,
 	                     handleSubmit,
-	                     isSubmitting,
+	                     isSubmitting
                      }) => (
 	<SendMessageWrapper>
 		<Input
@@ -29,7 +29,6 @@ const SendMessage = ({
 			onBlur={handleBlur}
 			name="message"
 			value={values.message}
-			fluid
 			placeholder={`Message #${placeholder}`}
 		/>
 	</SendMessageWrapper>
