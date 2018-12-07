@@ -87,7 +87,8 @@ const messagesQuery = gql`
 						id
 		        text
             user {
-                username
+              id  
+							username
             }
             created_at
         }
