@@ -82,12 +82,13 @@ class MessageContainer extends Component {
 }
 
 const messagesQuery = gql`
-    query($channelId: Int!) {
+    query ($channelId: Int!) {
         messages(channelId: $channelId) {
             id
-            text
+						text
             user {
-                username
+							id
+							username
             }
             created_at
         }
