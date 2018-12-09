@@ -38,7 +38,7 @@ const authLink = new ApolloLink((operation, forward) => {
 	operation.setContext(
 		({
 			 headers = {},
-			 localToken = localStorage.getItem('token'),
+			 localToken = localStorage.getItem('token')
 		 }) => {
 			if (localToken) {
 				headers['x-token'] = localToken;
