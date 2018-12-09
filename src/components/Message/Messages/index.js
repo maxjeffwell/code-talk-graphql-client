@@ -34,10 +34,10 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                     username
                 }
             }
-            #      pageInfo {
-            #        hasNextPage
-            #        endCursor
-            #      }
+                  pageInfo {
+                    hasNextPage
+#                    endCursor
+                  }
         }
     }
 `;
@@ -51,8 +51,7 @@ const Messages = ({ limit, me }) => (
       if (!data) {
         return (
           <div>
-            There are no messages yet ... Try to create one by
-            yourself.
+            There are no messages yet
           </div>
         );
       }
