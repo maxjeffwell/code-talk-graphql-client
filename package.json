@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "author": "Jeff Maxwell",
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
