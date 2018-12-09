@@ -18,7 +18,7 @@ const INITIAL_STATE = {
   username: '',
   email: '',
   password: '',
-  passwordConfirmation: '',
+  passwordConfirmation: ''
 };
 
 const SignUpPage = ({ history, refetch }) => (
@@ -103,7 +103,7 @@ class SignUpForm extends Component {
               Sign Up
             </button>
 
-            {error && <ErrorMessage error={error} />}
+            {error && <ErrorMessage error={error}/>}
           </form>
         )}
       </Mutation>
@@ -113,7 +113,7 @@ class SignUpForm extends Component {
 
 const SignUpLink = () => (
   <p>
-    Don't have an account? <Link to={routes.SIGN_UP}>Sign Up</Link>
+    Register Here: <Link to={routes.SIGN_UP}>Sign Up</Link>
   </p>
 );
 
