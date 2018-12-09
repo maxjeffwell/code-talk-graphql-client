@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import findIndex from 'lodash/findIndex';
 import { Redirect } from 'react-router-dom';
-import gql from 'graphql-tag';
+import gql from 'graphql-tag';88
 
 import Header from '../components/Header';
 import SendMessage from '../components/SendMessage';
