@@ -176,3 +176,4 @@ const MessageItem = ({ message, me }) => (
 );
 
 export default Messages;
+

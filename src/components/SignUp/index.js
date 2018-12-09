@@ -120,3 +120,4 @@ const SignUpLink = () => (
 export default withRouter(SignUpPage);
 
 export { SignUpForm, SignUpLink };
+
