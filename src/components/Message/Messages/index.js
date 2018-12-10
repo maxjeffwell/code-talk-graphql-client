@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 
 import MessageDelete from '../MessageDelete';
 import Loading from '../../Loading';
+import styled from 'styled-components';
 
 const MESSAGE_CREATED = gql`
     subscription {
@@ -40,6 +41,13 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                   }
         }
     }
+`;
+
+const StyledButton = styled.button`
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border-radius: 3px;
 `;
 
 const Messages = ({ limit, me }) => (
@@ -93,7 +101,7 @@ const MoreMessagesButton = ({
                               fetchMore,
                               children
                             }) => (
-  <button
+  <StyledButton
     type="button"
     onClick={() =>
       fetchMore({
@@ -120,7 +128,7 @@ const MoreMessagesButton = ({
     }
   >
     {children}
-  </button>
+  </StyledButton>
 );
 
 class MessageList extends Component {
