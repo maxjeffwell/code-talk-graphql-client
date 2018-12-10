@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -9,6 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
+import { ThemeProvider } from 'styled-components';
 import App from './components/App';
 import { signOut } from './components/SignOut';
 
@@ -81,9 +82,21 @@ const client = new ApolloClient({
 	cache,
 });
 
+const theme = {
+	green: '#30d403',
+	black: '#393939',
+	white: '#EDEDED',
+	maxWidth: '1000px',
+	bs: '0 12px 24px 0 rgba(0, 0, 0, 0.99)'
+};
+
 ReactDOM.render(
+  <Fragment>
+  <ThemeProvider theme={theme}>
 	<ApolloProvider client={client}>
 		<App />
-	</ApolloProvider>,
+		</ApolloProvider>
+	</ThemeProvider>
+  </Fragment>,
 	document.getElementById('root'),
 );
