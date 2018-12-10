@@ -30,6 +30,9 @@ const NavigationAuth = ({ session }) => (
       </li>
     )}
     <li>
+      <Link to={routes.EDITOR}>Code Talk</Link>
+    </li>
+    <li>
       <SignOutButton />
     </li>
   </ul>
