@@ -71,11 +71,15 @@ const NavigationAuth = ({ session }) => (
 const NavigationNonAuth = () => (
   <ul>
     <li>
+      <Logo>
       <Link to={routes.SIGN_IN}>Sign In</Link>
-    </li>
+      </Logo>
+      </li>
     <li>
+      <Logo>
       <Link to={routes.LANDING}>Landing</Link>
-    </li>
+      </Logo>
+      </li>
   </ul>
 );
 
