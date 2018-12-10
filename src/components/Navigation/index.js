@@ -7,7 +7,7 @@ import Header from '../Header';
 import styled from 'styled-components';
 
 const Logo = styled.h3`
-  font-size: 1rem;
+  font-size: 1.5rem;
   position: relative;
   z-index: 2;
   text-align: center;

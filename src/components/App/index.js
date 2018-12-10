@@ -26,14 +26,14 @@ WebFont.load({
 
 const GlobalStyle = createGlobalStyle`
 	@font-face {
-		font-family: "mr_robot";
+		font-family: 'mr_robot';
 		src: url('../../../public/fonts/mr_robot.ttf') format('ttf');
 		font-weight: normal;
 		font-style: normal;
 	}
 	html {
 		box-sizing: border-box; // set box sizing on root of doc in html
-		font-size: 12px; // set font at base-12
+		font-size: 10px; // set font at base-10
 	}
 	*, *:before, *:after {
 		box-sizing: inherit; // then inherit box sizing on everything else
@@ -41,18 +41,16 @@ const GlobalStyle = createGlobalStyle`
 	body {
 		padding: 0;
 		margin: 0;
-		font-size: 1.5rem;
-		line-height: 2;
+		font-size: 1.6rem;
+		line-height: 1.6rem;
 		font-family: 'mr_robot';
 	}
 	`;
 
 const App = ({ session, refetch }) => (
   <Router history={history}>
-    <div>
+    <div className="routes">
     <Navigation session={session} />
-
-      <hr />
       <GlobalStyle />
 
       <Route
@@ -84,7 +82,7 @@ const App = ({ session, refetch }) => (
         exact
         path={routes.EDITOR}
         component={() => <Editor />}
-        />
+      />
     </div>
       </Router>
 );

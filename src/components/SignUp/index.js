@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { NavLink as Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
+
+import styled from 'styled-components';
 
 const SIGN_UP = gql`
     mutation($username: String!, $email: String!, $password: String!) {
@@ -23,7 +25,7 @@ const INITIAL_STATE = {
 
 const SignUpPage = ({ history, refetch }) => (
   <div>
-    <h1>SignUp</h1>
+    <h1>Sign Up</h1>
     <SignUpForm history={history} refetch={refetch} />
   </div>
 );
@@ -111,16 +113,23 @@ class SignUpForm extends Component {
   }
 }
 
+const NavLink = styled(Link)`
+  font-size: 1.6rem;
+  padding: 0.5rem 1rem;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  text-transform: uppercase;
+  text-decoration: none;
+`;
+
 const SignUpLink = () => (
   <div className="register-link">
-  <p>
-    Haven't signed up yet?
-  </p>
-  <p>
-    <Link to={routes.SIGN_UP}>Register Here</Link>
-  </p>
+    <p>
+      Haven't signed up yet?
+    </p>
+    <NavLink to={routes.SIGN_UP}>Register Here</NavLink>
   </div>
-    );
+);
 
 export default withRouter(SignUpPage);
 

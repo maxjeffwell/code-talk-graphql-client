@@ -7,18 +7,18 @@ import styled from 'styled-components';
 const StyledHeader = styled.header`
   .bar {
     display: grid;
-    align: center;
     height: 210px;
     grid-template-columns: auto 1fr;
     border-bottom: 1px solid ${props => props.theme.black};
     justify-content: space-between;
     align-items: stretch;
-      }  
+    }  
   img {
-    margin: 0.5em 1em;
-    width: 1000px;
+    display: block;
+    margin: auto;
+    width: 50%;
     height: 200px;
-      }
+    }
 `;
 
 class Header extends Component {

@@ -43,8 +43,8 @@ class MessageCreate extends Component {
     return (
       <Mutation
         mutation={CREATE_MESSAGE}
-        variables={{ text }}>
-
+        variables={{ text }}
+      >
         {(createMessage, { data, loading, error }) => (
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
