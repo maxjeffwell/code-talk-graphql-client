@@ -91,7 +91,7 @@ const MoreMessagesButton = ({
                               limit,
                               pageInfo,
                               fetchMore,
-                              children,
+                              children
                             }) => (
   <button
     type="button"

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import AceEditor from 'react-ace';
 
-import 'brace/theme/solarized_light';
+import 'brace/theme/chrome';
 import 'brace/mode/javascript';
 
 class Editor extends Component {
@@ -11,6 +12,7 @@ class Editor extends Component {
       text: '',
       typing: ''
     };
+  };
 
     render()
     {
@@ -21,20 +23,27 @@ class Editor extends Component {
           <AceEditor
             value={this.state.typing}
             mode="javascript"
-            theme="solarized_light"
+            code="Write code here"
+            theme="chrome"
             name="Ace-Editor"
             width="100%"
+            minLines={25}
+            maxLines={50}
             height="70%"
             fontSize="18px"
+            border="1px solid lightgray"
             tabSize={2}
             editorProps={{ $blockScrolling: true }}
             wrapEnabled={true}
+            onLoad={(editor) => {
+              editor.focus();
+              editor.getSession().setUseWrapMode(true);
+            }}
           />
         </div>
       );
     }
     ;
   };
-}
 
-export default Editor;
+export default withRouter(Editor);
