@@ -112,10 +112,15 @@ class SignUpForm extends Component {
 }
 
 const SignUpLink = () => (
+  <div className="register-link">
   <p>
-    Register Here: <Link to={routes.SIGN_UP}>Sign Up</Link>
+    Haven't signed up yet?
   </p>
-);
+  <p>
+    <Link to={routes.SIGN_UP}>Register Here</Link>
+  </p>
+  </div>
+    );
 
 export default withRouter(SignUpPage);
 

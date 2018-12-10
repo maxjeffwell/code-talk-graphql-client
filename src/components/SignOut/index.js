@@ -20,9 +20,11 @@ const StyledButton = styled.button`
 const SignOutButton = () => (
   <ApolloConsumer>
     {client => (
+      <div>
       <StyledButton type="button" onClick={() => signOut(client)}>
         Sign Out
       </StyledButton>
+      </div>
     )}
   </ApolloConsumer>
 );
