@@ -7,9 +7,14 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   font-size: 1em;
+  position: relative;
   margin: 0em;
   padding: 0.25em 1em;
   border-radius: 5px;
+ @media (max-width: 1300px) {
+    margin: 0px;
+    align: center;
+  }
 `;
 
 const SignOutButton = () => (

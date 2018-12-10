@@ -10,7 +10,7 @@ const Logo = styled.h3`
   margin-left: 1rem;
   position: relative;
   z-index: 2;
-  transform: skew(-5deg);
+  transform: skew(-7deg);
   a { 
     padding: 0.5rem 1rem;
     background: ${props => props.theme.black};
@@ -19,7 +19,7 @@ const Logo = styled.h3`
     text-decoration: none;
   }
   @media (max-width: 1300px) {
-    margin: 0;
+    margin: 0px;
     text-align: center;
   }
 `;
