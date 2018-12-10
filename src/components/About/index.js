@@ -13,7 +13,7 @@ export default function About() {
         </p>
       </div>
       <Link to="/" className="back">
-      Return to Home Page
+        Return to Home Page
       </Link>
     </div>
   );

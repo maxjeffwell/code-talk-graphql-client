@@ -3,24 +3,20 @@ import { Link } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import SignOutButton from '../SignOut';
+import Header from '../Header';
 import styled from 'styled-components';
 
 const Logo = styled.h3`
-  font-size: 1rem;
-  margin-left: 1rem;
+  font-size: 1.5rem;
   position: relative;
   z-index: 2;
-  transform: skew(-5deg);
+  text-align: center;
   a { 
     padding: 0.5rem 1rem;
     background: ${props => props.theme.black};
     color: ${props => props.theme.green};
     text-transform: uppercase;
     text-decoration: none;
-  }
-  @media (max-width: 1300px) {
-    margin: 0;
-    text-align: center;
   }
 `;
 
@@ -35,48 +31,38 @@ const Navigation = ({ session }) => (
 );
 
 const NavigationAuth = ({ session }) => (
-  <div className="Nav-Bar">
-  <ul>
-    <li>
-      <Logo>
+  <div className="Header">
+  <Header />
+    <Logo>
       <Link to={routes.LANDING}>Landing</Link>
       </Logo>
-    </li>
-    <li>
       <Logo>
       <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
       </Logo>
-    </li>
     {session &&
     session.me &&
     session.me.role === 'ADMIN' && (
-      <li>
-        <Logo>
+      <Logo>
         <Link to={routes.ADMIN}>Admin</Link>
         </Logo>
-      </li>
     )}
-    <li>
-      <Logo>
+    <Logo>
       <Link to={routes.EDITOR}>Code Talk</Link>
       </Logo>
-    </li>
-    <li>
       <SignOutButton />
-    </li>
-  </ul>
-  </div>
+</div>
 );
 
 const NavigationNonAuth = () => (
-  <ul>
-    <li>
+  <div className="Nav-Bar">
+    <Header />
+    <Logo>
       <Link to={routes.SIGN_IN}>Sign In</Link>
-    </li>
-    <li>
-      <Link to={routes.LANDING}>Landing</Link>
-    </li>
-  </ul>
+      </Logo>
+      <Logo>
+      <Link to={routes.LANDING}>Code Talk Home</Link>
+      </Logo>
+    </div>
 );
 
 export default Navigation;

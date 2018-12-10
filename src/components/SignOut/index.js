@@ -7,17 +7,24 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   font-size: 1em;
-  margin: 1em;
+  position: relative;
+  margin: 0em;
   padding: 0.25em 1em;
-  border-radius: 3px;
+  border-radius: 5px;
+ @media (max-width: 1300px) {
+    margin: 0px;
+    align: center;
+  }
 `;
 
 const SignOutButton = () => (
   <ApolloConsumer>
     {client => (
+      <div>
       <StyledButton type="button" onClick={() => signOut(client)}>
         Sign Out
       </StyledButton>
+      </div>
     )}
   </ApolloConsumer>
 );

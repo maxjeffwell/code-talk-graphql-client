@@ -18,7 +18,7 @@ class Editor extends Component {
     {
 
       return (
-        <div classname="Ace-Editor">
+        <div className="Ace-Editor">
           <h2>Ace Editor</h2>
           <AceEditor
             value={this.state.typing}

@@ -43,7 +43,8 @@ class MessageCreate extends Component {
     return (
       <Mutation
         mutation={CREATE_MESSAGE}
-        variables={{ text }}>
+        variables={{ text }}
+      >
         {(createMessage, { data, loading, error }) => (
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
@@ -53,7 +54,7 @@ class MessageCreate extends Component {
               value={text}
               onChange={this.onChange}
               type="text"
-              placeholder="Your message ..."
+              placeholder="Type your message here ..."
             />
             <button type="submit">Send</button>
 

@@ -43,7 +43,7 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
     }
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
@@ -51,10 +51,9 @@ const StyledButton = styled.button`
 `;
 
 const Messages = ({ limit, me }) => (
-  <Query
-    query={GET_PAGINATED_MESSAGES_WITH_USERS}
-    variables={{ limit }}
-  >
+  <Query query={ GET_PAGINATED_MESSAGES_WITH_USERS } variables={{
+    limit
+  }}>
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
         return (
