@@ -19,7 +19,7 @@ import WebFont from 'webfontloader';
 WebFont.load({
   custom: {
     families: ['mr_robot'],
-    urls: ['../public/fonts/mr_robot.ttf']
+    urls: ['../../public/fonts/mr_robot.ttf']
   },
   timeout: 2000
 });
@@ -27,7 +27,7 @@ WebFont.load({
 const GlobalStyle = createGlobalStyle`
 	@font-face {
 		font-family: 'mr_robot';
-		src: url('../../../public/fonts/mr_robot.ttf') format('ttf');
+		src: url('../../../public/fonts/mr_robot.ttf') format('truetype');
 		font-weight: normal;
 		font-style: normal;
 	}

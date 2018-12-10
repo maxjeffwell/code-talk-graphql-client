@@ -2,8 +2,6 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import StyledButton from '../Messages';
-
 const GET_ALL_MESSAGES_WITH_USERS = gql`
     query {
         messages(order: "DESC") @connection(key: "MessagesConnection") {
@@ -54,9 +52,9 @@ const MessageDelete = ({ message }) => (
     }}
   >
     {(deleteMessage, { data, loading, error }) => (
-      <StyledButton type="button" onClick={deleteMessage}>
+      <button type="button" onClick={deleteMessage}>
         Delete
-      </StyledButton>
+      </button>
     )}
   </Mutation>
 );
