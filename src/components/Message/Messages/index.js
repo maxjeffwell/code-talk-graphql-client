@@ -36,7 +36,7 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
             }
                   pageInfo {
                     hasNextPage
-#                    endCursor
+                    endCursor
                   }
         }
     }
@@ -72,15 +72,15 @@ const Messages = ({ limit, me }) => (
             subscribeToMore={subscribeToMore}
           />
 
-          {/*{pageInfo.hasNextPage && (*/}
-          {/*<MoreMessagesButton*/}
-          {/*limit={limit}*/}
-          {/*pageInfo={pageInfo}*/}
-          {/*fetchMore={fetchMore}*/}
-          {/*>*/}
-          {/*More*/}
-          {/*</MoreMessagesButton>*/}
-          {/*)}*/}
+          {pageInfo.hasNextPage && (
+          <MoreMessagesButton
+          limit={limit}
+          pageInfo={pageInfo}
+          fetchMore={fetchMore}
+          >
+          More
+          </MoreMessagesButton>
+          )}
         </Fragment>
       );
     }}
@@ -99,7 +99,7 @@ const MoreMessagesButton = ({
       fetchMore({
         variables: {
           cursor: pageInfo.endCursor,
-          limit,
+          limit
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
@@ -111,7 +111,7 @@ const MoreMessagesButton = ({
               ...fetchMoreResult.messages,
               edges: [
                 ...previousResult.messages.edges,
-                ...fetchMoreResult.messages.edges,
+                ...fetchMoreResult.messages.edges
               ],
             },
           };
@@ -140,7 +140,7 @@ class MessageList extends Component {
             ...previousResult.messages,
             edges: [
               messageCreated.message,
-              ...previousResult.messages.edges,
+              ...previousResult.messages.edges
             ],
           },
         };
