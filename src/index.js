@@ -9,7 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import App from './components/App';
 import { signOut } from './components/SignOut';
 
@@ -89,6 +89,22 @@ const theme = {
 	maxWidth: '1000px',
 	bs: '0 12px 24px 0 rgba(0, 0, 0, 0.99)'
 };
+
+createGlobalStyle`
+	html {
+		box-sizing: border-box; // set box sizing on root of doc in html
+		font-size: 10px; // set font at base-10
+}
+*, *:before, *:after {
+	box-sizing: inherit; // then inherit box sizing on everything else
+}
+body {
+	padding: 0;
+	margin: 0;
+	font-size: 1.5rem;
+	line-height: 2;
+}
+`;
 
 ReactDOM.render(
   <Fragment>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import SignOutButton from '../SignOut';
+import Header from '../Header';
 import styled from 'styled-components';
 
 const Logo = styled.h3`
@@ -18,10 +19,6 @@ const Logo = styled.h3`
     text-transform: uppercase;
     text-decoration: none;
   }
-  @media (max-width: 1300px) {
-    margin: 0px;
-    text-align: center;
-  }
 `;
 
 const Navigation = ({ session }) => (
@@ -35,7 +32,8 @@ const Navigation = ({ session }) => (
 );
 
 const NavigationAuth = ({ session }) => (
-  <div className="Nav-Bar">
+  <div className="Header">
+  <Header />
   <ul>
     <li>
       <Logo>
@@ -65,10 +63,12 @@ const NavigationAuth = ({ session }) => (
       <SignOutButton />
     </li>
   </ul>
-  </div>
+</div>
 );
 
 const NavigationNonAuth = () => (
+  <div className="Nav-Bar">
+    <Header />
   <ul>
     <li>
       <Logo>
@@ -81,6 +81,7 @@ const NavigationNonAuth = () => (
       </Logo>
       </li>
   </ul>
+  </div>
 );
 
 export default Navigation;

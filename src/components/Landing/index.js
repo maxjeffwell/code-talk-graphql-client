@@ -15,7 +15,7 @@ const Landing = ({ session }) => (
   <StyledLanding>
     <h2>Landing Page</h2>
     {session && session.me && <MessageCreate />}
-    <Messages me={session.me} limit={10} />
+    <Messages me={session.me} limit={20} />
   </StyledLanding>
 );
 
