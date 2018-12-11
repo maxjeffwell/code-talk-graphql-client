@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AceEditor from 'react-ace';
 
-import 'brace/theme/chrome';
+import 'brace/theme/gob';
 import 'brace/mode/javascript';
 
 class Editor extends Component {
@@ -24,7 +24,7 @@ class Editor extends Component {
             value={this.state.typing}
             mode="javascript"
             code="Write code here"
-            theme="chrome"
+            theme="gob"
             name="Ace-Editor"
             width="100%"
             minLines={25}

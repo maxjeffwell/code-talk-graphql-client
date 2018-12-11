@@ -58,32 +58,38 @@ const App = ({ session, refetch }) => (
         path={routes.LANDING}
         component={() => <LandingPage />}
       />
+
       <Route
         exact
         path={routes.SIGN_UP}
         component={() => <SignUpPage refetch={refetch} />}
       />
+
       <Route
         exact
         path={routes.SIGN_IN}
         component={() => <SignInPage refetch={refetch} />}
       />
+
       <Route
         exact
         path={routes.ACCOUNT}
         component={() => <AccountPage />}
       />
+
       <Route
         exact
         path={routes.ADMIN}
         component={() => <AdminPage />}
       />
+
       <Route
         exact
         path={routes.EDITOR}
         component={() => <Editor />}
       />
-    </div>
+
+        </div>
       </Router>
 );
 
