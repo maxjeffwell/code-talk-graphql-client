@@ -11,8 +11,8 @@ const StyledButton = styled.button`
   color: #30d403;
   text-transform: uppercase;
   text-decoration: none;
-  font-family: mr_robot;
-  font-size: .75em;
+  font-family: FloodStd,  monospace;
+  font-size: 1em;
   position: fixed;
   margin: 0em;
   padding: 0.25em 1em;
