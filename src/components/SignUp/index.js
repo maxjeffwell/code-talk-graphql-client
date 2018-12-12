@@ -25,7 +25,7 @@ const INITIAL_STATE = {
 
 const SignUpPage = ({ history, refetch }) => (
   <div>
-    <h1>Sign Up</h1>
+    <h2>Sign Up</h2>
     <SignUpForm history={history} refetch={refetch} />
   </div>
 );
@@ -114,8 +114,9 @@ class SignUpForm extends Component {
 }
 
 const NavLink = styled(Link)`
-  font-size: 1.6rem;
-  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  margin-left: .5rem;
+  padding: 0.5rem;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
-import SignOutButton from '../SignOut';
 import Header from '../Header';
 import styled from 'styled-components';
 
@@ -49,7 +48,6 @@ const NavigationAuth = ({ session }) => (
     <Logo>
       <Link to={routes.EDITOR}>Code Talk</Link>
       </Logo>
-      <SignOutButton />
 </div>
 );
 

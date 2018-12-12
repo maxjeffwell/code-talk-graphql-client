@@ -17,7 +17,7 @@ const SIGN_IN = gql`
 
 const SignInPage = ({ history, refetch }) => (
   <div>
-    <h2>Sign In</h2>
+    <h3>Sign In</h3>
     <SignInForm history={history} refetch={refetch} />
     <SignUpLink />
     </div>

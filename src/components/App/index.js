@@ -18,20 +18,55 @@ import WebFont from 'webfontloader';
 
 WebFont.load({
   custom: {
-    families: ['mr_robot'],
-    urls: ['../../public/fonts/mr_robot.ttf']
+    families: ['RussellSquareStd', 'SerpentineStd-Light', 'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd', 'OCRAStd', 'FloodStd']
   },
   timeout: 2000
 });
 
 const GlobalStyle = createGlobalStyle`
 	@font-face {
-		font-family: 'mr_robot';
-		src: url('../../../public/fonts/mr_robot.ttf') format('truetype');
+		font-family: 'RussellSquareStd';
+		src: url('../../../public/fonts/RussellSquareStd.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
 	}
-	html {
+	@font-face {
+	  font-family: 'SerpentineStd-Light';
+	  src: url('../../../public/fonts/SerpentineStd-Light.otf') format('opentype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+	@font-face {
+	  font-family: 'SerpentineStd-Medium';
+	  src: url('../../../public/fonts/SerpentineStd-Medium.otf') format('opentype');
+	  font-weight: 300;
+	  font-style: normal;
+	}
+	@font-face {
+	  font-family: 'SerpentineStd-Bold';
+	  src: url('../../../public/fonts/SerpentineStd-Bold.otf') format('opentype');
+	  font-weight: bold;
+	  font-style: normal;
+	}
+	@font-face {
+	  font-family: 'OratorStd';
+	  src: url('../../../public/fonts/OratorStd.otf') format('opentype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+	@font-face {
+	  font-family: 'OCRAStd';
+	  src: url('../../../public/fonts/OCRAStd.otf') format('opentype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+	@font-face {
+	  font-family: 'FloodStd';
+	  src: url('../../../public/fonts/FloodStd.otf') format('opentype');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+html {
 		box-sizing: border-box; // set box sizing on root of doc in html
 		font-size: 10px; // set font at base-10
 	}
@@ -43,7 +78,7 @@ const GlobalStyle = createGlobalStyle`
 		margin: 0;
 		font-size: 1.6rem;
 		line-height: 1.6rem;
-		font-family: 'mr_robot';
+		font-family: RussellSquareStd, monospace;
 	}
 	`;
 
@@ -58,32 +93,38 @@ const App = ({ session, refetch }) => (
         path={routes.LANDING}
         component={() => <LandingPage />}
       />
+
       <Route
         exact
         path={routes.SIGN_UP}
         component={() => <SignUpPage refetch={refetch} />}
       />
+
       <Route
         exact
         path={routes.SIGN_IN}
         component={() => <SignInPage refetch={refetch} />}
       />
+
       <Route
         exact
         path={routes.ACCOUNT}
         component={() => <AccountPage />}
       />
+
       <Route
         exact
         path={routes.ADMIN}
         component={() => <AdminPage />}
       />
+
       <Route
         exact
         path={routes.EDITOR}
         component={() => <Editor />}
       />
-    </div>
+
+        </div>
       </Router>
 );
 
