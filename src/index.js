@@ -92,11 +92,11 @@ const theme = {
 
 ReactDOM.render(
   <Fragment>
-  <ThemeProvider theme={theme}>
-	<ApolloProvider client={client}>
-		<App />
-		</ApolloProvider>
-	</ThemeProvider>
+    <ThemeProvider theme={theme}>
+			<ApolloProvider client={client}>
+				<App />
+			</ApolloProvider>
+		</ThemeProvider>
   </Fragment>,
 	document.getElementById('root'),
 );
