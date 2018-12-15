@@ -30,7 +30,7 @@ class Editor extends Component {
             code="Write code here"
             theme="gob"
             name="Ace-Editor"
-            width="100%"
+            width="50%"
             minLines={25}
             maxLines={50}
             height="70%"

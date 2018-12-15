@@ -49,12 +49,13 @@ class MessageCreate extends Component {
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
-            <textarea
+            <input type="text"
               name="text"
               value={text}
               onChange={this.onChange}
-              type="text"
+                   autoComplete="off"
               placeholder="Type your message here ..."
+                   required
             />
             <button type="submit">Send</button>
 

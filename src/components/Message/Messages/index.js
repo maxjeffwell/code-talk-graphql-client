@@ -44,10 +44,13 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
 `;
 
 export const StyledButton = styled.button`
+  cursor: pointer;
   font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border-radius: 3px;
+  margin: 5px auto;
+  padding: .25em 1em;
+  color: #30d403;
+  background: #393939; 
+  border: 1em;
 `;
 
 const Messages = ({ limit, me }) => (
@@ -58,7 +61,7 @@ const Messages = ({ limit, me }) => (
       if (!data) {
         return (
           <div>
-            There are no messages yet
+            No messages yet
           </div>
         );
       }
@@ -85,7 +88,7 @@ const Messages = ({ limit, me }) => (
           pageInfo={pageInfo}
           fetchMore={fetchMore}
           >
-          More
+          Get Older Messages
           </MoreMessagesButton>
           )}
         </Fragment>
