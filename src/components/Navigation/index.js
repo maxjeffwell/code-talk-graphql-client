@@ -33,10 +33,10 @@ const NavigationAuth = ({ session }) => (
   <div className="Header">
   <Header />
     <Logo>
-      <Link to={routes.LANDING}>Landing</Link>
+      <Link to={routes.LANDING}>Home</Link>
       </Logo>
       <Logo>
-      <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
+      <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>
       </Logo>
     {session &&
     session.me &&
@@ -45,9 +45,12 @@ const NavigationAuth = ({ session }) => (
         <Link to={routes.ADMIN}>Admin</Link>
         </Logo>
     )}
+    {session &&
+    session.me && (
     <Logo>
       <Link to={routes.EDITOR}>Code Talk</Link>
       </Logo>
+    )}
 </div>
 );
 

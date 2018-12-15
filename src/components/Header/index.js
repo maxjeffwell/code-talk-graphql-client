@@ -8,7 +8,7 @@ import SignOutButton from '../SignOut';
 const StyledHeader = styled.header`
   .bar {
     display: grid;
-    height: 210px;
+    height: 140px;
     grid-template-columns: auto 1fr;
     border-bottom: 1px solid ${props => props.theme.black};
     justify-content: space-between;
@@ -32,11 +32,11 @@ class Header extends Component {
             <img src={CodeTalk_Title_Logo} alt="Code Talk"/>
           </Link>
         </div>
-        </StyledHeader>
-    );
+      </StyledHeader>
+  );
   }
-  };
+};
 
-  export default Header;
+export default Header;
 
 
