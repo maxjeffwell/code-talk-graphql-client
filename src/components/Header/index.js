@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import CodeTalk_Title_Logo from '../Images/Logo/CodeTalk_Title_Logo.png';
 import styled from 'styled-components';
-import SignOutButton from '../SignOut';
 
 const StyledHeader = styled.header`
   .bar {
@@ -27,7 +26,6 @@ class Header extends Component {
     return (
       <StyledHeader>
         <div className="bar">
-          <SignOutButton />
           <Link to="/">
             <img src={CodeTalk_Title_Logo} alt="Code Talk"/>
           </Link>
