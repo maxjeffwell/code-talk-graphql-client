@@ -1,9 +1,12 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import withAuthorization from '../Session/withAuthorization';
+
 import AceEditor from 'react-ace';
 
 import 'brace/theme/gob';
 import 'brace/mode/javascript';
+
+import Sidebar from '../Sidebar';
 
 class Editor extends Component {
   constructor(props) {
@@ -14,10 +17,11 @@ class Editor extends Component {
     };
   };
 
-    render()
-    {
+    render() {
 
       return (
+        <Fragment>
+        <Sidebar />
         <div className="Ace-Editor">
           <h2>Ace Editor</h2>
           <AceEditor
@@ -26,7 +30,7 @@ class Editor extends Component {
             code="Write code here"
             theme="gob"
             name="Ace-Editor"
-            width="100%"
+            width="50%"
             minLines={25}
             maxLines={50}
             height="70%"
@@ -41,9 +45,10 @@ class Editor extends Component {
             }}
           />
         </div>
+        </Fragment>
       );
     }
     ;
   };
 
-export default withRouter(Editor);
+export default withAuthorization(session => session && session.me)(Editor);

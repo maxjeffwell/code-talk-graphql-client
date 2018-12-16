@@ -1,9 +1,5 @@
 import React from 'react';
 
-import withSession from '../Session/withSession';
-
-import { MessageCreate, Messages } from '../Message';
-
 import styled from 'styled-components';
 
 const StyledLanding = styled.div`
@@ -11,12 +7,10 @@ const StyledLanding = styled.div`
   color: ${props => props.theme.black};
 `;
 
-const Landing = ({ session }) => (
+const Landing = () => (
   <StyledLanding>
     <h2>Landing Page</h2>
-    {session && session.me && <MessageCreate />}
-    <Messages me={session.me} limit={5} />
   </StyledLanding>
 );
 
-export default withSession(Landing);
+export default Landing;

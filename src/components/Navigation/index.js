@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import Header from '../Header';
+import SignOutButton from '../SignOut';
 import styled from 'styled-components';
 
 const Logo = styled.h3`
@@ -32,11 +33,12 @@ const Navigation = ({ session }) => (
 const NavigationAuth = ({ session }) => (
   <div className="Header">
   <Header />
+    <SignOutButton />
     <Logo>
       <Link to={routes.LANDING}>Landing</Link>
       </Logo>
       <Logo>
-      <Link to={routes.ACCOUNT}>Account ({session.me.username})</Link>
+      <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>
       </Logo>
     {session &&
     session.me &&
@@ -45,9 +47,12 @@ const NavigationAuth = ({ session }) => (
         <Link to={routes.ADMIN}>Admin</Link>
         </Logo>
     )}
+    {session &&
+    session.me && (
     <Logo>
       <Link to={routes.EDITOR}>Code Talk</Link>
       </Logo>
+    )}
 </div>
 );
 

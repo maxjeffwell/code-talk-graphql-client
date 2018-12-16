@@ -23,6 +23,12 @@ const StyledButton = styled.button`
   }
 `;
 
+export const signOut = client => {
+  localStorage.setItem('token', '');
+  client.resetStore();
+  history.push(routes.SIGN_IN);
+};
+
 const SignOutButton = () => (
   <ApolloConsumer>
     {client => (
@@ -34,13 +40,5 @@ const SignOutButton = () => (
     )}
   </ApolloConsumer>
 );
-
-const signOut = client => {
-  localStorage.setItem('token', '');
-  client.resetStore();
-  history.push(routes.SIGN_IN);
-};
-
-export { signOut };
 
 export default SignOutButton;

@@ -53,7 +53,7 @@ const MessageDelete = ({ message }) => (
   >
     {(deleteMessage, { data, loading, error }) => (
       <button type="button" onClick={deleteMessage}>
-        Delete
+        Delete Message
       </button>
     )}
   </Mutation>
