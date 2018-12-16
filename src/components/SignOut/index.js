@@ -5,7 +5,8 @@ import * as routes from '../../constants/routes';
 import history from '../../constants/history';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+const StyledButton = styled.button` 
+  position: relative;
   background: #393939; 
   cursor: pointer;
   color: #30d403;
@@ -13,7 +14,6 @@ const StyledButton = styled.button`
   text-decoration: none;
   font-family: FloodStd,  monospace;
   font-size: 1em;
-  position: fixed;
   margin: 0em;
   padding: 0.25em 1em;
   border-radius: 5px;

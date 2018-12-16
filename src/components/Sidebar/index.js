@@ -6,7 +6,7 @@ import { MessageCreate, Messages } from '../Message';
 import styled from 'styled-components';
 
 const StyledSidebar = styled.div`
-    width: 50%;
+    width: 30%;
     height: 50%;
     position: sticky;
     display: grid;
