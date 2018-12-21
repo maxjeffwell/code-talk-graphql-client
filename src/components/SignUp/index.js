@@ -8,6 +8,19 @@ import ErrorMessage from '../Error';
 
 import styled from 'styled-components';
 
+const StyledNavLink = styled(Link)`
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  text-transform: uppercase;
+  text-decoration: none;
+`;
+
+const StyledRegistrationDiv = styled.div`
+  margin: auto;
+  text-align: center;
+`
 const SIGN_UP = gql`
     mutation($username: String!, $email: String!, $password: String!) {
         signUp(username: $username, email: $email, password: $password) {
@@ -113,23 +126,13 @@ class SignUpForm extends Component {
   }
 }
 
-const NavLink = styled(Link)`
-  font-size: 1.5rem;
-  margin-left: .5rem;
-  padding: 0.5rem;
-  background: ${props => props.theme.black};
-  color: ${props => props.theme.green};
-  text-transform: uppercase;
-  text-decoration: none;
-`;
-
 const SignUpLink = () => (
-  <div className="register-link">
+  <StyledRegistrationDiv className="register-link">
     <p>
       Haven't signed up yet?
     </p>
-    <NavLink to={routes.SIGN_UP}>Register Here</NavLink>
-  </div>
+    <StyledNavLink to={routes.SIGN_UP}>Register Here</StyledNavLink>
+  </StyledRegistrationDiv>
 );
 
 export default withRouter(SignUpPage);
