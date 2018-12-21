@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -6,6 +6,23 @@ import gql from 'graphql-tag';
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
+
+import styled from 'styled-components';
+
+const StyledButton = styled.button`
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 3px;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  text-transform: uppercase;
+  text-decoration: none;
+`;
+
+const StyledDiv = styled.div`
+  display: inline-block;
+  text-align: center;
+`
 
 const SIGN_IN = gql`
     mutation($login: String!, $password: String!) {
@@ -16,11 +33,10 @@ const SIGN_IN = gql`
 `;
 
 const SignInPage = ({ history, refetch }) => (
-  <div>
-    <h3>Sign In</h3>
-    <SignInForm history={history} refetch={refetch} />
+  <Fragment>
+  <SignInForm history={history} refetch={refetch} />
     <SignUpLink />
-    </div>
+  </Fragment>
 );
 
 const INITIAL_STATE = {
@@ -58,6 +74,8 @@ class SignInForm extends Component {
     return (
       <Mutation mutation={SIGN_IN} variables={{ login, password }}>
         {(signIn, { data, loading, error }) => (
+
+          <StyledDiv className="loginForm">
           <form onSubmit={event => this.onSubmit(event, signIn)}>
             <input
               name="login"
@@ -73,12 +91,13 @@ class SignInForm extends Component {
               type="password"
               placeholder="Password"
             />
-            <button disabled={isInvalid || loading} type="submit">
+            <StyledButton disabled={isInvalid || loading} type="submit">
               Sign In
-            </button>
+            </StyledButton>
 
             {error && <ErrorMessage error={error} />}
           </form>
+          </StyledDiv>
         )}
       </Mutation>
     );
