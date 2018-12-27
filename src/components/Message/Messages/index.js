@@ -173,7 +173,7 @@ class MessageList extends Component {
 
 const MessageItem = ({ message, me }) => (
   <div>
-    <h3>{message.user.username}</h3>
+    <h4>{message.user.username}</h4>
     <small>{message.createdAt}</small>
     <p>{message.text}</p>
 
