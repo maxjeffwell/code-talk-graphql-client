@@ -8,7 +8,7 @@ import SignInPage from '../SignIn';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
-import Editor from '../Editor';
+import Editor  from '../CodeMirror';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';

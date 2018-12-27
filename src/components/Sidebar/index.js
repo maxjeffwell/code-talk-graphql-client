@@ -33,8 +33,8 @@ class Sidebar extends Component {
   render() {
     return (
       <StyledSidebar>
-        {this.props.session && this.props.session.me && <MessageCreate />}
-        <Messages me={this.props.session.me} limit={7}/>
+        <MessageCreate />
+        <Messages limit={5} />
       </StyledSidebar>
     );
   }
