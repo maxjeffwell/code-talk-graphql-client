@@ -8,7 +8,7 @@ import SignInPage from '../SignIn';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
-import Room  from '../CodeMirror';
+import RoomList  from '../RoomList';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
@@ -120,8 +120,8 @@ const App = ({ session, refetch }) => (
 
       <Route
         exact
-        path={routes.EDITOR}
-        component={() => <Room />}
+        path={routes.ROOMS}
+        component={() => <RoomList />}
       />
 
     </div>

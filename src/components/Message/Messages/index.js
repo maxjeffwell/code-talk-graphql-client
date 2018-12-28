@@ -134,7 +134,7 @@ const MoreMessagesButton = ({
 );
 
 class MessageList extends Component {
-  subscribeToMoreMessage = () => {
+  subscribeToMoreMessages = () => {
     this.props.subscribeToMore({
       document: MESSAGE_CREATED,
       updateQuery: (previousResult, { subscriptionData }) => {
@@ -159,30 +159,29 @@ class MessageList extends Component {
   };
 
   componentDidMount() {
-    this.subscribeToMoreMessage();
+    this.subscribeToMoreMessages();
   }
 
   render() {
     const { messages, me } = this.props;
-
     return messages.map(message => (
       <MessageItem key={message.id} message={message} me={me} />
     ));
   }
 }
 
-const MessageItem = ({ message, me }) => (
+const MessageItem = ({ message, me }) =>
   <div>
-    <h4>{message.user.username}</h4>
-    <small>{message.createdAt}</small>
-    <p>{message.text}</p>
+  <h3>{message.user.username}</h3>
+  <small>{message.createdAt}</small>
+  <p>{message.text}</p>
 
-    {me &&
-    message.user.id === me.id && (
-      <MessageDelete message={message} />
-    )}
-  </div>
-);
+  {me &&
+  message.user.id === me.id && (
+    <MessageDelete message={message}/>
+  )}
+
+  </div>;
 
 export default Messages;
 

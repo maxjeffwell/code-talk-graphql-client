@@ -30,33 +30,22 @@ const Navigation = ({ session }) => (
   </div>
 );
 
-const NavigationAuth = ({ session }) => (
+const NavigationAuth = ({ session }) =>
   <div className="Header">
-  <Header />
-    <SignOutButton />
+  <Header/>
+  <SignOutButton/>
+  <Logo>
+    <Link to={routes.LANDING}>Landing</Link>
+  </Logo>
+  <Logo>
+    <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>
+  </Logo>
     <Logo>
-      <Link to={routes.LANDING}>Landing</Link>
-      </Logo>
-      <Logo>
-      <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>
-      </Logo>
-    {session &&
-    session.me &&
-    session.me.role === 'ADMIN' && (
-      <Logo>
-        <Link to={routes.ADMIN}>Admin</Link>
-        </Logo>
-    )}
-    {session &&
-    session.me && (
-    <Logo>
-      <Link to={routes.EDITOR}>Code Talk</Link>
-      </Logo>
-    )}
-</div>
-);
+      <Link to={routes.ROOMS}>Code Talk Chat Rooms</Link>
+    </Logo>
+  </div>;
 
-const NavigationNonAuth = () => (
+const NavigationNonAuth = () =>
   <div className="Nav-Bar">
     <Header />
     <Logo>
@@ -65,7 +54,6 @@ const NavigationNonAuth = () => (
       <Logo>
       <Link to={routes.LANDING}>Code Talk Home</Link>
       </Logo>
-    </div>
-);
+    </div>;
 
 export default Navigation;
