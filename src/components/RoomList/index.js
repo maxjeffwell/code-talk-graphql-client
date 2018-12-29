@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from "react-router-dom";
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -9,7 +10,7 @@ const ROOM_CREATED = gql`
       roomCreated {
           room {
               id
-              name
+              title
               users {
                   id
                   username
@@ -23,7 +24,7 @@ const GET_ALL_ROOMS_QUERY = gql`
   query GET_ALL_ROOMS_QUERY {
       rooms {
           id
-          name
+          title
           users {
               id
               username
@@ -52,6 +53,7 @@ const Rooms = ()  => (
       return (
         <Fragment>
           <RoomList
+            rooms={rooms}
             subscribeToMore={subscribeToMore}
           />
         </Fragment>
@@ -92,9 +94,10 @@ class RoomList extends Component {
   }
 }
 
-export const RoomListItem = (room) =>
-    <p>{room.name}</p>;
-
+export const RoomListItem = ({ room }) =>
+  <li>
+    <Link to={`/code-talk-rooms/${room.id}`}>{room.title}</Link>
+  </li>;
 
 export default Rooms;
 
