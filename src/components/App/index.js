@@ -9,6 +9,7 @@ import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
 import RoomList  from '../RoomList';
+import Room from '../Room';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
@@ -122,6 +123,11 @@ const App = ({ session, refetch }) => (
         exact
         path={routes.ROOMS}
         component={() => <RoomList />}
+      />
+
+      <Route
+        path={routes.ROOM}
+        component={() => <Room />}
       />
 
     </div>
