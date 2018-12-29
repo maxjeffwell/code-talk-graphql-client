@@ -12,10 +12,10 @@ const ROOM_CREATED = gql`
           room {
               id
               title
-              users {
-                  id
-                  username
-              }
+#              users {
+#                  id
+#                  username
+#              }
           }
       }
   }
@@ -26,10 +26,10 @@ const GET_ALL_ROOMS_QUERY = gql`
       rooms {
           id
           title
-          users {
-              id
-              username
-          }
+#          users {
+#              id
+#              username
+#          }
       }
   }
 `;

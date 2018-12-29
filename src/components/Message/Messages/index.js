@@ -17,13 +17,16 @@ const MESSAGE_CREATED = gql`
                     id
                     username
                 }
+                room {
+                    id
+                }
             }
         }
     }
 `;
 
 const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
-    query($cursor: String, $limit: Int!) {
+    query GET_PAGINATED_MESSAGES_WITH_USERS_QUERY($cursor: String, $limit: Int!) {
         messages(cursor: $cursor, limit: $limit)
         @connection(key: "MessagesConnection") {
             edges {
@@ -34,11 +37,14 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                     id
                     username
                 }
-            }
-                  pageInfo {
+                room {
+                    id
+                }
+                pageInfo {
                     hasNextPage
                     endCursor
-                  }
+                }
+            }
         }
     }
 `;

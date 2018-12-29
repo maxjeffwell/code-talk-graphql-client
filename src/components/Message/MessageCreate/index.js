@@ -14,6 +14,9 @@ const CREATE_MESSAGE = gql`
                 id
                 username
             }
+            room {
+                id
+            }
         }
     }
 `;
