@@ -28,8 +28,8 @@ const StyledSidebar = styled.div`
 
 export const Sidebar = () =>
    <StyledSidebar>
-     <MessageCreate/>
-     <Messages limit={100}/>
+     <MessageCreate />
+     <Messages limit={10}/>
    </StyledSidebar>;
 
 

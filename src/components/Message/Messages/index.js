@@ -17,16 +17,13 @@ const MESSAGE_CREATED = gql`
                     id
                     username
                 }
-                room {
-                    id
-                }
             }
         }
     }
 `;
 
 const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
-    query GET_PAGINATED_MESSAGES_WITH_USERS_QUERY($cursor: String, $limit: Int!) {
+    query($cursor: String, $limit: Int!) {
         messages(cursor: $cursor, limit: $limit)
         @connection(key: "MessagesConnection") {
             edges {
@@ -37,16 +34,13 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                     id
                     username
                 }
-                room {
-                    id
-                }
+            }
                 pageInfo {
                     hasNextPage
                     endCursor
                 }
             }
         }
-    }
 `;
 
 export const StyledButton = styled.button`
@@ -176,18 +170,14 @@ class MessageList extends Component {
   }
 }
 
-const MessageItem = ({ message, me }) =>
+const MessageItem = ({ message }) => (
   <div>
-  <h3>{message.user.username}</h3>
+  <h5>{message.user.username}</h5>
   <small>{message.createdAt}</small>
   <p>{message.text}</p>
-
-  {me &&
-  message.user.id === me.id && (
-    <MessageDelete message={message}/>
-  )}
-
-  </div>;
+    <MessageDelete message={message} />
+  </div>
+);
 
 export default Messages;
 
