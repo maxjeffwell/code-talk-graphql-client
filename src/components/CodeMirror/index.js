@@ -1,6 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import withAuthorization from '../Session/withAuthorization';
-
+import React, { Component } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 
 import 'codemirror/mode/javascript/javascript.js';
@@ -35,16 +33,14 @@ import 'codemirror/addon/comment/comment';
 import 'codemirror/addon/search/match-highlighter';
 import 'codemirror/addon/display/placeholder';
 
-import Sidebar from '../Sidebar';
-
 class Editor extends Component {
-  constructor() {
-    super();
-      this.state = {
-        name: 'CodeMirror',
-        code: '',
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'CodeMirror',
+      code: '',
     }
+  }
 
   updateCode(newCode) {
     this.setState({
@@ -60,17 +56,15 @@ class Editor extends Component {
     };
 
     return (
-      <Fragment>
-        <Sidebar />
-          <div>
-            <CodeMirror
-              value={this.state.code}
-              onChange={this.updateCode.bind(this)} options={options}
-             />
-          </div>
-      </Fragment>
+        <div>
+          <CodeMirror
+            value={this.state.code}
+            onChange={this.updateCode.bind(this)}
+            options={options}
+          />
+        </div>
     );
   }
 }
 
-export default withAuthorization(session => session && session.me)(Editor);
+export default Editor;

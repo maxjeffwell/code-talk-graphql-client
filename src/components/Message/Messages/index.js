@@ -35,12 +35,12 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                     username
                 }
             }
-                  pageInfo {
+                pageInfo {
                     hasNextPage
                     endCursor
-                  }
+                }
+            }
         }
-    }
 `;
 
 export const StyledButton = styled.button`
@@ -134,7 +134,7 @@ const MoreMessagesButton = ({
 );
 
 class MessageList extends Component {
-  subscribeToMoreMessage = () => {
+  subscribeToMoreMessages = () => {
     this.props.subscribeToMore({
       document: MESSAGE_CREATED,
       updateQuery: (previousResult, { subscriptionData }) => {
@@ -159,28 +159,23 @@ class MessageList extends Component {
   };
 
   componentDidMount() {
-    this.subscribeToMoreMessage();
+    this.subscribeToMoreMessages();
   }
 
   render() {
     const { messages, me } = this.props;
-
     return messages.map(message => (
       <MessageItem key={message.id} message={message} me={me} />
     ));
   }
 }
 
-const MessageItem = ({ message, me }) => (
+const MessageItem = ({ message }) => (
   <div>
-    <h4>{message.user.username}</h4>
-    <small>{message.createdAt}</small>
-    <p>{message.text}</p>
-
-    {me &&
-    message.user.id === me.id && (
-      <MessageDelete message={message} />
-    )}
+  <h5>{message.user.username}</h5>
+  <small>{message.createdAt}</small>
+  <p>{message.text}</p>
+    <MessageDelete message={message} />
   </div>
 );
 

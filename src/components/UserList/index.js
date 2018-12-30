@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 
 import styled from 'styled-components';
 
-const ALL_USERS_QUERY = gql`
-    query ALL_USERS_QUERY {
+const GET_ALL_USERS_QUERY = gql`
+    query GET_ALL_USERS_QUERY {
         users {
             id
             username
@@ -20,7 +20,7 @@ const ALL_USERS_QUERY = gql`
     }
 `;
 
-const Center = styled.div`
+const Centered = styled.div`
   text-align: center;
 `;
 
@@ -33,20 +33,21 @@ const UserList = styled.div`
 class Users extends Component {
   render() {
     return (
-      <Center>
+      <Centered>
         <p>Users</p>
-        <Query query={ALL_USERS_QUERY}>
+        <Query query={GET_ALL_USERS_QUERY}>
           {({ data, error, loading }) => {
-            if(loading) return <p>Loading...</p>
-            if(error) return <p>Error: {error.message}</p>
-            return <UserList>{data.users.map(user => <p>
-              {user.name}</p>)}</UserList>;
+            if(loading) return <p>Loading...</p>;
+
+            if(error) return <p>Error: {error.message}</p>;
+
+            return <UserList>{data.users.map(user =>
+              <p>{user.name}</p>)}</UserList>;
           }}
         </Query>
-      </Center>
+      </Centered>
     );
   }
 }
 
 export default Users;
-

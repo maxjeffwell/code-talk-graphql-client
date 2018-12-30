@@ -8,7 +8,8 @@ import SignInPage from '../SignIn';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
-import Room  from '../CodeMirror';
+import RoomList  from '../RoomList';
+import Room from '../Room';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
@@ -85,7 +86,7 @@ html {
 const App = ({ session, refetch }) => (
   <Router history={history}>
     <div className="routes">
-    <Navigation session={session} />
+      <Navigation session={session} />
       <GlobalStyle />
 
       <Route
@@ -120,12 +121,17 @@ const App = ({ session, refetch }) => (
 
       <Route
         exact
-        path={routes.EDITOR}
+        path={routes.ROOMS}
+        component={() => <RoomList />}
+      />
+
+      <Route
+        path={routes.ROOM}
         component={() => <Room />}
       />
 
-        </div>
-      </Router>
+    </div>
+  </Router>
 );
 
 export default withSession(App);

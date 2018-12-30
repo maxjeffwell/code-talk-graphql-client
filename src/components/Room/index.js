@@ -1,30 +1,28 @@
-import React, { Component, Fragment } from 'react';
-import { Query } from 'react-apollo';
-
+import React, { Component } from 'react';
 import gql from 'graphql-tag';
 
-import Loading from '../Loading';
+import { Sidebar } from '../Sidebar';
 import Editor from '../CodeMirror';
 
-const CONTENT_EDITED = gql`
+
+const EDITOR_CONTENT = gql`
     subscription {
-        editorContents {
-            content{
-                text
+        editorContent {
+            editor {
+                code
+
             }
         }
     }
 `;
 
-
 class Room extends Component {
   render() {
     return (
-      <div>
-        <h1>{this.props.room.name}</h1>
-        <p>{this.props.room.description}</p>
-        <Editor />
-      </div>
+      <>
+      <Sidebar />
+      <Editor />
+      </>
     );
   }
 }

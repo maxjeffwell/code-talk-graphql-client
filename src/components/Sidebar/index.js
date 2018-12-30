@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-
-import withSession from '../Session/withSession';
-import { MessageCreate, Messages } from '../Message';
-
+import React from 'react';
 import styled from 'styled-components';
+
+import { MessageCreate, Messages } from '../Message';
 
 const StyledSidebar = styled.div`
     width: 30%;
@@ -28,17 +26,10 @@ const StyledSidebar = styled.div`
     }
 `;
 
-class Sidebar extends Component {
+export const Sidebar = () =>
+   <StyledSidebar>
+     <MessageCreate />
+     <Messages limit={10}/>
+   </StyledSidebar>;
 
-  render() {
-    return (
-      <StyledSidebar>
-        <MessageCreate />
-        <Messages limit={5} />
-      </StyledSidebar>
-    );
-  }
-}
-
-export default withSession(Sidebar);
 
