@@ -22,16 +22,12 @@ const ThemeSelect = (props) => {
     })
   }
 
-  return (
-    <form onChange={triggerChangeTheme}>
-      <label>
-        Select themes here
-      </label>
-      <form>
-        {renderModeSelect()}
-      </form>
-    </form>
-  );
+  return <form onChange={triggerChangeTheme}>
+    <label>
+      Select themes here
+    </label>
+    {renderModeSelect()}
+  </form>;
 };
 
 export default ThemeSelect;

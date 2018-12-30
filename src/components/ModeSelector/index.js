@@ -24,9 +24,7 @@ const ModeSelector = (props) => {
   return (
     <form onChange={triggerChangeMode}>
       <label>Change language</label>
-      <form>
         {renderModeSelector()}
-      </form>
     </form>
   );
 };

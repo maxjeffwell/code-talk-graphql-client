@@ -42,7 +42,7 @@ class Users extends Component {
             if(error) return <p>Error: {error.message}</p>;
 
             return <UserList>{data.users.map(user =>
-              <p>{user.name}</p>)}</UserList>;
+              <li key={user.id}>{user.username}</li>)}</UserList>;
           }}
         </Query>
       </Centered>

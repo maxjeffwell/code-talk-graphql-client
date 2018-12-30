@@ -1,6 +1,9 @@
 import React from 'react';
 import { Router, Route } from 'react-router-dom';
 
+import { createGlobalStyle } from 'styled-components';
+import WebFont from 'webfontloader';
+
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
@@ -10,12 +13,10 @@ import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
 import RoomList  from '../RoomList';
 import Room from '../Room';
+import Monaco from '../Monaco';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
-import { createGlobalStyle } from 'styled-components';
-
-import WebFont from 'webfontloader';
 
 WebFont.load({
   custom: {
@@ -129,6 +130,11 @@ const App = ({ session, refetch }) => (
         path={routes.ROOM}
         component={() => <Room />}
       />
+      <Route
+        exact
+        path={routes.MONACO}
+        component={() => <Monaco />}
+        />
 
     </div>
   </Router>
