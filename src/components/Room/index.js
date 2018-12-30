@@ -10,6 +10,7 @@ const EDITOR_CONTENT = gql`
         editorContent {
             editor {
                 code
+
             }
         }
     }

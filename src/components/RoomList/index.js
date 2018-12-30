@@ -103,13 +103,3 @@ export const RoomListItem = ({ room }) =>
 export default Rooms;
 
 
-
-
-
-
-
-
-
-
-
-

@@ -34,5 +34,4 @@ const ThemeSelect = (props) => {
   );
 };
 
-
 export default ThemeSelect;
