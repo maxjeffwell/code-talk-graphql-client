@@ -8,90 +8,93 @@ import Loading from '../Loading';
 import ErrorMessage from '../Error';
 
 
-const USER_JOINED_SUBSCRIPTION = gql`
-    subscription {
-        userJoined {
-            user{
-                id
-                username
-            }
-        }
-    }
-`;
+// const USER_JOINED_SUBSCRIPTION = gql`
+//     subscription {
+//         userJoined {
+//             user{
+//                 id
+//                 username
+//             }
+//         }
+//     }
+// `;
+//
+// const GET_ROOM_WITH_USERS_QUERY = gql`
+//     query GET_ROOM_WITH_USERS {
+//         room {
+//             id
+//             title
+//             users{
+//                 id
+//                 username
+//             }
+//         }
+//     }
+// `;
+//
+// const Users = ({ children }) => (
+//   <Query query={GET_ROOM_WITH_USERS_QUERY}>
+//     {({ loading, error, data, subscribeToMore }) => {
+//       if (!data) {
+//         return (
+//           <div>
+//             No users here yet
+//           </div>
+//         );
+//       }
+//
+//       const { users } = data;
+//
+//       if (loading || !users) {
+//         return <Loading />;
+//       }
+//
+//       if (error) return <ErrorMessage />;
+//
+//         const subscribeToMoreUsers = () => {
+//           subscribeToMore({
+//             document: USER_JOINED_SUBSCRIPTION,
+//             updateQuery: (prev, { subscriptionData }) => {
+//               if (!subscriptionData || !subscriptionData.data.userJoined) {
+//                 return prev;
+//               }
+//
+//               const newUserJoined = subscriptionData.data.userJoined;
+//
+//               return Object.assign({}, prev, {
+//                 users: [...prev.users, newUserJoined]
+//               });
+//             }
+//           });
+//         };
+//
+//         return children(data.rooms, subscribeToMoreUsers);
+//       }}
+//       </Query>
+//     );
 
-const GET_ROOM_WITH_USERS_QUERY = gql` 
-    query($roomId: ID!) {
-        room {
-            id
-            title
-            users{
-                user{
-                    id
-                    username
-                }
-            }
-        }
-    }
-`;
-
-const Users = ({ children }) => (
-  <Query query={GET_ROOM_WITH_USERS_QUERY}>
-    {({ loading, error, data, subscribeToMore }) => {
-      if (!data) {
-        return (
-          <div>
-            No users here yet
-          </div>
-        );
-      }
-
-      const { users } = data;
-
-      if (loading || !users) {
-        return <Loading />;
-      }
-
-      if (error) return <ErrorMessage />;
-
-        const subscribeToMoreUsers = () => {
-          subscribeToMore({
-            document: USER_JOINED_SUBSCRIPTION,
-            updateQuery: (prev, { subscriptionData }) => {
-              if (!subscriptionData || !subscriptionData.data.userJoined) {
-                return prev;
-              }
-
-              const newUserJoined = subscriptionData.data.userJoined;
-
-              return Object.assign({}, prev, {
-                users: [...prev.users, newUserJoined]
-              });
-            }
-          });
-        };
-
-        return children(data.rooms, subscribeToMoreUsers);
-      }}
-      </Query>
-    );
-
-    class Room extends Component {
-      componentDidMount() {
-        this.props.subscribeToMoreUsers();
-      }
+    export default class Room extends Component {
+      // componentDidMount() {
+      //   this.props.subscribeToMoreUsers();
+      // }
       render() {
-        const { users } = this.props;
-        return users.map(user => (
-          <>
-          <UserItem key={user.id} user={user} />
+        // const { users } = this.props;
+        // return users.map(user => (
+
+        return (
+        <>
+          {/*<UserItem key={user.id} user={user} />*/}
+
+
           <Sidebar />
           <Editor />
           </>
-        ));
+        );
+        // )
         }
       }
 
-      const UserItem = ({ user }) =>
-        <p>{user.username}</p>;
+      // const UserItem = ({ user }) =>
+      //   <p>{user.username}</p>;
 
-export default Users;
+// export default Users;
