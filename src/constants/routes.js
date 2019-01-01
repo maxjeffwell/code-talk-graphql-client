@@ -5,5 +5,4 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const ROOMS = '/code-talk-rooms';
 export const ROOM = '/code-talk-rooms/:id';
-export const MONACO ='/monaco';
 

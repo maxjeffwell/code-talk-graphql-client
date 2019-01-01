@@ -1,32 +1,32 @@
 import React from 'react';
+import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
 const ModeSelector = (props) => {
   function triggerChangeMode(e) {
-    props.changeMode(e.target.value)
+    props.changeMode(e.target.value);
   }
 
-  function renderModeSelector() {
-    const modes = [
-      "ruby", "javascript", "clojure",
-      "coffeescript", "crystal", "erlang",
-      "php", "python", "swift"
-    ];
-
+  function renderModeSelect() {
+    const modes = ["ruby", "javascript", "clojure", "coffeescript", "crystal", "erlang", "php", "python", "swift"];
     return modes.map((mode, i) => {
       if (mode === props.mode) {
-        return <option key={i} value={mode} selected>{mode}</option>
+        return <option key={i} value={mode} selected>{mode}</option>;
       } else {
-        return <option key={i} value={mode}>{mode}</option>
+        return <option key={i} value={mode}>{mode}</option>;
       }
-    });
+    })
   }
 
   return (
-    <form onChange={triggerChangeMode}>
-      <label>Change language</label>
-        {renderModeSelector()}
-    </form>
+    <FormGroup controlId="formControlsSelect" onChange={triggerChangeMode}>
+      <ControlLabel>Choose Language</ControlLabel>
+      <FormControl componentClass="select">
+        {renderModeSelect()}
+      </FormControl>
+    </FormGroup>
   );
-};
+}
 
 export default ModeSelector;
+
+

@@ -13,7 +13,6 @@ import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
 import RoomList  from '../Room/RoomList';
 import Room from '../Room';
-import Monaco from '../Monaco';
 
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
@@ -139,13 +138,8 @@ const App = ({ session, refetch }) => (
         path={routes.ROOM}
         component={() => <Room />}
       />
-      <Route
-        exact
-        path={routes.MONACO}
-        component={() => <Monaco />}
-        />
 
-    </div>
+        </div>
   </Router>
 );
 

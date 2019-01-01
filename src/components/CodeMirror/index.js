@@ -3,7 +3,6 @@ import CodeMirror from 'react-codemirror';
 
 import ModeSelector from '../ModeSelector';
 import ThemeSelector from '../ThemeSelector';
-import UserList from '../UserList';
 
 import 'codemirror/lib/codemirror.css';
 
@@ -42,9 +41,9 @@ import 'codemirror/addon/display/placeholder';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror/addon/lint/lint';
 
+import 'codemirror-graphql/mode';
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/lint';
-import 'codemirror-graphql/mode';
 
 class Editor extends Component {
   constructor(props) {
@@ -64,20 +63,27 @@ class Editor extends Component {
     });
   }
 
+  changeMode(newMode) {
+    this.setState({mode: newMode})
+  }
+
+  changeTheme(newTheme) {
+    this.setState({theme: newTheme})
+  }
+
   render() {
     const options = {
       lineNumbers: true,
-      mode: 'jsx',
-      theme: 'monokai',
+      mode: this.state.mode,
+      theme: this.state.theme,
       tabSize: 2,
-      keymap: 'sublime',
+      keymap: 'sublime'
     };
 
     return (
         <div>
-        <ModeSelector />
-          <ThemeSelector />
-          <UserList />
+          <ModeSelector mode={this.state.mode} changeMode={this.changeMode.bind(this)} />
+          <ThemeSelector theme={this.state.theme} changeTheme={this.changeTheme.bind(this)} />
           <CodeMirror
             value={this.state.code}
             onChange={this.updateCode.bind(this)}
