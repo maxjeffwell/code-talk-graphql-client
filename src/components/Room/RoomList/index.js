@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import Loading from '../Loading';
-import { ROOMS } from '../../constants/routes';
+import Loading from '../../Loading';
+import { ROOMS } from '../../../constants/routes';
 
 const ROOM_CREATED = gql`
   subscription {
@@ -12,10 +12,6 @@ const ROOM_CREATED = gql`
           room {
               id
               title
-#              users {
-#                  id
-#                  username
-#              }
           }
       }
   }
@@ -26,10 +22,6 @@ const GET_ALL_ROOMS_QUERY = gql`
       rooms {
           id
           title
-#          users {
-#              id
-#              username
-#          }
       }
   }
 `;
@@ -40,7 +32,7 @@ const Rooms = ()  => (
       if (!data) {
         return (
           <div>
-            No rooms have been created yet...
+            <p>No rooms have been created yet...</p>
           </div>
         );
       }
@@ -90,12 +82,12 @@ class RoomList extends Component {
   render() {
     const { rooms } = this.props;
     return rooms.map(room => (
-      <RoomListItem key={room.id} room={room} />
-    ));
+        <RoomListItem key={room.id} room={room} />
+      ));
+        }
   }
-}
 
-export const RoomListItem = ({ room }) =>
+  export const RoomListItem = ({ room }) =>
     <li>
       <Link to={`${ROOMS}/${room.id}`}>{room.title}</Link>
     </li>;
