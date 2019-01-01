@@ -11,7 +11,7 @@ import SignInPage from '../SignIn';
 import AccountPage from '../Account';
 import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
-import RoomList  from '../RoomList';
+import RoomList  from '../Room/RoomList';
 import Room from '../Room';
 import Monaco from '../Monaco';
 

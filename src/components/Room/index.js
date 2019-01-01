@@ -1,100 +1,116 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+// import gql from 'graphql-tag';
+// import { Query } from 'react-apollo';
 
 import { Sidebar } from '../Sidebar';
 import Editor from '../CodeMirror';
-import Loading from '../Loading';
-import ErrorMessage from '../Error';
+// import Loading from '../Loading';
+// import ErrorMessage from '../Error';
 
-
-// const USER_JOINED_SUBSCRIPTION = gql`
-//     subscription {
-//         userJoined {
-//             user{
-//                 id
-//                 username
-//             }
-//         }
-//     }
-// `;
-//
-// const GET_ROOM_WITH_USERS_QUERY = gql`
-//     query GET_ROOM_WITH_USERS {
-//         room {
+// export const ROOM_QUERY = gql`
+//     query roomQuery($roomId : ID!) {
+//         room(id: $roomId) {
 //             id
 //             title
-//             users{
+//             users {
 //                 id
 //                 username
 //             }
 //         }
 //     }
 // `;
-//
-// const Users = ({ children }) => (
-//   <Query query={GET_ROOM_WITH_USERS_QUERY}>
-//     {({ loading, error, data, subscribeToMore }) => {
-//       if (!data) {
-//         return (
-//           <div>
-//             No users here yet
-//           </div>
-//         );
-//       }
-//
-//       const { users } = data;
-//
-//       if (loading || !users) {
-//         return <Loading />;
-//       }
-//
-//       if (error) return <ErrorMessage />;
-//
-//         const subscribeToMoreUsers = () => {
-//           subscribeToMore({
-//             document: USER_JOINED_SUBSCRIPTION,
-//             updateQuery: (prev, { subscriptionData }) => {
-//               if (!subscriptionData || !subscriptionData.data.userJoined) {
-//                 return prev;
-//               }
-//
-//               const newUserJoined = subscriptionData.data.userJoined;
-//
-//               return Object.assign({}, prev, {
-//                 users: [...prev.users, newUserJoined]
-//               });
-//             }
-//           });
-//         };
-//
-//         return children(data.rooms, subscribeToMoreUsers);
-//       }}
-//       </Query>
-//     );
 
-    export default class Room extends Component {
-      // componentDidMount() {
-      //   this.props.subscribeToMoreUsers();
-      // }
-      render() {
-        // const { users } = this.props;
-        // return users.map(user => (
+  // const USER_JOINED_SUBSCRIPTION = gql`
+  //   subscription {
+  //       userJoined {
+  //           user {
+  //               id
+  //               username
+  //           }
+  //       }
+  //   }
+  // `
 
-        return (
-        <>
-          {/*<UserItem key={user.id} user={user} />*/}
+  // const Room = () => (
+  // <Query query={ROOM_QUERY} variables={{ roomId: props.match.params.roomId }}>
+  //   {({ data, loading, error }) => {
+  //     if (!data) {
+  //       return (
+  //         <div>
+  //           Nothing here yet
+  //         </div>
+  //       );
+  //     }
+  //
+  //     const {room} = data;
+  //
+  //     if (loading || !room) {
+  //       return <Loading/>;
+  //     }
+  //
+  //     if (error) return <ErrorMessage/>;
+  //
+  //
+  //     return (
+  //       <Fragment>
+  //         <Room
+  //           room={room}
+  //         />
+  //         <Sidebar/>
+  //         <Editor />
+  //       </Fragment>
+  //     );
+  //       }
+  //   }
+  // </Query>
+  // );
+
+    //     const subscribeToMoreUsers = () => {
+    //       this.props.subscribeToMore({
+    //         document: USER_JOINED_SUBSCRIPTION,
+    //         updateQuery: (prev, { subscriptionData }) => {
+    //           if (!subscriptionData || !subscriptionData.data.userJoined) {
+    //             return prev;
+    //           }
+    //
+    //           const newUserJoined = subscriptionData.data.userJoined;
+    //
+    //           return Object.assign({}, prev, {
+    //             users: [...prev.users, newUserJoined]
+    //           });
+    //         }
+    //       });
+    //     };
+    //
+    //     return children(room, subscribeToMoreUsers);
+    //   }}
+    //   </Query>
+    // );
 
 
-          <Sidebar />
-          <Editor />
-          </>
-        );
-        // )
-        }
-      }
+    //   render() {
+    //     const { users } = this.props;
+    //     return users.map(user => (
+    //       <UserItem key={user.id} user={user} />
+    //     ));
+    //   }
+    // }
 
-      // const UserItem = ({ user }) =>
-      //   <p>{user.username}</p>;
+// export const UserItem = ({ user }) =>
+//   <li>
+//     {user.username}
+//   </li>;
 
-// export default Users;
+export default class room extends Component {
+  render() {
+    return (
+      <div>
+        <Sidebar />
+        <Editor />
+      </div>
+    );
+  }
+}
+
+
+
