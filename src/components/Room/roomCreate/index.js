@@ -19,8 +19,8 @@ class RoomCreate extends Component {
   };
 
   onChange = event => {
-    const { title, value } = event.target;
-    this.setState({ [title]: value });
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
 
   onSubmit = async (event, createRoom) => {

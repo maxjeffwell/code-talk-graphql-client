@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Loading from '../../Loading';
+import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
 
 const ROOM_CREATED = gql`
@@ -12,23 +13,32 @@ const ROOM_CREATED = gql`
           room {
               id
               title
+              createdAt
           }
       }
   }
 `;
 
-const GET_ALL_ROOMS_QUERY = gql`
-  query GET_ALL_ROOMS_QUERY {
-      rooms {
-          id
-          title
+const GET_PAGINATED_ROOMS = gql`
+  query($cursor: String, $limit: Int) {
+      rooms(cursor: $cursor, limit: $limit) 
+      @connection(key: "RoomsConnection") {
+          edges {
+              id
+              title
+              createdAt
+          }
+          pageInfo {
+              hasNextPage
+              endCursor
+          }
       }
   }
 `;
 
-const Rooms = ()  => (
-  <Query query={ GET_ALL_ROOMS_QUERY }>
-    {({ data, loading, error, subscribeToMore}) => {
+const Rooms = ({ limit })  => (
+  <Query query={ GET_PAGINATED_ROOMS } variables={limit}>
+    {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
         return (
           <div>
@@ -40,20 +50,70 @@ const Rooms = ()  => (
       const { rooms } = data;
 
       if (loading || !rooms) {
-        return <Loading />;
+        return <Loading/>;
       }
+
+      if (error) {
+        return <ErrorMessage/>;
+      }
+
+      const { edges, pageInfo } = rooms;
 
       return (
         <Fragment>
           <RoomList
-            rooms={rooms}
+            rooms={edges}
             subscribeToMore={subscribeToMore}
           />
+
+          {pageInfo.hasNextPage && (
+            <GetMoreRoomsButton
+              limit={limit}
+              pageInfo={pageInfo}
+              fetchMore={fetchMore}
+            >
+              Get More Rooms
+            </GetMoreRoomsButton>
+          )}
         </Fragment>
       );
-        }
-      }
+    }}
   </Query>
+);
+
+const GetMoreRoomsButton = ({
+  limit,
+  pageInfo,
+  fetchMore,
+  children
+}) => (
+  <button
+    type="button"
+    onClick={() => fetchMore({
+      variables: {
+        cursor: pageInfo.endCursor,
+        limit
+      },
+      updateQuery: (previousResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return previousResult;
+        }
+
+        return {
+          rooms: {
+            ...fetchMoreResult.rooms,
+            edges: [
+              ...previousResult.rooms.edges,
+              ...fetchMoreResult.rooms.rooms
+            ],
+          },
+        };
+      },
+    })
+    }
+  >
+    {children}
+  </button>
 );
 
 class RoomList extends Component {
@@ -65,10 +125,16 @@ class RoomList extends Component {
           return previousResult;
         }
 
+        const { roomCreated } =subscriptionData.data;
+
         return {
           ...previousResult,
           rooms: {
             ...previousResult.rooms,
+            edges: [
+              roomCreated.room,
+              ...previousResult.rooms.edges
+            ],
           },
         };
       },
@@ -82,15 +148,16 @@ class RoomList extends Component {
   render() {
     const { rooms } = this.props;
     return rooms.map(room => (
-        <RoomListItem key={room.id} room={room} />
-      ));
-        }
+      <RoomListItem key={room.id} room={room}/>
+    ));
   }
+}
 
-  export const RoomListItem = ({ room }) =>
-    <li>
-      <Link to={`${ROOMS}/${room.id}`}>{room.title}</Link>
-    </li>;
+const RoomListItem = ({ room }) => (
+  <li>
+    <Link to={`${ROOMS}/${room.id}`}>{room.title}</Link>
+  </li>
+);
 
 export default Rooms;
 

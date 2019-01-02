@@ -17,6 +17,9 @@ const MESSAGE_CREATED = gql`
                     id
                     username
                 }
+                room {
+                    id
+                }
             }
         }
     }
@@ -33,6 +36,9 @@ const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
                 user {
                     id
                     username
+                }
+                room {
+                    id
                 }
             }
                 pageInfo {
@@ -53,7 +59,7 @@ export const StyledButton = styled.button`
   border: 1em;
 `;
 
-const Messages = ({ limit, me }) => (
+const Messages = ({ limit, me, room }) => (
   <Query query={ GET_PAGINATED_MESSAGES_WITH_USERS } variables={{
     limit
   }}>
@@ -79,6 +85,7 @@ const Messages = ({ limit, me }) => (
           <MessageList
             messages={edges}
             me={me}
+            room={room}
             subscribeToMore={subscribeToMore}
           />
 
@@ -163,9 +170,9 @@ class MessageList extends Component {
   }
 
   render() {
-    const { messages, me } = this.props;
+    const { messages, me, room } = this.props;
     return messages.map(message => (
-      <MessageItem key={message.id} message={message} me={me} />
+      <MessageItem key={message.id} message={message} me={me} room={room} />
     ));
   }
 }
