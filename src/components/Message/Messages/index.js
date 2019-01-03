@@ -170,9 +170,9 @@ class MessageList extends Component {
   }
 
   render() {
-    const { messages, me, room } = this.props;
+    const { messages, me } = this.props;
     return messages.map(message => (
-      <MessageItem key={message.id} message={message} me={me} room={room} />
+      <MessageItem key={message.id} message={message} me={me} />
     ));
   }
 }
