@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
+import RoomCreate from '../RoomCreate';
 
 const ROOM_CREATED = gql`
   subscription {
@@ -147,9 +148,11 @@ class RoomList extends Component {
 
   render() {
     const { rooms } = this.props;
-    return rooms.map(room => (
+    return [<RoomCreate />,
+      rooms.map(room => (
       <RoomListItem key={room.id} room={room}/>
-    ));
+    ))
+      ];
   }
 }
 
