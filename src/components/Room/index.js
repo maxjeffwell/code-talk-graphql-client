@@ -1,116 +1,77 @@
 import React, { Component } from 'react';
-// import gql from 'graphql-tag';
-// import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+import { Query, Mutation } from 'react-apollo';
 
-import { Sidebar } from '../Sidebar';
-import Editor from '../CodeMirror';
-// import Loading from '../Loading';
-// import ErrorMessage from '../Error';
+// import { Sidebar } from '../Sidebar';
+// import Editor from '../CodeMirror';
+import ErrorMessage from '../Error';
 
-// export const ROOM_QUERY = gql`
-//     query roomQuery($roomId : ID!) {
-//         room(id: $roomId) {
-//             id
-//             title
-//             users {
-//                 id
-//                 username
-//             }
-//         }
-//     }
-// `;
+const TYPING_CODE_SUBSCRIPTION = gql` 
+    subscription {
+        typingCode {
+            body
+        }
+    }
+`;
 
-  // const USER_JOINED_SUBSCRIPTION = gql`
-  //   subscription {
-  //       userJoined {
-  //           user {
-  //               id
-  //               username
-  //           }
-  //       }
-  //   }
-  // `
+const READ_CODE = gql`
+    readCode {
+        body
+    }
+`;
 
-  // const Room = () => (
-  // <Query query={ROOM_QUERY} variables={{ roomId: props.match.params.roomId }}>
-  //   {({ data, loading, error }) => {
-  //     if (!data) {
-  //       return (
-  //         <div>
-  //           Nothing here yet
-  //         </div>
-  //       );
-  //     }
-  //
-  //     const {room} = data;
-  //
-  //     if (loading || !room) {
-  //       return <Loading/>;
-  //     }
-  //
-  //     if (error) return <ErrorMessage/>;
-  //
-  //
-  //     return (
-  //       <Fragment>
-  //         <Room
-  //           room={room}
-  //         />
-  //         <Sidebar/>
-  //         <Editor />
-  //       </Fragment>
-  //     );
-  //       }
-  //   }
-  // </Query>
-  // );
+const TYPE_CODE = gql`
+  mutation TypeCodeMutation($body: String!) {
+      typeCode(code: {body: $body}) {
+          body
+      }
+  }
+`;
 
-    //     const subscribeToMoreUsers = () => {
-    //       this.props.subscribeToMore({
-    //         document: USER_JOINED_SUBSCRIPTION,
-    //         updateQuery: (prev, { subscriptionData }) => {
-    //           if (!subscriptionData || !subscriptionData.data.userJoined) {
-    //             return prev;
-    //           }
-    //
-    //           const newUserJoined = subscriptionData.data.userJoined;
-    //
-    //           return Object.assign({}, prev, {
-    //             users: [...prev.users, newUserJoined]
-    //           });
-    //         }
-    //       });
-    //     };
-    //
-    //     return children(room, subscribeToMoreUsers);
-    //   }}
-    //   </Query>
-    // );
+class Room extends Component {
+  updateCode(e, typeCodeMutation) {
+    const newCode = e.currentTarget.value;
+    typeCodeMutation({ variables: { body: newCode } });
+  }
 
+  subscribeToNewCode(subscribeToMore) {
+    subscribeToMore({
+      document: TYPING_CODE_SUBSCRIPTION,
+      updateQuery: (prev, { subscriptionData }) => {
+        if (!subscriptionData.data) return prev;
+        return Object.assign({}, prev, {
+          readCode: subscriptionData.data.typingCode
+        });
+      }
+    })
+  }
 
-    //   render() {
-    //     const { users } = this.props;
-    //     return users.map(user => (
-    //       <UserItem key={user.id} user={user} />
-    //     ));
-    //   }
-    // }
-
-// export const UserItem = ({ user }) =>
-//   <li>
-//     {user.username}
-//   </li>;
-
-export default class room extends Component {
   render() {
     return (
-      <div>
-        <Sidebar />
-        <Editor />
+      <div className="Room">
+        <header className="Room-header">
+          <h1>Code Talk Editor</h1>
+        </header>
+        <main>
+          <Query query={READ_CODE}>
+            {({ loading, error, data, subscribeToMore }) => {
+              this.subscribeToNewCode(subscribeToMore);
+              if (loading) return <div>Typing...</div>;
+              if (error) return ErrorMessage;
+              return <Mutation mutation={TYPE_CODE}>
+                {typeCodeMutation => <textarea value={data.readCode.body}
+                                               onChange={e => this.updateCode(e, typeCodeMutation)}/>}
+              </Mutation>
+            }}
+          </Query>
+        </main>
       </div>
     );
   }
 }
+
+export default Room;
+
 
 
 
