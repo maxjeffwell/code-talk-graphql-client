@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
+import CodeMirror from 'react-codemirror';
 
 import { TYPE_CODE } from './mutations';
 import { READ_CODE } from './queries';
 import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 
+import ModeSelector from '../ModeSelector';
+import ThemeSelector from '../ThemeSelector';
 
-// import { Sidebar } from '../Sidebar';
-// import Editor from '../CodeMirror';
+
+import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
 
 class Room extends Component {
@@ -31,6 +34,7 @@ class Room extends Component {
   render() {
     return (
       <div>
+        <Sidebar />
           <Query query={READ_CODE}>
             {({ loading, error, data, subscribeToMore }) => {
               this.subscribeToNewCode(subscribeToMore);
