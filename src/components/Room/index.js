@@ -1,32 +1,14 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+
+import { TYPE_CODE } from './mutations';
+import { READ_CODE } from './queries';
+import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
+
 
 // import { Sidebar } from '../Sidebar';
 // import Editor from '../CodeMirror';
 import ErrorMessage from '../Error';
-
-const TYPING_CODE_SUBSCRIPTION = gql` 
-    subscription {
-        typingCode {
-            body
-        }
-    }
-`;
-
-const READ_CODE = gql`
-    readCode {
-        body
-    }
-`;
-
-const TYPE_CODE = gql`
-  mutation TypeCodeMutation($body: String!) {
-      typeCode(code: {body: $body}) {
-          body
-      }
-  }
-`;
 
 class Room extends Component {
   updateCode(e, typeCodeMutation) {
@@ -48,11 +30,7 @@ class Room extends Component {
 
   render() {
     return (
-      <div className="Room">
-        <header className="Room-header">
-          <h1>Code Talk Editor</h1>
-        </header>
-        <main>
+      <div>
           <Query query={READ_CODE}>
             {({ loading, error, data, subscribeToMore }) => {
               this.subscribeToNewCode(subscribeToMore);
@@ -60,11 +38,10 @@ class Room extends Component {
               if (error) return ErrorMessage;
               return <Mutation mutation={TYPE_CODE}>
                 {typeCodeMutation => <textarea value={data.readCode.body}
-                                               onChange={e => this.updateCode(e, typeCodeMutation)}/>}
+                                               onChange={e => this.updateCode(e, typeCodeMutation)} />}
               </Mutation>
             }}
           </Query>
-        </main>
       </div>
     );
   }
