@@ -52,8 +52,6 @@ class Editor extends Component {
       code: '',
       mode: 'javascript',
       theme: 'monokai',
-      users: [],
-      currentlyTyping: null,
     }
   }
 

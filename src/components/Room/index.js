@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
-import CodeMirror from 'react-codemirror';
+// import CodeMirror from 'react-codemirror';
 
 import { TYPE_CODE } from './mutations';
 import { READ_CODE } from './queries';
 import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 
-import ModeSelector from '../ModeSelector';
-import ThemeSelector from '../ThemeSelector';
+// import ModeSelector from '../ModeSelector';
+// import ThemeSelector from '../ThemeSelector';
+
+// import 'codemirror/lib/codemirror.css';
 
 
 import { Sidebar } from '../Sidebar';
