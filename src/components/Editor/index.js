@@ -59,6 +59,7 @@ class Editor extends Component {
     this.setState({
       code: newCode,
     });
+    /* emit event here */
   }
 
   changeMode(newMode) {
