@@ -5,9 +5,8 @@ import { TYPE_CODE } from './mutations';
 import { READ_CODE } from './queries';
 import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 
-
-// import { Sidebar } from '../Sidebar';
-// import Editor from '../CodeMirror';
+// import Editor from '../Editor';
+import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
 
 class Room extends Component {
@@ -31,6 +30,9 @@ class Room extends Component {
   render() {
     return (
       <div>
+        <Sidebar />
+        {/*<ModeSelector />*/}
+        {/*<ThemeSelector />*/}
           <Query query={READ_CODE}>
             {({ loading, error, data, subscribeToMore }) => {
               this.subscribeToNewCode(subscribeToMore);
@@ -48,6 +50,9 @@ class Room extends Component {
 }
 
 export default Room;
+
+    /* in editor index.js emit an onchange event when updateCode is called
+     * if can't emit onchange then emit and handle a custom event */
 
 
 

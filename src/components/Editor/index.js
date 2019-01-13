@@ -52,8 +52,6 @@ class Editor extends Component {
       code: '',
       mode: 'javascript',
       theme: 'monokai',
-      users: [],
-      currentlyTyping: null,
     }
   }
 
@@ -61,6 +59,7 @@ class Editor extends Component {
     this.setState({
       code: newCode,
     });
+    /* emit event here */
   }
 
   changeMode(newMode) {
