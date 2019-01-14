@@ -1,10 +1,17 @@
 language: node_js
 
 node_js:
-  - stable
+  - node
+
+cache:
+  directories:
+    - node_modules
 
 install:
   - npm install
 
 script:
   - npm test
+
+env:
+  - CI=true
