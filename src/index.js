@@ -14,11 +14,11 @@ import App from './components/App';
 import { signOut } from './components/SignOut';
 
 const httpLink = new HttpLink({
-	uri: 'http://localhost:8000/graphql',
+	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
 });
 
 const wsLink = new WebSocketLink({
-	uri: `ws://localhost:8000/graphql`,
+	uri: process.env.NODE_ENV === 'development' ? `ws://localhost:8000/graphql` : `ws://jmaxwell-code-talk-server.herokuapp.com/graphql`,
 	options: {
 		reconnect: true,
 	},
