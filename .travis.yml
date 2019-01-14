@@ -1,17 +1,19 @@
 language: node_js
-
 node_js:
-  - node
-
+- node
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 install:
-  - npm install
-
+- npm install
 script:
-  - npm test
-
+- npm test
 env:
-  - CI=true
+- CI=true
+deploy:
+  provider: heroku
+  api_key:
+    secure: QG10x7+uhZdFHzFMdNA1V3SUPR+INYtkLmNlpJTg51Y8pvDs2W8w5XCy4RCcgNthUvFEoR7tPFif6p6qgwVOliNMaYuBcP3iS0gVMLGUXIpRxslyvMNNBtHlcT95/D+SVHZkgmbT5f/XIzivFJsSqJ7pf8OKUm8ki8TDiF8KDAQkJhWr7NBMcRzlY8d8hSHYRLXRj+98Ygi8bMyppH1eFXBh3mjXb8PKxLXxiErfyosSHKyPswVDiPA59K4HNy/JpqO2UgpFHJ7Mzy2OAStkTHmm58xR9IBwBJTge8TrxOIv/t5ylnO28bpzKtA8ef7TFFoxMzYbNGlkz8qkp7lFybRE92hEVCFGzSQmno4igvk1BZQQc7rJda9yNRP7YHztDk2DDIDtFNwnYUznS40NWdu4Ik5Cs4vfKL7hAq4QzeYDk3MmxJ3HpdK0qRKUMD54iAajrK1D0h/27dN4wRgNZ9TNafpJT6CPNpEbP+Tkgu6o+N65QCgGfrte3bxj8vL1gc45b0KBzoOuEH0Va9sVHU03mrf+rHEzN11dsTFw5tMnsod21fwYQUq/S26PIN4cjl++7ISqJ781BXJioBPBxSTp3EzzrMKxFraPpgg6oF0xaQlVI7TIOgelE95qYUGBqk5eWf2qkWcDLOvK86SO0M1Y/nQSts4zb7EvVILWFJY=
+  app: jmaxwell-code-talk-client
+  on:
+    repo: maxjeffwell/code-talk-graphql-client
