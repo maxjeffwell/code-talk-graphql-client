@@ -18,7 +18,7 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-	uri: process.env.NODE_ENV === 'development' ? 'ws://localhost:8000/graphql' : 'wss://jmaxwell-code-talk-server.herokuapp.com/graphql',
+	uri: process.env.NODE_ENV === 'development' ? `ws://localhost:8000/graphql` : `wss://jmaxwell-code-talk-server.herokuapp.com/graphql`,
 	options: {
 		reconnect: true,
 	},
