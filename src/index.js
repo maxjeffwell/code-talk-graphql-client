@@ -15,16 +15,17 @@ import { signOut } from './components/SignOut';
 
 const httpLink = new HttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
-	// uri: 'http://localhost:8000/graphql'
 });
 
 const wsLink = new WebSocketLink({
 	uri: process.env.NODE_ENV === 'development' ? `ws://localhost:8000/graphql` : `wss://jmaxwell-code-talk-server.herokuapp.com/graphql`,
-	// uri: `ws://localhost:8000/graphql`,
 	options: {
 		reconnect: true,
 	},
 });
+
+// split allows control over flow of the operations. If mutation or query it will go via the HttpLink and if subscription
+// it goes via WebSocketLink (Directional Composition)
 
 const terminatingLink = split(
 	({ query }) => {
