@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 
 import styled from 'styled-components';
 
+import Loading from '../Loading';
+
 const GET_ALL_USERS_QUERY = gql`
     query GET_ALL_USERS_QUERY {
         users {
@@ -37,7 +39,7 @@ class Users extends Component {
         <p>Users</p>
         <Query query={GET_ALL_USERS_QUERY}>
           {({ data, error, loading }) => {
-            if(loading) return <p>Loading...</p>;
+            if(loading) return <Loading />;
 
             if(error) return <p>Error: {error.message}</p>;
 

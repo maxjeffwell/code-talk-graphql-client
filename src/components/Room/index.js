@@ -8,6 +8,7 @@ import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 // import Editor from '../Editor';
 import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
+import Loading from '../Loading';
 
 class Room extends Component {
   updateCode(e, typeCodeMutation) {
@@ -36,7 +37,7 @@ class Room extends Component {
           <Query query={READ_CODE}>
             {({ loading, error, data, subscribeToMore }) => {
               this.subscribeToNewCode(subscribeToMore);
-              if (loading) return <div>Typing...</div>;
+              if (loading) return <Loading />;
               if (error) return ErrorMessage;
               return <Mutation mutation={TYPE_CODE}>
                 {typeCodeMutation => <textarea value={data.readCode.body}
@@ -51,8 +52,6 @@ class Room extends Component {
 
 export default Room;
 
-    /* in editor index.js emit an onchange event when updateCode is called
-     * if can't emit onchange then emit and handle a custom event */
 
 
 
