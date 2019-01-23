@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -8,8 +8,8 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-
 import { ThemeProvider } from 'styled-components';
+
 import App from './components/App';
 import { signOut } from './components/SignOut';
 
@@ -24,8 +24,7 @@ const wsLink = new WebSocketLink({
 	},
 });
 
-// split allows control over flow of the operations. If mutation or query it will go via the HttpLink and if subscription
-// it goes via WebSocketLink (Directional Composition)
+// split allows control over flow of the operations. If mutation or query it will go via the HttpLink and if subscription it goes via WebSocketLink (Directional Composition)
 
 const terminatingLink = split(
 	({ query }) => {
@@ -38,20 +37,34 @@ const terminatingLink = split(
 	httpLink,
 );
 
+// const authLink = new ApolloLink((operation, forward) => {
+// 	operation.setContext(
+// 		({
+// 			 headers = {},
+// 			 localToken = localStorage.getItem('token')
+// 		 }) => {
+// 			if (localToken) {
+// 				headers['x-token'] = localToken;
+// 			}
+// 			return {
+// 				headers,
+// 			};
+// 		},
+// 	);
+//
+// 	return forward(operation);
+// });
+
 const authLink = new ApolloLink((operation, forward) => {
-	operation.setContext(
-		({
-			 headers = {},
-			 localToken = localStorage.getItem('token')
-		 }) => {
-			if (localToken) {
-				headers['x-token'] = localToken;
-			}
-			return {
-				headers,
-			};
-		},
-	);
+	operation.setContext(({ headers = {} }) => {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			headers = { ...headers, 'x-token': token };
+		}
+
+		return { headers };
+	});
 
 	return forward(operation);
 });
@@ -61,7 +74,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 		graphQLErrors.forEach(({ message, locations, path }) => {
 			console.log('GraphQL error', message);
 
-			if (message === 'NOT_AUTHENTICATED') {
+			if (message === 'You are not authenticated. Please sign in.') {
 				signOut(client);
 			}
 		});
@@ -83,6 +96,7 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
 	link,
 	cache,
+	connectToDevTools: true,
 });
 
 const theme = {
@@ -94,12 +108,10 @@ const theme = {
 };
 
 ReactDOM.render(
-  <Fragment>
     <ThemeProvider theme={theme}>
 			<ApolloProvider client={client}>
 				<App />
 			</ApolloProvider>
-		</ThemeProvider>
-  </Fragment>,
+		</ThemeProvider>,
 	document.getElementById('root'),
 );
