@@ -24,8 +24,6 @@ const wsLink = new WebSocketLink({
 	},
 });
 
-// split allows control over flow of the operations. If mutation or query it will go via the HttpLink and if subscription it goes via WebSocketLink (Directional Composition)
-
 const terminatingLink = split(
 	({ query }) => {
 		const { kind, operation } = getMainDefinition(query);
@@ -36,24 +34,6 @@ const terminatingLink = split(
 	wsLink,
 	httpLink,
 );
-
-// const authLink = new ApolloLink((operation, forward) => {
-// 	operation.setContext(
-// 		({
-// 			 headers = {},
-// 			 localToken = localStorage.getItem('token')
-// 		 }) => {
-// 			if (localToken) {
-// 				headers['x-token'] = localToken;
-// 			}
-// 			return {
-// 				headers,
-// 			};
-// 		},
-// 	);
-//
-// 	return forward(operation);
-// });
 
 const authLink = new ApolloLink((operation, forward) => {
 	operation.setContext(({ headers = {} }) => {
