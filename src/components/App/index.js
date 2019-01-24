@@ -19,12 +19,14 @@ import history from '../../constants/history';
 
 WebFont.load({
   custom: {
-    families: ['RussellSquareStd', 'SerpentineStdLight', 'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd', 'OCRAStd', 'FloodStd']
+    families: ['RussellSquareStd', 'SerpentineStdLight',
+      'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd',
+      'OCRAStd', 'FloodStd']
   },
   google: {
     families: ['Open Sans: 300, 400, 600, 700', 'Source Code Pro: 400, 700']
   },
-  timeout: 3000
+  timeout: 2000
 });
 
 const GlobalStyle = createGlobalStyle`
