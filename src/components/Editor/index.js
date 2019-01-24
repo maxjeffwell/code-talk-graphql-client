@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import CodeMirror from 'react-codemirror';
+import CodeMirror from 'react-codemirror';
 
 import ModeSelector from '../ModeSelector';
 import ThemeSelector from '../ThemeSelector';
@@ -59,7 +59,6 @@ class Editor extends Component {
     this.setState({
       code: newCode,
     });
-    /* emit event here */
   }
 
   changeMode(newMode) {
@@ -83,11 +82,11 @@ class Editor extends Component {
         <div>
           <ModeSelector mode={this.state.mode} changeMode={this.changeMode.bind(this)} />
           <ThemeSelector theme={this.state.theme} changeTheme={this.changeTheme.bind(this)} />
-          {/*<CodeMirror*/}
-            {/*value={this.state.code}*/}
-            {/*onChange={this.updateCode.bind(this)}*/}
-            {/*options={options}*/}
-          {/*/>*/}
+          <CodeMirror
+            value={this.state.code}
+            onChange={this.updateCode.bind(this)}
+            options={options}
+          />
         </div>
     );
   }

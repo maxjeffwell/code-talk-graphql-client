@@ -8,13 +8,7 @@ import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
-
-// import 'froala-editor/js/froala_editor.pkgd.min.js';
-// import 'froala-editor/css/froala_style.min.css';
-// import 'froala-editor/css/froala_editor.pkgd.min.css';
-// import 'font-awesome/css/font-awesome.css';
-
-// import FroalaEditor from 'react-froala-wysiwyg';
+// import Froala from '../Froala';
 
 class Room extends Component {
   updateCode(e, typeCodeMutation) {
