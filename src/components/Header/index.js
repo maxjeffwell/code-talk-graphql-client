@@ -26,7 +26,7 @@ class Header extends Component {
     return (
       <StyledHeader>
         <div className="bar">
-          <Link to="/">
+          <Link to="/" className="home" role="button">
             <img src={CodeTalk_Title_Logo} alt="Code Talk"/>
           </Link>
         </div>

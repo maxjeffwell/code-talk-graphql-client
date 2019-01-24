@@ -52,6 +52,7 @@ class MessageCreate extends Component {
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
+            <label htmlFor="Message Input">Message Input
             <input type="text"
               name="text"
               value={text}
@@ -60,6 +61,7 @@ class MessageCreate extends Component {
               placeholder="Type your message here ..."
                    required
             />
+            </label>
             <button type="submit">Send</button>
 
             {error && <ErrorMessage error={error} />}

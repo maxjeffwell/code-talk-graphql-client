@@ -6,7 +6,7 @@ import Header from '../Header';
 import SignOutButton from '../SignOut';
 import styled from 'styled-components';
 
-const Logo = styled.h3`
+const Logo = styled.h1`
   font-size: 1.5rem;
   position: relative;
   z-index: 2;
@@ -21,7 +21,7 @@ const Logo = styled.h3`
 `;
 
 const Navigation = ({ session }) => (
-  <div>
+  <div className="route types" role="navigation">
     {session && session.me ? (
       <NavigationAuth session={session} />
     ) : (
@@ -31,9 +31,9 @@ const Navigation = ({ session }) => (
 );
 
 const NavigationAuth = ({ session }) =>
-  <div className="Header">
-  <Header/>
-  <SignOutButton/>
+  <div className="header">
+  <Header />
+  <SignOutButton />
   <Logo>
     <Link to={routes.LANDING}>Landing</Link>
   </Logo>
@@ -46,7 +46,7 @@ const NavigationAuth = ({ session }) =>
   </div>;
 
 const NavigationNonAuth = () =>
-  <div className="Nav-Bar">
+  <div className="Nav-Bar" role="navigation">
     <Header />
     <Logo>
       <Link to={routes.SIGN_IN}>Sign In</Link>

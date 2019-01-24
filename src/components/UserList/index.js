@@ -26,7 +26,7 @@ const Centered = styled.div`
   text-align: center;
 `;
 
-const UserList = styled.div`
+const UserList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 0 auto;
@@ -36,7 +36,7 @@ class Users extends Component {
   render() {
     return (
       <Centered>
-        <p>Users</p>
+        <h1>Users</h1>
         <Query query={GET_ALL_USERS_QUERY}>
           {({ data, error, loading }) => {
             if(loading) return <Loading />;

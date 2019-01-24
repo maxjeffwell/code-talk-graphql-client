@@ -43,7 +43,8 @@ const Rooms = ({ limit })  => (
       if (!data) {
         return (
           <div>
-            <p>No rooms have been created yet...</p>
+            <p>No rooms have been created yet...
+            </p>
           </div>
         );
       }
@@ -51,11 +52,11 @@ const Rooms = ({ limit })  => (
       const { rooms } = data;
 
       if (loading || !rooms) {
-        return <Loading/>;
+        return <Loading />;
       }
 
       if (error) {
-        return <ErrorMessage/>;
+        return <ErrorMessage />;
       }
 
       const { edges, pageInfo } = rooms;
@@ -165,12 +166,15 @@ class RoomList extends Component {
 }
 
 const RoomListItem = ({ room }) => (
-  <li>
-    <Link to={`${ROOMS}/${room.id}`}>{room.title}</Link>
-  <div>
-    More rooms coming soon. Stay tuned...
-  </div>
-  </li>
+  <ul>
+    <li>
+      <Link to={`${ROOMS}/${room.id}`}>{room.title}
+      </Link>
+      <div>
+      More rooms coming soon. Stay tuned...
+      </div>
+    </li>
+  </ul>
 );
 
 export default Rooms;
