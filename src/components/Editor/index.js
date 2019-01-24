@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeMirror from 'react-codemirror';
+// import CodeMirror from 'react-codemirror';
 
 import ModeSelector from '../ModeSelector';
 import ThemeSelector from '../ThemeSelector';

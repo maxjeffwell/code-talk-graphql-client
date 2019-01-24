@@ -75,25 +75,29 @@ class SignInForm extends Component {
       <Mutation mutation={SIGN_IN} variables={{ login, password }}>
         {(signIn, { data, loading, error }) => (
 
-          <StyledDiv className="loginForm">
-          <form onSubmit={event => this.onSubmit(event, signIn)}>
+          <StyledDiv className="loginForm" aria-live="polite">
+          <form aria-label="Sign In" onSubmit={event => this.onSubmit(event, signIn)}>
+            <label htmlFor="username">Username
             <input
               name="login"
               value={login}
               onChange={this.onChange}
               type="text"
               placeholder="Email or Username"
-            />
+            /></label>
+            <label htmlFor="password">Password
             <input
               name="password"
               value={password}
               onChange={this.onChange}
               type="password"
               placeholder="Password"
-            />
-            <StyledButton disabled={isInvalid || loading} type="submit">
+            /> </label>
+            <h1>
+              <StyledButton disabled={isInvalid || loading} type="submit" className="btn-login">
               Sign In
             </StyledButton>
+            </h1>
 
             {error && <ErrorMessage error={error} />}
           </form>

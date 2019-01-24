@@ -19,9 +19,12 @@ import history from '../../constants/history';
 
 WebFont.load({
   custom: {
-    families: ['RussellSquareStd', 'SerpentineStd-Light', 'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd', 'OCRAStd', 'FloodStd']
+    families: ['RussellSquareStd', 'SerpentineStdLight', 'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd', 'OCRAStd', 'FloodStd']
   },
-  timeout: 2000
+  google: {
+    families: ['Open Sans: 300, 400, 600, 700', 'Source Code Pro: 400, 700']
+  },
+  timeout: 3000
 });
 
 const GlobalStyle = createGlobalStyle`
@@ -94,7 +97,7 @@ body {
 
 const App = ({ session, refetch }) => (
   <Router history={history}>
-    <div className="routes">
+    <div className="routes" role="navigation">
       <Navigation session={session} />
       <GlobalStyle />
 

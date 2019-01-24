@@ -179,7 +179,7 @@ class MessageList extends Component {
 
 const MessageItem = ({ message }) => (
   <div>
-  <h5>{message.user.username}</h5>
+  <h2>{message.user.username}</h2>
   <small>{message.createdAt}</small>
   <p>{message.text}</p>
     <MessageDelete message={message} />

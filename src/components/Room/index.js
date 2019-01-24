@@ -5,10 +5,18 @@ import { TYPE_CODE } from './mutations';
 import { READ_CODE } from './queries';
 import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 
-// import Editor from '../Editor';
 import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
+
+// import { Playground, store } from 'graphql-playground-react';
+
+// import 'froala-editor/js/froala_editor.pkgd.min.js';
+// import 'froala-editor/css/froala_style.min.css';
+// import 'froala-editor/css/froala_editor.pkgd.min.css';
+// import 'font-awesome/css/font-awesome.css';
+
+// import FroalaEditor from 'react-froala-wysiwyg';
 
 class Room extends Component {
   updateCode(e, typeCodeMutation) {
@@ -30,18 +38,19 @@ class Room extends Component {
 
   render() {
     return (
-      <div>
+      <div className="chat and edit">
         <Sidebar />
-        {/*<ModeSelector />*/}
-        {/*<ThemeSelector />*/}
           <Query query={READ_CODE}>
             {({ loading, error, data, subscribeToMore }) => {
               this.subscribeToNewCode(subscribeToMore);
               if (loading) return <Loading />;
               if (error) return ErrorMessage;
               return <Mutation mutation={TYPE_CODE}>
-                {typeCodeMutation => <textarea value={data.readCode.body}
-                                               onChange={e => this.updateCode(e, typeCodeMutation)} />}
+                {typeCodeMutation =>
+                  <label>
+                  <textarea aria-label="textarea" value={data.readCode.body} onChange={e => this.updateCode(e, typeCodeMutation)}
+                   />
+                  </label>}
               </Mutation>
             }}
           </Query>

@@ -37,8 +37,8 @@ const INITIAL_STATE = {
 };
 
 const SignUpPage = ({ history, refetch }) => (
-  <div>
-    <h2>Sign Up</h2>
+  <div role="form">
+    <h1>Sign Up</h1>
     <SignUpForm history={history} refetch={refetch} />
   </div>
 );
@@ -85,7 +85,8 @@ class SignUpForm extends Component {
         variables={{ username, email, password }}
       >
         {(signUp, { data, loading, error }) => (
-          <form onSubmit={event => this.onSubmit(event, signUp)}>
+          <form aria-label="Sign Up" onSubmit={event => this.onSubmit(event, signUp)}>
+            <label htmlFor="username">Username
             <input
               name="username"
               value={username}
@@ -93,6 +94,8 @@ class SignUpForm extends Component {
               type="text"
               placeholder="Full Name"
             />
+            </label>
+            <label htmlFor="Email">Email
             <input
               name="email"
               value={email}
@@ -100,6 +103,8 @@ class SignUpForm extends Component {
               type="text"
               placeholder="Email Address"
             />
+            </label>
+            <label htmlFor="Password">Password
             <input
               name="password"
               value={password}
@@ -107,6 +112,9 @@ class SignUpForm extends Component {
               type="password"
               placeholder="Password"
             />
+            </label>
+            <label htmlFor="Confirm Password">
+              Confirm Password
             <input
               name="passwordConfirmation"
               value={passwordConfirmation}
@@ -114,6 +122,7 @@ class SignUpForm extends Component {
               type="password"
               placeholder="Confirm Password"
             />
+            </label>
             <button disabled={isInvalid || loading} type="submit">
               Sign Up
             </button>
@@ -127,11 +136,11 @@ class SignUpForm extends Component {
 }
 
 const SignUpLink = () => (
-  <StyledRegistrationDiv className="register-link">
+  <StyledRegistrationDiv role="navigation">
     <p>
       Haven't signed up yet?
     </p>
-    <StyledNavLink to={routes.SIGN_UP}>Register Here</StyledNavLink>
+    <StyledNavLink className="register-link" to={routes.SIGN_UP}>Register Here</StyledNavLink>
   </StyledRegistrationDiv>
 );
 

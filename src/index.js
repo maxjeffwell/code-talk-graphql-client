@@ -9,9 +9,12 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ThemeProvider } from 'styled-components';
+// import $ from 'jquery';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
+
+// window.$ = window.jQuery = $;
 
 const httpLink = new HttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
