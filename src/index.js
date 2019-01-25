@@ -11,14 +11,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ThemeProvider } from 'styled-components';
 
 import App from './components/App';
-import 'froala-editor/js/froala_editor.pkgd.min.js';
-import 'froala-editor/css/froala_style.min.css';
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'font-awesome/css/font-awesome.css';
-import $ from 'jquery';
 import { signOut } from './components/SignOut';
-
-window.$ = $;
 
 const httpLink = new HttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
