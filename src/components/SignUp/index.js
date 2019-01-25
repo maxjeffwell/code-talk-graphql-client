@@ -21,6 +21,16 @@ const StyledRegistrationDiv = styled.div`
   margin: auto;
   text-align: center;
 `
+const StyledButton = styled.button`
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 3px;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  text-transform: uppercase;
+  text-decoration: none;
+`;
+
 const SIGN_UP = gql`
     mutation($username: String!, $email: String!, $password: String!) {
         signUp(username: $username, email: $email, password: $password) {
@@ -123,9 +133,9 @@ class SignUpForm extends Component {
               placeholder="Confirm Password"
             />
             </label>
-            <button disabled={isInvalid || loading} type="submit">
+            <StyledButton disabled={isInvalid || loading} type="submit">
               Sign Up
-            </button>
+            </StyledButton>
 
             {error && <ErrorMessage error={error}/>}
           </form>
