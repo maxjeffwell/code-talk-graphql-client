@@ -8,7 +8,6 @@ import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
 import { Sidebar } from '../Sidebar';
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
-// import Froala from '../Froala';
 
 class Room extends Component {
   updateCode(e, typeCodeMutation) {
