@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "author": "Jeff Maxwell",
   "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.15.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4"
   },
   "dependencies": {
@@ -17,15 +18,13 @@
     "apollo-link-ws": "^1.0.12",
     "apollo-utilities": "^1.1.2",
     "create-react-app": "^2.1.3",
-    "froala-editor": "^2.9.1",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "history": "^4.7.2",
     "react": "^16.7.0",
     "react-apollo": "^2.4.0",
-    "react-bootstrap": "^0.32.4",
+    "react-autosize-textarea": "^6.0.0",
     "react-dom": "^16.7.0",
-    "react-froala-wysiwyg": "^2.9.1-1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "^2.1.3",
     "react-spinners": "^0.5.1",
