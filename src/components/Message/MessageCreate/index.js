@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
+
+import AutosizeInput from 'react-input-autosize';
 
 import ErrorMessage from '../../Error';
 
@@ -20,20 +21,6 @@ const CREATE_MESSAGE = gql`
             }
         }
     }
-`;
-
-const StyledInput = styled.input`
-  border: 5px solid ${props => props.theme.green};
-  background-color: ${props => props.theme.black};
-  color: ${props => props.theme.green};
-  font-family: RussellSquareStd, monospace;
-  font-weight: normal;
-  font-style: normal;
-  font-size: 18px;
-  &::-webkit-input-placeholder {
-    font-family: RussellSquareStd, monospace;
-    color: ${props => props.theme.green};
-  }
 `;
 
 class MessageCreate extends Component {
@@ -68,13 +55,19 @@ class MessageCreate extends Component {
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
             <label htmlFor="Message Input">
-            <StyledInput type="text"
-              name="text"
+            <AutosizeInput type="text"
+              name="text" autoFocus
               value={text}
               onChange={this.onChange}
-                   autoComplete="off"
               placeholder="Type your message here ..."
-                   required
+                         placeholderIsMinWidth
+                         required
+                         inputStyle={{
+                           borderRadius: 5,
+                           border: '5px solid #30d403',
+                           fontSize: 16,
+                           fontFamily: 'SerpentineStd-Medium, monospace',
+                         }}
             />
             </label>
             <button type="submit">Send</button>

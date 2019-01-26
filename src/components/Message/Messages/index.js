@@ -53,10 +53,15 @@ export const StyledButton = styled.button`
   cursor: pointer;
   font-size: 1em;
   margin: 5px auto;
-  padding: .25em 1em;
+  padding: .25em;
   color: ${props => props.theme.green};
   background: ${props => props.theme.black}; 
+  border-radius: 5px;
   border: 5px solid ${props => props.theme.green};
+`;
+
+const StyledMessage = styled.div`
+  border: 1px solid ${props => props.theme.black};
 `;
 
 const Messages = ({ limit, me, room }) => (
@@ -178,12 +183,12 @@ class MessageList extends Component {
 }
 
 const MessageItem = ({ message }) => (
-  <div>
+  <StyledMessage>
   <h2>{message.user.username}</h2>
   <small>{message.createdAt}</small>
   <p>{message.text}</p>
     <MessageDelete message={message} />
-  </div>
+  </StyledMessage>
 );
 
 export default Messages;

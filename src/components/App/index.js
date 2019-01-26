@@ -32,9 +32,9 @@ WebFont.load({
 const GlobalStyle = createGlobalStyle`
 	@font-face {
 		font-family: RussellSquareStd;
+		src: url('../../../public/fonts/RussellSquareStd.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
-		src: src('../../../public/fonts/RussellSquareStd.otf') format('opentype');
 	}
 	
 	@font-face {
@@ -91,11 +91,11 @@ html {
 body {
 		padding: 0;
 		margin: 0;
-		font-size: 1.6rem;
+		font-size: 1.5rem;
 		line-height: 2;
 		font-family: RussellSquareStd, monospace;
 	}
-	`;
+`;
 
 const App = ({ session, refetch }) => (
   <Router history={history}>

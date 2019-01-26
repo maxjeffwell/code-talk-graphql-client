@@ -11,13 +11,14 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.5rem 1rem;
   margin-left: 3px;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
 `;
 
 const StyledDiv = styled.div`
@@ -26,9 +27,16 @@ const StyledDiv = styled.div`
 `;
 
 const StyledInput = styled.input`
+  font-family: RussellSquareStd, monospace;
+  font-weight: normal;
+  font-style: normal;
   border: 2px solid ${props => props.theme.black};
   border-radius: 3px;
-  outline: none; 
+  outline: none;
+  background-color: ${props => props.theme.white} ;
+  &::-webkit-input-placeholder {
+    font-family: RussellSquareStd, monospace;
+  } 
 `;
 
 const SIGN_IN = gql`

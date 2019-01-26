@@ -13,6 +13,8 @@ import Loading from '../Loading';
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
   border: ${({ theme }) => theme.textarea.border};
+  background-color: ${({ theme }) => theme.textarea.backgroundColor};
+  color: ${({ theme}) => theme.textarea.color};
   resize: none;
   box-sizing: border-box;
   width: 100%;
@@ -49,11 +51,15 @@ class Editor extends Component {
                 <label>
                   <StyledTextarea theme={{
                     textarea: {
-                      fontSize: '16px',
-                      border: '5px solid #30d403'
+                      fontSize: '25px',
+                      border: '5px solid #30d403',
+                      backgroundColor: '#393939',
+                      color: '#30d403'
                     }
-                  }} aria-label="textarea" value={data.readCode.body}
+                  }} aria-label="textarea"
+                                  value={data.readCode.body}
                                   onChange={e => this.updateCode(e, typeCodeMutation)}
+                                  rows={50}
                   />
                 </label>}
             </Mutation>

@@ -9,13 +9,13 @@ import ErrorMessage from '../Error';
 import styled from 'styled-components';
 
 const StyledNavLink = styled(Link)`
-  font-size: 1.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
 `;
 
 const StyledRegistrationDiv = styled.div`
@@ -32,6 +32,8 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
+  font-size: 1.2rem;
 `;
 
 const SIGN_UP = gql`

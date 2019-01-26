@@ -12,9 +12,8 @@ const StyledButton = styled.button`
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
-  font-family: FloodStd,  monospace;
-  font-size: 1em;
-  padding: 0.25em 1em;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 5px solid ${props => props.theme.green};
  @media (max-width: 1000px) {

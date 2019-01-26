@@ -4,16 +4,17 @@ import styled from 'styled-components';
 import { MessageCreate, Messages } from '../Message';
 
 const StyledSidebar = styled.div`
-    width: 50%;
-    height: 50%;
-    position: sticky;
+    border: 3px solid ${props => props.theme.black}; 
+    position: absolute;
+    width: auto;
+    height: auto;
     display: grid;
     background: ${props => props.theme.white};
     color: ${props => props.theme.black};
     input {
-      padding: 10px;
+      padding: 5px;
       margin: auto;
-      width: 75%;
+      width: 100%;
     }
     button {
       cursor: pointer;
@@ -23,6 +24,7 @@ const StyledSidebar = styled.div`
       color: ${props => props.theme.green};
       background: ${props => props.theme.black}; 
       border: 5px solid ${props => props.theme.green};
+      border-radius: 5px;
     }
 `;
 
