@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { MessageCreate, Messages } from '../Message';
 
 const StyledSidebar = styled.div`
-    width: 30%;
+    width: 50%;
     height: 50%;
     position: sticky;
     display: grid;
@@ -20,9 +20,9 @@ const StyledSidebar = styled.div`
       font-size: 1em;
       margin: 5px 5px 5px;
       padding: .25em 1em;
-      color: #30d403;
-      background: #393939; 
-      border: 1em;
+      color: ${props => props.theme.green};
+      background: ${props => props.theme.black}; 
+      border: 5px solid ${props => props.theme.green};
     }
 `;
 

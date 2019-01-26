@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
 
@@ -19,6 +20,20 @@ const CREATE_MESSAGE = gql`
             }
         }
     }
+`;
+
+const StyledInput = styled.input`
+  border: 5px solid ${props => props.theme.green};
+  background-color: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  font-family: RussellSquareStd, monospace;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;
+  &::-webkit-input-placeholder {
+    font-family: RussellSquareStd, monospace;
+    color: ${props => props.theme.green};
+  }
 `;
 
 class MessageCreate extends Component {
@@ -52,8 +67,8 @@ class MessageCreate extends Component {
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
-            <label htmlFor="Message Input">Message Input
-            <input type="text"
+            <label htmlFor="Message Input">
+            <StyledInput type="text"
               name="text"
               value={text}
               onChange={this.onChange}

@@ -1,11 +1,23 @@
-import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
-import { ScaleLoader } from 'react-spinners';
+const rotate360 = keyframes`
+	from {
+		transform: rotate(0);
+	}
+	
+	to {
+		transform: rotate(360deg);
+	}
+`;
 
-const Spinner = () => (
-	<div className="spinner">
-		<ScaleLoader color={'#30d403'} height={100} margin={'20 px'} width={25} radius={100} />
-	</div>
-);
+const Spinner = styled.div`
+	height: 70px;
+	width: 50px;
+	border-radius: 50%;
+	border: 5px solid ${props => props.theme.green};
+	border-top-color: transparent;
+	
+	animation: ${rotate360} is linear infinite;
+`;
 
 export default Spinner;

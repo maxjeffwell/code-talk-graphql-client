@@ -7,18 +7,18 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button` 
   position: relative;
-  background: #393939; 
+  background: ${props => props.theme.black}; 
   cursor: pointer;
-  color: #30d403;
+  color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
   font-family: FloodStd,  monospace;
   font-size: 1em;
-  margin: 0em;
   padding: 0.25em 1em;
   border-radius: 5px;
+  border: 5px solid ${props => props.theme.green};
  @media (max-width: 1000px) {
-    margin: 0px;
+    margin: 5px;
     text-align: center;
   }
 `;

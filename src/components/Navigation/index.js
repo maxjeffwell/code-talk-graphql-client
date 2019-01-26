@@ -17,6 +17,9 @@ const Logo = styled.h1`
     color: ${props => props.theme.green};
     text-transform: uppercase;
     text-decoration: none;
+    margin: 5px;
+    border-radius: 5px;
+    border: 5px solid ${props => props.theme.green};
   }
 `;
 

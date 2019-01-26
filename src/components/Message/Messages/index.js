@@ -54,9 +54,9 @@ export const StyledButton = styled.button`
   font-size: 1em;
   margin: 5px auto;
   padding: .25em 1em;
-  color: #30d403;
-  background: #393939; 
-  border: 1em;
+  color: ${props => props.theme.green};
+  background: ${props => props.theme.black}; 
+  border: 5px solid ${props => props.theme.green};
 `;
 
 const Messages = ({ limit, me, room }) => (

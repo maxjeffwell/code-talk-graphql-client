@@ -29,7 +29,9 @@ const Centered = styled.div`
 const UserList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 0 auto;
+  margin: 2px auto;
+  list-style-type: none;
+  overflow: hidden;
 `;
 
 class Users extends Component {

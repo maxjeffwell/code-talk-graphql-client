@@ -15,12 +15,14 @@ const StyledNavLink = styled(Link)`
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
+  border: 5px solid ${props => props.theme.green};
 `;
 
 const StyledRegistrationDiv = styled.div`
   margin: auto;
   text-align: center;
-`
+`;
+
 const StyledButton = styled.button`
   cursor: pointer;
   padding: 0.25rem;
@@ -29,6 +31,7 @@ const StyledButton = styled.button`
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
+  border: 5px solid ${props => props.theme.green};
 `;
 
 const SIGN_UP = gql`
@@ -96,7 +99,7 @@ class SignUpForm extends Component {
       >
         {(signUp, { data, loading, error }) => (
           <form aria-label="Sign Up" onSubmit={event => this.onSubmit(event, signUp)}>
-            <label htmlFor="username">Username
+            <label htmlFor="Username" aria-label="Username">
             <input
               name="username"
               value={username}
@@ -105,7 +108,7 @@ class SignUpForm extends Component {
               placeholder="Full Name"
             />
             </label>
-            <label htmlFor="Email">Email
+            <label htmlFor="Email" aria-label="Email">
             <input
               name="email"
               value={email}
@@ -114,7 +117,7 @@ class SignUpForm extends Component {
               placeholder="Email Address"
             />
             </label>
-            <label htmlFor="Password">Password
+            <label htmlFor="Password" aria-label="Password">
             <input
               name="password"
               value={password}
@@ -123,8 +126,7 @@ class SignUpForm extends Component {
               placeholder="Password"
             />
             </label>
-            <label htmlFor="Confirm Password">
-              Confirm Password
+            <label htmlFor="Confirm Password" aria-label="Confirm Password">
             <input
               name="passwordConfirmation"
               value={passwordConfirmation}

@@ -171,7 +171,7 @@ const RoomListItem = ({ room }) => (
       <Link to={`${ROOMS}/${room.id}`}>{room.title}
       </Link>
       <div>
-      More rooms coming soon. Stay tuned...
+        More rooms coming soon. Stay tuned...
       </div>
     </li>
   </ul>

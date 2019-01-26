@@ -92,7 +92,7 @@ body {
 		padding: 0;
 		margin: 0;
 		font-size: 1.6rem;
-		line-height: 1.6rem;
+		line-height: 2;
 		font-family: RussellSquareStd, monospace;
 	}
 	`;
