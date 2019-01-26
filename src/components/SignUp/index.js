@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { NavLink as Link, withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 
-import styled from 'styled-components';
+import { StyledInput } from '../SignIn';
 
 const StyledNavLink = styled(Link)`
   padding: 0.5rem 1rem;
@@ -102,7 +103,7 @@ class SignUpForm extends Component {
         {(signUp, { data, loading, error }) => (
           <form aria-label="Sign Up" onSubmit={event => this.onSubmit(event, signUp)}>
             <label htmlFor="Username" aria-label="Username">
-            <input
+            <StyledInput
               name="username"
               value={username}
               onChange={this.onChange}
@@ -111,7 +112,7 @@ class SignUpForm extends Component {
             />
             </label>
             <label htmlFor="Email" aria-label="Email">
-            <input
+            <StyledInput
               name="email"
               value={email}
               onChange={this.onChange}
@@ -120,7 +121,7 @@ class SignUpForm extends Component {
             />
             </label>
             <label htmlFor="Password" aria-label="Password">
-            <input
+            <StyledInput
               name="password"
               value={password}
               onChange={this.onChange}
@@ -129,7 +130,7 @@ class SignUpForm extends Component {
             />
             </label>
             <label htmlFor="Confirm Password" aria-label="Confirm Password">
-            <input
+            <StyledInput
               name="passwordConfirmation"
               value={passwordConfirmation}
               onChange={this.onChange}

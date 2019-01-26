@@ -38,7 +38,7 @@ const NavigationAuth = ({ session }) =>
   <Header />
   <SignOutButton />
   <Logo>
-    <Link to={routes.LANDING}>Landing</Link>
+    <Link to={routes.LANDING}>Code Talk Home</Link>
   </Logo>
   <Logo>
     <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>

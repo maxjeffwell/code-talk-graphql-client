@@ -26,7 +26,9 @@ const StyledDiv = styled.div`
   text-align: center;
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
+  margin-left: auto;
+  margin-right: auto;
   font-family: RussellSquareStd, monospace;
   font-weight: normal;
   font-style: normal;

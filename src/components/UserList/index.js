@@ -38,7 +38,7 @@ class Users extends Component {
   render() {
     return (
       <Centered>
-        <h1>Users</h1>
+        <h1>Code Talkers</h1>
         <Query query={GET_ALL_USERS_QUERY}>
           {({ data, error, loading }) => {
             if(loading) return <Loading />;
