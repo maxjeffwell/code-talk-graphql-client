@@ -19,9 +19,7 @@ import history from '../../constants/history';
 
 WebFont.load({
   custom: {
-    families: ['RussellSquareStd', 'SerpentineStdLight',
-      'SerpentineStd-Medium', 'SerpentineStd-Bold', 'OratorStd',
-      'OCRAStd', 'FloodStd']
+    families: ['RussellSquareStd', 'SerpentineStd-Medium', 'FloodStd']
   },
   google: {
     families: ['Open Sans: 300, 400, 600, 700', 'Source Code Pro: 400, 700']
@@ -37,42 +35,14 @@ const GlobalStyle = createGlobalStyle`
 		font-style: normal;
 	}
 	
-	@font-face {
-	  font-family: SerpentineStd-Light;
-	  src: url('../../../public/fonts/SerpentineStd-Light.otf') format('opentype');
-	  font-weight: normal;
-	  font-style: normal;
-	}
-	
-	@font-face {
+  @font-face {
 	  font-family: SerpentineStd-Medium;
 	  src: url('../../../public/fonts/SerpentineStd-Medium.otf') format('opentype');
 	  font-weight: 300;
 	  font-style: normal;
 	}
-	
-	@font-face {
-	  font-family: SerpentineStd-Bold;
-	  src: url('../../../public/fonts/SerpentineStd-Bold.otf') format('opentype');
-	  font-weight: bold;
-	  font-style: normal;
-	}
-	
-	@font-face {
-	  font-family: OratorStd;
-	  src: url('../../../public/fonts/OratorStd.otf') format('opentype');
-	  font-weight: normal;
-	  font-style: normal;
-	}
-	
-	@font-face {
-	  font-family: OCRAStd;
-	  src: url('../../../public/fonts/OCRAStd.otf') format('opentype');
-	  font-weight: normal;
-	  font-style: normal;
-	}
-	
-	@font-face {
+
+  @font-face {
 	  font-family: FloodStd;
 	  src: url('../../../public/fonts/FloodStd.otf') format('opentype');
 	  font-weight: normal;
