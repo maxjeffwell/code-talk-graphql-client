@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
-import AutosizeInput from 'react-input-autosize';
+import TextareaAutosize from 'react-autosize-textarea';
 
 import ErrorMessage from '../../Error';
+import styled from 'styled-components';
+
+const StyledTextarea = styled(TextareaAutosize)`
+  font-size: ${({ theme }) => theme.textarea.fontSize};
+  font-family: ${({ theme }) => theme.textarea.fontFamily};
+  border: ${({ theme }) => theme.textarea.border};
+  background-color: ${({ theme }) => theme.textarea.backgroundColor};
+  color: ${({ theme}) => theme.textarea.color};
+  resize: none;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
 
 const CREATE_MESSAGE = gql`
     mutation($text: String!) {
@@ -55,19 +67,22 @@ class MessageCreate extends Component {
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
             <label htmlFor="Message Input">
-            <AutosizeInput type="text"
+            <StyledTextarea theme={{
+              textarea: {
+                fontSize: '16px',
+                border: '5px solid #30d403',
+                backgroundColor: '#EDEDED',
+                color: '#393939',
+                fontFamily: 'SerpentineStd-Medium, monospace',
+              }
+            }} aria-label="textarea"
               name="text" autoFocus
               value={text}
               onChange={this.onChange}
               placeholder="Type your message here ..."
-                         placeholderIsMinWidth
-                         required
-                         inputStyle={{
-                           borderRadius: 5,
-                           border: '5px solid #30d403',
-                           fontSize: 16,
-                           fontFamily: 'SerpentineStd-Medium, monospace',
-                         }}
+                            required
+                            rows={3}
+                            maxRows={7}
             />
             </label>
             <button type="submit">Send</button>
