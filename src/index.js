@@ -83,8 +83,6 @@ const theme = {
 	green: '#30d403',
 	black: '#393939',
 	white: '#EDEDED',
-	// maxWidth: '1000px',
-	// bs: '0 12px 24px 0 rgba(0, 0, 0, 0.99)'
 };
 
 ReactDOM.render(

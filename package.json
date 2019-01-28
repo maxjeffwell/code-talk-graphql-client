@@ -4,10 +4,13 @@
   "author": "Jeff Maxwell",
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.8.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
-    "eslint-plugin-react": "^7.12.4"
+    "eslint-plugin-react": "^7.12.4",
+    "sinon": "^7.2.3"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.4.2",
