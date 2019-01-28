@@ -1,7 +1,8 @@
 {
   "name": "code-talk-client",
-  "version": "0.1.0",
-  "author": "Jeff Maxwell",
+  "version": "1.0.0",
+  "author": "Jeff Maxwell <maxjeffwell@gmail.com>",
+  "license": "GNU GPLv3",
   "devDependencies": {
     "babel-plugin-styled-components": "^1.10.0",
     "enzyme": "^3.8.0",
