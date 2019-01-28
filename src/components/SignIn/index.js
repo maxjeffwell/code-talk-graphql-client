@@ -9,26 +9,28 @@ import ErrorMessage from '../Error';
 
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   cursor: pointer;
   padding: 0.5rem 1rem;
-  margin-left: 3px;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
+  font-weight: bold;
 `;
 
 const StyledDiv = styled.div`
   display: inline-block;
   text-align: center;
+  width: 100%;
+  margin-top: 20px;
 `;
 
 export const StyledInput = styled.input`
-  margin-left: auto;
-  margin-right: auto;
+  display: block;
+  margin: 5px auto;
   font-family: RussellSquareStd, monospace;
   font-weight: normal;
   font-style: normal;

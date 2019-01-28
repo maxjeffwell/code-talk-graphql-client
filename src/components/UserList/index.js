@@ -24,6 +24,7 @@ const GET_ALL_USERS_QUERY = gql`
 
 const Centered = styled.div`
   text-align: center;
+  margin: auto;
 `;
 
 const UserList = styled.ul`

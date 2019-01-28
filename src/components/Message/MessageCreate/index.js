@@ -15,6 +15,7 @@ const StyledTextarea = styled(TextareaAutosize)`
   resize: none;
   box-sizing: border-box;
   width: 100%;
+  margin-top: 2px;
 `;
 
 

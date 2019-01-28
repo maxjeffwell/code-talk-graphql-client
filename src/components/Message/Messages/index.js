@@ -61,7 +61,13 @@ export const StyledButton = styled.button`
 `;
 
 const StyledMessage = styled.div`
-  border: 1px solid ${props => props.theme.black};
+  border-top: 5px solid ${props => props.theme.black};
+  line-height: 1.5;
+`;
+
+const StyledP = styled.p`
+  word-wrap: break-word;
+  width: 50%;
 `;
 
 const Messages = ({ limit, me, room }) => (
@@ -186,7 +192,7 @@ const MessageItem = ({ message }) => (
   <StyledMessage>
   <h2>{message.user.username}</h2>
   <small>{message.createdAt}</small>
-  <p>{message.text}</p>
+  <StyledP>{message.text}</StyledP>
     <MessageDelete message={message} />
   </StyledMessage>
 );

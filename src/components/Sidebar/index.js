@@ -4,18 +4,13 @@ import styled from 'styled-components';
 import { MessageCreate, Messages } from '../Message';
 
 const StyledSidebar = styled.div`
-    border: 3px solid ${props => props.theme.black}; 
-    position: absolute;
-    width: auto;
+    border: 5px solid ${props => props.theme.black}; 
+    margin-right: 1em;
     height: auto;
+    width: auto;
     display: grid;
     background: ${props => props.theme.white};
     color: ${props => props.theme.black};
-    input {
-      padding: 5px;
-      margin: auto;
-      width: 100%;
-    }
     button {
       cursor: pointer;
       font-size: 1em;

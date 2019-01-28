@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   text-decoration: none;
   font-size: 1.5rem;
+  font-weight: bold;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 5px solid ${props => props.theme.green};

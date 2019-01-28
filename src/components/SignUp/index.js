@@ -8,6 +8,12 @@ import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 
 import { StyledInput } from '../SignIn';
+import { StyledButton } from '../SignIn';
+
+const StyledHeader = styled.h1`
+  color: ${props => props.theme.green};
+  font-size: 2rem;
+`;
 
 const StyledNavLink = styled(Link)`
   padding: 0.5rem 1rem;
@@ -17,24 +23,16 @@ const StyledNavLink = styled(Link)`
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
+  font-weight: bold;
+`;
+
+const StyledDiv = styled.div`
+  text-align: center;
 `;
 
 const StyledRegistrationDiv = styled.div`
   margin: auto;
   text-align: center;
-`;
-
-const StyledButton = styled.button`
-  cursor: pointer;
-  padding: 0.25rem;
-  margin-left: 3px;
-  background: ${props => props.theme.black};
-  color: ${props => props.theme.green};
-  text-transform: uppercase;
-  text-decoration: none;
-  border: 5px solid ${props => props.theme.green};
-  border-radius: 5px;
-  font-size: 1.2rem;
 `;
 
 const SIGN_UP = gql`
@@ -53,10 +51,10 @@ const INITIAL_STATE = {
 };
 
 const SignUpPage = ({ history, refetch }) => (
-  <div role="form">
-    <h1>Sign Up</h1>
+  <StyledDiv role="form">
+    <StyledHeader>BECOME A CODE TALKER</StyledHeader>
     <SignUpForm history={history} refetch={refetch} />
-  </div>
+  </StyledDiv>
 );
 
 class SignUpForm extends Component {
@@ -138,9 +136,11 @@ class SignUpForm extends Component {
               placeholder="Confirm Password"
             />
             </label>
+            <h2>
             <StyledButton disabled={isInvalid || loading} type="submit">
               Sign Up
             </StyledButton>
+            </h2>
 
             {error && <ErrorMessage error={error}/>}
           </form>
@@ -155,7 +155,9 @@ const SignUpLink = () => (
     <p>
       Haven't signed up yet?
     </p>
-    <StyledNavLink className="register-link" to={routes.SIGN_UP}>Register Here</StyledNavLink>
+    <h3>
+      <StyledNavLink className="register-link" to={routes.SIGN_UP}>Register Here</StyledNavLink>
+    </h3>
   </StyledRegistrationDiv>
 );
 
