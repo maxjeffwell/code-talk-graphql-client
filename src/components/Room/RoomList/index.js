@@ -57,7 +57,7 @@ const Rooms = ({ limit })  => (
       }
 
       if (error) {
-        return <ErrorMessage />;
+        return <ErrorMessage error={error} />;
       }
 
       const { edges, pageInfo } = rooms;
