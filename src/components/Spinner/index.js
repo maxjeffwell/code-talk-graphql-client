@@ -11,6 +11,8 @@ const rotate360 = keyframes`
 `;
 
 const Spinner = styled.div`
+	display: flex;
+	justify-content: center;
 	height: 70px;
 	width: 70px;
 	border-radius: 50%;
