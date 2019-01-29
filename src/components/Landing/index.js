@@ -13,6 +13,7 @@ const StyledLanding = styled.div`
   margin: 20px 30px 10px;
   display: grid;
   grid-template-rows: 1fr auto;
+  overflow: auto;
 `;
 
 const StyledTyping = styled(Typing)`

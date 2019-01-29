@@ -10,7 +10,7 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer = () => (
-		<StyledFooter className="footer" role="contentinfo">
+		<StyledFooter className="footer">
 			Copyright &copy; 2019 Code Talk
 		</StyledFooter>
 );
