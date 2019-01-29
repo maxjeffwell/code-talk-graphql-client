@@ -62,7 +62,7 @@ const Landing = () => (
       </p>
       <Typing.Delay ms={1000} />
       <p>
-        <span>Account info for two demo accounts can be found alongside the chat room list.</span>
+        <span>Account info for two demo accounts can be found on both the login and registration pages. </span>
       </p>
     </StyledTyping>
     <Footer />

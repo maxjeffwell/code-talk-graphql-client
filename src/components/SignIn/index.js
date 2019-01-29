@@ -6,15 +6,16 @@ import gql from 'graphql-tag';
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
+import DemoAccounts from '../Demo';
 
 import styled from 'styled-components';
 
 export const StyledButton = styled.button`
   cursor: pointer;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 5px 5px 5px 5px;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
+  font-family: RussellSquareStd, monospace;
   text-transform: uppercase;
   text-decoration: none;
   border: 5px solid ${props => props.theme.green};
@@ -133,6 +134,7 @@ class SignInForm extends Component {
 
             {error && <ErrorMessage error={error} />}
           </StyledForm>
+            <DemoAccounts />
           </StyledDiv>
         )}
       </Mutation>

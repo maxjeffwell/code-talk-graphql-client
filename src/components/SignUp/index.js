@@ -6,12 +6,15 @@ import styled from 'styled-components';
 
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
+import DemoAccounts from '../Demo';
 
 import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
 
 const StyledHeader = styled.h1`
   color: ${props => props.theme.green};
+  background-color: ${props => props.theme.white};
+  border: 2px solid ${props => props.theme.black};
   font-size: 2rem;
 `;
 
@@ -54,6 +57,7 @@ const SignUpPage = ({ history, refetch }) => (
   <StyledDiv role="form">
     <StyledHeader>BECOME A CODE TALKER</StyledHeader>
     <SignUpForm history={history} refetch={refetch} />
+    <DemoAccounts />
   </StyledDiv>
 );
 

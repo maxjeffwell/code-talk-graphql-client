@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
-import DemoAccounts from '../../Demo';
 // import RoomCreate from '../RoomCreate';
 
 const ROOM_CREATED = gql`
@@ -197,7 +196,6 @@ const RoomListItem = ({ room }) => (
       <p>
         More rooms coming soon. Stay tuned...
       </p>
-    <DemoAccounts />
     </li>
   </StyledRoomList>
 );
