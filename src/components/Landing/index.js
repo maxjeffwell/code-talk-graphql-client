@@ -22,7 +22,7 @@ const StyledTyping = styled(Typing)`
 
 const Landing = () => (
   <StyledLanding>
-    <StyledTyping speed={10}>
+    <StyledTyping speed={20}>
       <span>Welcome to Code Talk. </span>
       <Typing.Delay ms={750} />
       <span>Code Talk is all about real-time code collaboration with concurrent real-time messaging capability. </span>
