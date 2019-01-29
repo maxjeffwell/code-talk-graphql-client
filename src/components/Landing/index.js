@@ -42,7 +42,11 @@ const Landing = () => (
       </p>
       <Typing.Delay ms={1000} />
       <p>
-        <span>Click the sign in button above to sign in as either an existing user or to find the link to register as a new one.  </span>
+        <span>Click the sign in button above </span>
+        <Typing.Delay ms={500} />
+        <span>(if you aren't already signed in) </span>
+          <Typing.Delay ms={500} />
+          <span>to sign in as either an existing user or to find the link to register as a new one.  </span>
         <Typing.Delay ms={750} />
         <span>Once signed in, </span>
       <Typing.Delay ms={650} />
