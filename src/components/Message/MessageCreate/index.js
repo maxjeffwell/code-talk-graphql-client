@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextareaAutosize from 'react-autosize-textarea';
+import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
-import styled from 'styled-components';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
@@ -82,7 +82,7 @@ class MessageCreate extends Component {
               name="text" autoFocus
               value={text}
               onChange={this.onChange}
-              placeholder="Type your message here ..."
+              placeholder="Type your messages here ..."
                             required
                             rows={3}
                             maxRows={7}

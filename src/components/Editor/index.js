@@ -2,13 +2,33 @@ import React, { Component } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
-
-import { TYPE_CODE } from './mutations';
-import { READ_CODE } from './queries';
-import { TYPING_CODE_SUBSCRIPTION } from './subscriptions';
+import gql from 'graphql-tag';
 
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
+
+export const TYPE_CODE = gql`
+    mutation TypeCodeMutation($body: String!){
+        typeCode(code: {body: $body}) {
+            body
+        }
+    }
+`;
+
+export const READ_CODE = gql`{
+    readCode {
+        body
+    }
+}
+`;
+
+export const TYPING_CODE_SUBSCRIPTION = gql`
+    subscription {
+        typingCode {
+            body
+        }
+    }
+`;
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
@@ -60,7 +80,7 @@ class Editor extends Component {
                                   value={data.readCode.body}
                                   placeholder="Collaborate on code here ..."
                                   onChange={e => this.updateCode(e, typeCodeMutation)}
-                                  rows={50}
+                                  rows={75}
                   />
                 </label>}
             </Mutation>

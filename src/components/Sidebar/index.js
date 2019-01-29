@@ -9,6 +9,7 @@ const StyledSidebar = styled.div`
     height: auto;
     width: auto;
     display: grid;
+    max-width: 600px;
     background: ${props => props.theme.white};
     color: ${props => props.theme.black};
     button {

@@ -63,11 +63,13 @@ export const StyledButton = styled.button`
 const StyledMessage = styled.div`
   border-top: 5px solid ${props => props.theme.black};
   line-height: 1.5;
+  display: grid;
+  overflow: auto;
 `;
 
 const StyledP = styled.p`
   word-wrap: break-word;
-  width: 50%;
+  width: 100%;
 `;
 
 const Messages = ({ limit, me, room }) => (
