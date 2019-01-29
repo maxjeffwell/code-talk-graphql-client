@@ -21,9 +21,9 @@ WebFont.load({
   custom: {
     families: ['RussellSquareStd', 'SerpentineStd-Medium', 'FloodStd']
   },
-  google: {
-    families: ['Open Sans: 300, 400, 600, 700', 'Source Code Pro: 400, 700']
-  },
+  // google: {
+  //   families: ['Open Sans: 300, 400, 600, 700', 'Source Code Pro: 400, 700']
+  // },
   timeout: 2000
 });
 

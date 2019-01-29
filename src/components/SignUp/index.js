@@ -13,9 +13,12 @@ import { StyledButton } from '../SignIn';
 
 const StyledHeader = styled.h1`
   color: ${props => props.theme.green};
-  background-color: ${props => props.theme.white};
-  border: 2px solid ${props => props.theme.black};
+  background-color: ${props => props.theme.black};
+  border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
   font-size: 2rem;
+  display: inline-block;
+  padding: 5px 10px;
 `;
 
 const StyledNavLink = styled(Link)`
@@ -57,6 +60,9 @@ const SignUpPage = ({ history, refetch }) => (
   <StyledDiv role="form">
     <StyledHeader>BECOME A CODE TALKER</StyledHeader>
     <SignUpForm history={history} refetch={refetch} />
+    <div>
+      <p>Prefer not to sign up right now? Feel free to use a demo instead</p>
+    </div>
     <DemoAccounts />
   </StyledDiv>
 );
@@ -77,7 +83,7 @@ class SignUpForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.ROOMS);
     });
 
     event.preventDefault();
@@ -140,11 +146,11 @@ class SignUpForm extends Component {
               placeholder="Confirm Password"
             />
             </label>
-            <h2>
+            <h1>
             <StyledButton disabled={isInvalid || loading} type="submit">
               Sign Up
             </StyledButton>
-            </h2>
+            </h1>
 
             {error && <ErrorMessage error={error}/>}
           </form>

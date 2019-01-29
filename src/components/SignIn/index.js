@@ -13,12 +13,12 @@ import styled from 'styled-components';
 export const StyledButton = styled.button`
   cursor: pointer;
   padding: 5px 5px 5px 5px;
-  background: ${props => props.theme.black};
-  color: ${props => props.theme.green};
+  background: ${props => props.theme.green};
+  color: ${props => props.theme.black};
   font-family: RussellSquareStd, monospace;
   text-transform: uppercase;
   text-decoration: none;
-  border: 5px solid ${props => props.theme.green};
+  border: 2px solid ${props => props.theme.black};
   border-radius: 5px;
   font-weight: bold;
   font-size: .5em;
@@ -40,9 +40,11 @@ export const StyledInput = styled.input`
   border: 2px solid ${props => props.theme.black};
   border-radius: 3px;
   outline: none;
-  background-color: ${props => props.theme.white} ;
+  background-color: ${props => props.theme.green} ;
   &::-webkit-input-placeholder {
     font-family: RussellSquareStd, monospace;
+    font-weight: bold;
+    color: ${props => props.theme.black};
   } 
 `;
 
@@ -90,7 +92,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.LANDING);
+      this.props.history.push(routes.ROOMS);
     });
 
     event.preventDefault();

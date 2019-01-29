@@ -9,6 +9,7 @@ import styled from 'styled-components';
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
   font-family: ${({ theme }) => theme.textarea.fontFamily};
+  font-weight: ${({ theme }) => theme.textarea.fontWeight};
   border: ${({ theme }) => theme.textarea.border};
   background-color: ${({ theme }) => theme.textarea.backgroundColor};
   color: ${({ theme}) => theme.textarea.color};
@@ -71,6 +72,7 @@ class MessageCreate extends Component {
             <StyledTextarea theme={{
               textarea: {
                 fontSize: '16px',
+                fontWeight: 'bold',
                 border: '5px solid #30d403',
                 backgroundColor: '#EDEDED',
                 color: '#393939',
