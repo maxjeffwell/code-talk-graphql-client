@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import * as routes from '../../constants/routes';
 import Header from '../Header';
 import SignOutButton from '../SignOut';
-import styled from 'styled-components';
 
 const Logo = styled.h1`
   font-size: 1.5rem;
@@ -38,9 +38,6 @@ const NavigationAuth = ({ session }) =>
   <Header />
   <SignOutButton />
   <Logo>
-    <Link to={routes.LANDING}>Code Talk Home</Link>
-  </Logo>
-  <Logo>
     <Link to={routes.ACCOUNT}>Your Account ({session.me.username})</Link>
   </Logo>
     <Logo>
@@ -54,9 +51,6 @@ const NavigationNonAuth = () =>
     <Logo>
       <Link to={routes.SIGN_IN}>Sign In</Link>
       </Logo>
-      <Logo>
-      <Link to={routes.LANDING}>Code Talk Home</Link>
-      </Logo>
-    </div>;
+  </div>;
 
 export default Navigation;
