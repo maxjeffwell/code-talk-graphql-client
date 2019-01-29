@@ -185,6 +185,7 @@ const StyledRoomLink = styled(Link)`
   font-weight: bold;
   font-size: 1.5em;
   text-transform: uppercase;
+  display: inline-block;
 `;
 
 const RoomListItem = ({ room }) => (
