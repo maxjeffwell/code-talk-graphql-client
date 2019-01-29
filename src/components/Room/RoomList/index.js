@@ -2,10 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
+import DemoAccounts from '../../Demo';
 // import RoomCreate from '../RoomCreate';
 
 const ROOM_CREATED = gql`
@@ -165,16 +167,39 @@ class RoomList extends Component {
   }
 }
 
+const StyledRoomList = styled.li`
+  list-style-type: none;
+  display: grid;
+  margin-top: 100px;
+  text-align: center;
+`;
+
+const StyledRoomLink = styled(Link)`
+  color: ${props => props.theme.green};
+  background-color: ${props => props.theme.black};
+  border: 7px solid ${props => props.theme.green};
+  border-radius: 5px;
+  padding: 8px 10px;
+  &:focus, &:hover, &:visited, &:link, &:active {
+      text-decoration: underline;
+  }
+  font-weight: bold;
+  font-size: 1.5em;
+  text-transform: uppercase;
+`;
+
 const RoomListItem = ({ room }) => (
-  <ul>
+  <StyledRoomList>
     <li>
-      <Link to={`${ROOMS}/${room.id}`}>{room.title}
-      </Link>
-      <div>
+      <StyledRoomLink to={`${ROOMS}/${room.id}`}>
+        {room.title}
+      </StyledRoomLink>
+      <p>
         More rooms coming soon. Stay tuned...
-      </div>
+      </p>
+    <DemoAccounts />
     </li>
-  </ul>
+  </StyledRoomList>
 );
 
 export default Rooms;

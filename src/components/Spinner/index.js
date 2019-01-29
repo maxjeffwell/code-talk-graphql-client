@@ -12,12 +12,12 @@ const rotate360 = keyframes`
 
 const Spinner = styled.div`
 	height: 70px;
-	width: 50px;
+	width: 70px;
 	border-radius: 50%;
 	border: 5px solid ${props => props.theme.green};
 	border-top-color: transparent;
 	
-	animation: ${rotate360} is linear infinite;
+	animation: ${rotate360} 1s linear infinite;
 `;
 
 export default Spinner;

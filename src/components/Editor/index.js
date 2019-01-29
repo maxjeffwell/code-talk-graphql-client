@@ -58,6 +58,7 @@ class Editor extends Component {
                     }
                   }} aria-label="textarea"
                                   value={data.readCode.body}
+                                  placeholder="Collaborate on code here ..."
                                   onChange={e => this.updateCode(e, typeCodeMutation)}
                                   rows={50}
                   />

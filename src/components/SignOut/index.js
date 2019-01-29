@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button` 
   position: relative;
+  margin-left: 10px;
+  margin-top: 10px;
   background: ${props => props.theme.black}; 
   cursor: pointer;
   color: ${props => props.theme.green};

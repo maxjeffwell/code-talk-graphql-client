@@ -11,7 +11,8 @@ import styled from 'styled-components';
 
 export const StyledButton = styled.button`
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding-left: 5px;
+  padding-right: 5px;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;
@@ -19,6 +20,7 @@ export const StyledButton = styled.button`
   border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
   font-weight: bold;
+  font-size: .5em;
 `;
 
 const StyledDiv = styled.div`
@@ -41,6 +43,14 @@ export const StyledInput = styled.input`
   &::-webkit-input-placeholder {
     font-family: RussellSquareStd, monospace;
   } 
+`;
+
+const StyledHeader = styled.h1`
+  margin-top: 5px;
+`;
+
+const StyledForm = styled.form`
+  margin-bottom: 5px;
 `;
 
 const SIGN_IN = gql`
@@ -95,7 +105,7 @@ class SignInForm extends Component {
         {(signIn, { data, loading, error }) => (
 
           <StyledDiv className="loginForm" aria-live="polite">
-          <form aria-label="Sign In" onSubmit={event => this.onSubmit(event, signIn)}>
+          <StyledForm aria-label="Sign In" onSubmit={event => this.onSubmit(event, signIn)}>
 
             <label htmlFor="Username" aria-label="Username">
             <StyledInput
@@ -115,14 +125,14 @@ class SignInForm extends Component {
               placeholder="Password"
             /> </label>
 
-            <h1>
+            <StyledHeader>
               <StyledButton disabled={isInvalid || loading} type="submit" className="btn-login">
               Sign In
             </StyledButton>
-            </h1>
+            </StyledHeader>
 
             {error && <ErrorMessage error={error} />}
-          </form>
+          </StyledForm>
           </StyledDiv>
         )}
       </Mutation>
