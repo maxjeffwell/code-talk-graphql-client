@@ -166,7 +166,7 @@ class RoomList extends Component {
   }
 }
 
-const StyledRoomList = styled.li`
+const StyledRoomList = styled.ul`
   list-style-type: none;
   display: grid;
   margin-top: 100px;

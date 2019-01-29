@@ -165,9 +165,9 @@ const SignUpLink = () => (
     <p>
       Haven't signed up yet?
     </p>
-    <h3>
+    <h2>
       <StyledNavLink className="register-link" to={routes.SIGN_UP}>Register Here</StyledNavLink>
-    </h3>
+    </h2>
   </StyledRegistrationDiv>
 );
 
