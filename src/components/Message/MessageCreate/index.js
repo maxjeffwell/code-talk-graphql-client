@@ -19,7 +19,6 @@ const StyledTextarea = styled(TextareaAutosize)`
   margin-top: 2px;
 `;
 
-
 const CREATE_MESSAGE = gql`
     mutation($text: String!) {
         createMessage(text: $text) {

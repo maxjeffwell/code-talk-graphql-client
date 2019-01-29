@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-
 import styled from 'styled-components';
 
 import Loading from '../Loading';
+import ErrorMessage from '../Error';
 
 const GET_ALL_USERS_QUERY = gql`
     query GET_ALL_USERS_QUERY {
@@ -44,7 +44,7 @@ class Users extends Component {
           {({ data, error, loading }) => {
             if(loading) return <Loading />;
 
-            if(error) return <p>Error: {error.message}</p>;
+            if(error) return <ErrorMessage error={error} />;
 
             return <UserList>{data.users.map(user =>
               <li key={user.id}>{user.username}</li>)}</UserList>;
