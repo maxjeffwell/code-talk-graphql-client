@@ -33,19 +33,22 @@ const Landing = () => (
       <p>
         <span>So meta? </span>
       <Typing.Delay ms={1200} />
+      <Typing speed={30} />
       <span>Maybe. </span>
       </p>
       <Typing.Delay ms={1000} />
       <p>
         <span>Too meta? </span>
       <Typing.Delay ms={1200} />
-        <span>Never. </span>
+      <Typing speed={30} />
+      <span>Never. </span>
       </p>
       <Typing.Delay ms={1000} />
+      <Typing speed={15} />
       <p>
         <span>Click the sign in button above </span>
         <Typing.Delay ms={300} />
-        <span>(if you aren't already signed in) </span>
+        <span>(if you haven't already signed in) </span>
           <Typing.Delay ms={300} />
           <span>to sign in as either an existing user or to find the link to register as a new one.  </span>
         <Typing.Delay ms={750} />

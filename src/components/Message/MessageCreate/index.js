@@ -46,6 +46,13 @@ class MessageCreate extends Component {
     this.setState({ [name]: value });
   };
 
+  onEnterPress = event => {
+    if (event.keyCode === 13 && event.shiftKey === false) {
+      event.preventDefault();
+      this.button.click();
+    }
+  };
+
   onSubmit = async (event, createMessage) => {
     event.preventDefault();
 
@@ -80,15 +87,15 @@ class MessageCreate extends Component {
             }} aria-label="textarea"
               name="text" autoFocus
               value={text}
-              onChange={this.onChange}
-              placeholder="Type your messages here ..."
-                            required
-                            rows={3}
+              onChange={this.onChange} onKeyDown={this.onEnterPress}
+              placeholder="Type your messages here ..." required
+                            rows={2}
                             maxRows={7}
             />
             </label>
-            <button type="submit">Send</button>
-
+            <button type="submit" ref={el => (this.button = el)}>
+              Send
+            </button>
             {error && <ErrorMessage error={error} />}
           </form>
         )}
