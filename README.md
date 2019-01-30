@@ -28,7 +28,7 @@ Code Talk is a code collaboration tool with real-time text editing and real-time
     * Queries, Mutations, Subscriptions
 * CSS styling implemented with Styled Components
 
-**Back End** [Server GitHub Repo](https://github.com/maxjeffwell/code-talk-server)
+**Back End** [Server GitHub Repo](https://github.com/maxjeffwell/code-talk-graphql-server)
 
 [Explore the API here](https://jmaxwell-code-talk-server.herokuapp.com/graphql)
 
