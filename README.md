@@ -22,6 +22,16 @@ password: demopassword
 ## Motivation
 Code Talk is a code collaboration tool with real-time text editing and real-time messaging features. It emerged from a fascination with GraphQL subscriptions as well as from the immediate satisfaction inherent to real-time applications.
 
+## Screenshots
+
+[![Code Talk Room](https://i.gyazo.com/32c011fbe49b90f9f825bbbf20661c86.png)](https://gyazo.com/32c011fbe49b90f9f825bbbf20661c86)
+
+[![Code Talk Landing](https://i.gyazo.com/64497e5343c6f84da745fcafb898e8bf.png)](https://gyazo.com/64497e5343c6f84da745fcafb898e8bf)
+
+[![GraphQL Playground](https://i.gyazo.com/d6fd9aa100d384ffa77676a4de49aff7.png)](https://gyazo.com/d6fd9aa100d384ffa77676a4de49aff7)
+
+[![Code Talk Registration](https://i.gyazo.com/a2feeaa15f0297b7c9d86f73df3dc09c.png)](https://gyazo.com/a2feeaa15f0297b7c9d86f73df3dc09c)
+
 ## Technology Stack
 **Front End**:
 * React with Apollo Client
