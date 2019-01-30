@@ -16,7 +16,7 @@ const StyledHeader = styled.h1`
 
 const StyledP = styled.p`
   text-align: center;
-`
+`;
 
 const AccountPage = () => (
   <div role="main">

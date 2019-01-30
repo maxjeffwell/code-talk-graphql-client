@@ -44,7 +44,7 @@ const Rooms = ({ limit })  => (
       if (!data) {
         return (
           <div>
-            <p>No rooms have been created yet...
+            <p>No rooms have been created yet... (you're sure you signed in, right?)
             </p>
           </div>
         );

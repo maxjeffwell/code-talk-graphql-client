@@ -80,7 +80,7 @@ const Messages = ({ limit, me, room }) => (
       if (!data) {
         return (
           <div>
-            No messages yet
+            No messages yet... (you're sure you signed in, right?)
           </div>
         );
       }
