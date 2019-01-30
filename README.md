@@ -40,7 +40,7 @@ Code Talk is a code collaboration tool with real-time text editing and real-time
 
 **Back End** [Server GitHub Repo](https://github.com/maxjeffwell/code-talk-graphql-server)
 
-[Explore the API here](https://jmaxwell-code-talk-server.herokuapp.com/graphql)
+[Explore the API](https://jmaxwell-code-talk-server.herokuapp.com/graphql)
 
 * GraphQL API built using Apollo Server with Express middleware
 * Security
