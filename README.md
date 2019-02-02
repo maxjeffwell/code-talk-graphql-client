@@ -33,7 +33,7 @@ Code Talk is a code collaboration tool with real-time text editing and real-time
 [![Code Talk Registration](https://i.gyazo.com/a2feeaa15f0297b7c9d86f73df3dc09c.png)](https://gyazo.com/a2feeaa15f0297b7c9d86f73df3dc09c)
 
 ## Technology Stack
-**Front End**:
+**Front End**
 * React with Apollo Client
     * Queries, Mutations, Subscriptions
 * CSS styling implemented with Styled Components
