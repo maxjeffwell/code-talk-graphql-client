@@ -62,7 +62,7 @@ You can get a token by performing a login mutation and requesting the token in t
 **Data Persistence**
 * PostgreSQL connected to Express via Sequelize
 
-**Hosting / SaaS / CICD**
+**Hosting / SaaS / DBaaS / CICD**
 * Github
 * TravisCI
 * Heroku
