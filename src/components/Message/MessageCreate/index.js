@@ -77,7 +77,7 @@ class MessageCreate extends Component {
             <label htmlFor="Message Input">
             <StyledTextarea theme={{
               textarea: {
-                fontSize: '16px',
+                fontSize: '1.2em',
                 fontWeight: 'bold',
                 border: '5px solid #30d403',
                 backgroundColor: '#EDEDED',

@@ -71,7 +71,7 @@ class Editor extends Component {
                 <label>
                   <StyledTextarea theme={{
                     textarea: {
-                      fontSize: '25px',
+                      fontSize: '1.2em',
                       border: '5px solid #30d403',
                       backgroundColor: '#393939',
                       color: '#30d403'
@@ -80,7 +80,7 @@ class Editor extends Component {
                                   value={data.readCode.body}
                                   placeholder="Collaborate on code here ..."
                                   onChange={e => this.updateCode(e, typeCodeMutation)}
-                                  rows={75}
+                                  rows={50}
                   />
                 </label>}
             </Mutation>

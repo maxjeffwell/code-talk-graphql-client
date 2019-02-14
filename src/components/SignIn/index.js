@@ -37,6 +37,7 @@ export const StyledInput = styled.input`
   font-family: RussellSquareStd, monospace;
   font-weight: normal;
   font-style: normal;
+  font-size: 1.2em;
   border: 2px solid ${props => props.theme.black};
   border-radius: 3px;
   outline: none;

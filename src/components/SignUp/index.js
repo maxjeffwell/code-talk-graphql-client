@@ -116,7 +116,7 @@ class SignUpForm extends Component {
               value={username}
               onChange={this.onChange}
               type="text"
-              placeholder="Full Name"
+              placeholder="Username"
             />
             </label>
             <label htmlFor="Email" aria-label="Email">
