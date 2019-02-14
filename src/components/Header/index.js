@@ -16,8 +16,8 @@ const StyledHeader = styled.header`
   img {
     display: flex;
     margin: auto;
-    width: 50%;
-    height: 200px;
+    max-width: 50%;
+    max-height: 400px;
     }
 `;
 
@@ -33,7 +33,7 @@ class Header extends Component {
       </StyledHeader>
   );
   }
-};
+}
 
 export default Header;
 
