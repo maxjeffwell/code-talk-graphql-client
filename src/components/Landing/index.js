@@ -56,9 +56,11 @@ const Landing = () => (
       <Typing.Delay ms={650} />
       <span>navigate over to Code Talk Chat Rooms and join CODE TALK ONE - WHERE IT ALL BEGAN. </span>
       <Typing.Delay ms={750} />
+      <p>
         <span>There, </span>
         <Typing.Delay ms={650} />
         <span>you can communicate with other users in real-time by using the chat app on the left sidebar. </span>
+      </p>
       <Typing.Delay ms={750} />
         <span>At the same time, </span>
         <Typing.Delay ms={650} />
