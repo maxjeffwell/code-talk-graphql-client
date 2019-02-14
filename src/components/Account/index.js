@@ -7,11 +7,16 @@ const StyledHeader = styled.h1`
   color: ${props => props.theme.green};
   background-color: ${props => props.theme.black};
   border: 5px solid ${props => props.theme.green};
-  border-radius: 5px;
   display: grid;
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
   text-align: center;
+  line-height: 1.5;
   margin: 50px auto;
-  width: 25%;
+  position: relative;
+  width: 50%;
+  min-width: 142px;
 `;
 
 const StyledP = styled.p`

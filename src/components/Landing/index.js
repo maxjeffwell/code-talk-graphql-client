@@ -66,8 +66,8 @@ const Landing = () => (
         <Typing.Delay ms={650} />
         <span>you'll see a textarea on the right where you and other users can collaborate on code that will immediately be made visible to everyone in the room. </span>
       </p>
-      <Typing.Delay ms={1000} />
       <p>
+      <Typing.Delay ms={1000} />
         <span>Account info for two demo accounts can be found on both the login and registration pages. </span>
       </p>
     </StyledTyping>

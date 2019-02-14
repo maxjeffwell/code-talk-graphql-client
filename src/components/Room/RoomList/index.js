@@ -179,12 +179,13 @@ const StyledRoomLink = styled(Link)`
   border: 7px solid ${props => props.theme.green};
   border-radius: 5px;
   padding: 8px 10px;
-  &:focus, &:hover, &:visited, &:link, &:active {
+  &:hover {
       text-decoration: underline;
   }
   font-weight: bold;
   font-size: 1.5em;
   text-transform: uppercase;
+  text-decoration: none;
   display: inline-block;
 `;
 
