@@ -48,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
 
 html {
 		box-sizing: border-box; // set box sizing on root of doc in html
-		font-size: 10px; // set font at base-10
+		font-size: 14px;
 	}
 	
 *, *:before, *:after {
