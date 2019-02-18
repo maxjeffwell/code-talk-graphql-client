@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 import MessageDelete from '../MessageDelete';
 import Loading from '../../Loading';
-import styled from 'styled-components';
+import withSession from '../../Session/withSession';
 
 const MESSAGE_CREATED = gql`
     subscription {
@@ -190,14 +191,19 @@ class MessageList extends Component {
   }
 }
 
-const MessageItem = ({ message }) => (
+const MessageItemBase = ({ message, session }) => (
   <StyledMessage>
   <h2>{message.user.username}</h2>
   <small>{message.createdAt}</small>
   <StyledP>{message.text}</StyledP>
+
+    {session && session.me && message.user.id === session.me.id && (
     <MessageDelete message={message} />
+    )}
   </StyledMessage>
 );
+
+const MessageItem = withSession(MessageItemBase);
 
 export default Messages;
 
