@@ -5,11 +5,12 @@ const StyledErrorMessage = styled.div`
   margin: 20px;
   display: flex;
   justify-content: center;
+  color: red;
 `;
 
 const ErrorMessage = ({ error }) => (
   <StyledErrorMessage>
-    <small>{error.message}</small>
+    <small>{error.message.replace('GraphQL error:', '').trim()}</small>
   </StyledErrorMessage>
 );
 
