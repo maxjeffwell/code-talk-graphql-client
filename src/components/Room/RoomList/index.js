@@ -169,8 +169,8 @@ class RoomList extends Component {
 const StyledRoomList = styled.ul`
   list-style-type: none;
   display: grid;
-  margin-top: 100px;
-  text-align: left;
+  margin: 100px auto;
+  width: 18.5%;
   &li {
   padding-left: 20px;
   }
@@ -190,7 +190,9 @@ const StyledRoomLink = styled(Link)`
   font-size: 1.5em;
   text-transform: uppercase;
   text-decoration: none;
+  text-align: center;
   display: inline-block;
+  white-space: nowrap;
 `;
 
 const RoomListItem = ({ room }) => (
