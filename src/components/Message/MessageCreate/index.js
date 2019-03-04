@@ -17,6 +17,7 @@ const StyledTextarea = styled(TextareaAutosize)`
   box-sizing: border-box;
   width: 100%;
   margin-top: 2px;
+  padding: 3px 3px 3px 3px;
 `;
 
 const CREATE_MESSAGE = gql`

@@ -66,6 +66,7 @@ const StyledMessage = styled.div`
   line-height: 1.5;
   display: grid;
   overflow: auto;
+  padding: .25em;
 `;
 
 const StyledP = styled.p`

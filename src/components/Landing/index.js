@@ -54,7 +54,7 @@ const Landing = () => (
         <Typing.Delay ms={750} />
         <span>Once signed in, </span>
       <Typing.Delay ms={650} />
-      <span>navigate over to Code Talk Chat Rooms and join CODE TALK ONE - WHERE IT ALL BEGAN. </span>
+      <span>navigate over to Code Talk Chat Rooms and join CODE TALK ONE. </span>
       <Typing.Delay ms={750} />
       <p>
         <span>There, </span>

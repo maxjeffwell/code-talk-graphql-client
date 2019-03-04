@@ -5,7 +5,7 @@ import { MessageCreate, Messages } from '../Message';
 
 const StyledSidebar = styled.div`
     border: 5px solid ${props => props.theme.black}; 
-    margin-right: 1em;
+    margin: auto 1rem;
     height: auto;
     width: auto;
     display: grid;

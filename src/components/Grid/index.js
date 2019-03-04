@@ -3,10 +3,9 @@ import * as style from '../Variables';
 
 export const Row = styled.div`
   display: inline-block;
-  width: 100%;
-  
   @media (min-width: ${style.breakpoint.mobileS}) {
     display: flex;
+    margin-right: 5px;
   }
 `;
 

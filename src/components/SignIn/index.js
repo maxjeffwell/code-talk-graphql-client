@@ -48,6 +48,7 @@ export const StyledInput = styled.input`
   border: 2px solid ${props => props.theme.black};
   border-radius: 3px;
   outline: none;
+  padding: 5px 5px 2px 10px;
   background-color: ${props => props.theme.green} ;
   &::-webkit-input-placeholder {
     font-family: RussellSquareStd, monospace;

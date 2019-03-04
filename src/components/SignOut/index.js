@@ -5,10 +5,9 @@ import * as routes from '../../constants/routes';
 import history from '../../constants/history';
 import styled from 'styled-components';
 
-const StyledButton = styled.button` 
+const StyledButton = styled.button` S
   position: relative;
   margin-left: 10px;
-  margin-top: 10px;
   background: ${props => props.theme.black}; 
   cursor: pointer;
   color: ${props => props.theme.green};
@@ -20,7 +19,7 @@ const StyledButton = styled.button`
   border-radius: 5px;
   border: 5px solid ${props => props.theme.green};
  @media (max-width: 1000px) {
-    margin: 5px;
+    margin: 2px;
     text-align: center;
   }
  &:hover {

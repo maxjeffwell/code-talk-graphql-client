@@ -38,6 +38,8 @@ const StyledTextarea = styled(TextareaAutosize)`
   resize: none;
   box-sizing: border-box;
   width: 100%;
+  margin-right: 50px;
+  padding: 10px 10px 10px 10px;
 `;
 
 class Editor extends Component {
@@ -74,7 +76,7 @@ class Editor extends Component {
                       fontSize: '1.2em',
                       border: '5px solid #30d403',
                       backgroundColor: '#393939',
-                      color: '#30d403'
+                      color: '#30d403',
                     }
                   }} aria-label="textarea"
                                   value={data.readCode.body}

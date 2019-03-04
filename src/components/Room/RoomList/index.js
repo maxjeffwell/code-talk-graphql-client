@@ -170,7 +170,10 @@ const StyledRoomList = styled.ul`
   list-style-type: none;
   display: grid;
   margin-top: 100px;
-  text-align: center;
+  text-align: left;
+  &li {
+  padding-left: 20px;
+  }
 `;
 
 const StyledRoomLink = styled(Link)`
@@ -178,7 +181,8 @@ const StyledRoomLink = styled(Link)`
   background-color: ${props => props.theme.black};
   border: 7px solid ${props => props.theme.green};
   border-radius: 5px;
-  padding: 8px 10px;
+  padding: 0 8px;
+  height: auto;
   &:hover {
       text-decoration: underline;
   }
@@ -195,9 +199,6 @@ const RoomListItem = ({ room }) => (
       <StyledRoomLink to={`${ROOMS}/${room.id}`}>
         {room.title}
       </StyledRoomLink>
-      <p>
-        More rooms coming soon. Stay tuned...
-      </p>
     </li>
   </StyledRoomList>
 );

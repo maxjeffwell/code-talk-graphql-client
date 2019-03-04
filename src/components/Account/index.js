@@ -19,15 +19,10 @@ const StyledHeader = styled.h1`
   min-width: 142px;
 `;
 
-const StyledP = styled.p`
-  text-align: center;
-`;
-
 const AccountPage = () => (
   <div role="main">
   <section id="user-account-info" role="contentinfo">
     <StyledHeader>ACCOUNT PAGE</StyledHeader>
-    <StyledP>Account features coming soon. Stay tuned...</StyledP>
   </section>
   </div>
 );
