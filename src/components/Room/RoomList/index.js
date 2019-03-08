@@ -108,7 +108,7 @@ const GetMoreRoomsButton = ({
             ...fetchMoreResult.rooms,
             edges: [
               ...previousResult.rooms.edges,
-              ...fetchMoreResult.rooms.rooms
+              ...fetchMoreResult.rooms.edges
             ],
           },
         };
