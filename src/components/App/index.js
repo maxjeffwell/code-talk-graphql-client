@@ -8,8 +8,6 @@ import Navigation from '../Navigation';
 import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
-// import AccountPage from '../Account';
-// import AdminPage from '../Admin';
 import withSession from '../Session/withSession';
 import RoomList  from '../Room/RoomList';
 import Room from '../Room';
@@ -88,18 +86,6 @@ const App = ({ session, refetch }) => (
         component={() => <SignInPage refetch={refetch} />}
       />
 
-      {/*<Route*/}
-        {/*exact*/}
-        {/*path={routes.ACCOUNT}*/}
-        {/*component={() => <AccountPage />}*/}
-      {/*/>*/}
-
-      {/*<Route*/}
-        {/*exact*/}
-        {/*path={routes.ADMIN}*/}
-        {/*component={() => <AdminPage />}*/}
-      {/*/>*/}
-
       <Route
         exact
         path={routes.ROOMS}
@@ -111,7 +97,7 @@ const App = ({ session, refetch }) => (
         component={() => <Room />}
       />
 
-        </div>
+    </div>
   </Router>
 );
 

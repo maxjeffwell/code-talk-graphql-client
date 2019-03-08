@@ -61,11 +61,11 @@ const NavigationAuth = ({ session }) =>
   </div>;
 
 const NavigationNonAuth = () =>
-  <div className="Nav-Bar" role="navigation">
-    <Header />
-    <Logo>
-      <Link to={routes.SIGN_IN}>Sign In</Link>
+     <div className="Nav-Bar" role="navigation">
+      <Header/>
+      <Logo>
+        <Link to={routes.SIGN_IN}> Sign In </Link>
       </Logo>
-  </div>;
+    </div>;
 
 export default Navigation;
