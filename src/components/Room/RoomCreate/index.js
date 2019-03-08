@@ -9,7 +9,6 @@ const CREATE_ROOM = gql`
       createRoom(title: $title) {
           id
           title
-          createdAt
       }
   }
 `;

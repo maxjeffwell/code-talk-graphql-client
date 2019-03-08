@@ -21,8 +21,8 @@ const StyledTextarea = styled(TextareaAutosize)`
 `;
 
 const CREATE_MESSAGE = gql`
-    mutation($text: String!) {
-        createMessage(text: $text) {
+    mutation($text: String!, $roomId: ID!) {
+        createMessage(text: $text, roomId: $roomId) {
             id
             text
             createdAt
@@ -40,6 +40,7 @@ const CREATE_MESSAGE = gql`
 class MessageCreate extends Component {
   state = {
     text: '',
+
   };
 
   onChange = event => {

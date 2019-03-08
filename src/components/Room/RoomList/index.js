@@ -45,8 +45,9 @@ const Rooms = ({ limit })  => (
       if (!data) {
         return (
           <div>
-            <p>No rooms have been created yet... (you're sure you signed in, right?)
+            <p>No rooms have been created yet... Create one here
             </p>
+            <RoomCreate />
           </div>
         );
       }
@@ -187,12 +188,12 @@ const StyledRoomLink = styled(Link)`
   white-space: nowrap;
 `;
 
-const RoomListItem = ({ room }) => (
-  <StyledRoomList key={room.id}>
+const RoomListItem = ({ id, title }) => (
+  <StyledRoomList key={id}>
     <li>
-      <StyledRoomLink to={`${ROOMS}/${room.id}`}>
-        {room.title}
-        <RoomDelete room={room} />
+      <StyledRoomLink to={`${ROOMS}/${id}`}>
+        {title}
+        <RoomDelete />
       </StyledRoomLink>
     </li>
   </StyledRoomList>

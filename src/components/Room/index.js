@@ -1,24 +1,24 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { Sidebar } from '../Sidebar';
-import Editor from '../Editor';
+import RoomGrid from './RoomGrid';
 
-import * as Grid from '../Grid';
-const Row = Grid.Row;
-const Col = Grid.Column;
+const Room = ({ match }) => {
 
-export default function GridSystem() {
+  const { id } = match.params;
+  console.log(id);
+
+
   return (
-    <Row>
-      <Col colspan="1">
-        <Sidebar />
-      </Col>
-      <Col colspan="2" last>
-        <Editor />
-      </Col>
-    </Row>
-  );
+    <RoomGrid />
+  )
+
 }
+
+export default withRouter(Room);
+
+
+
 
 
 
