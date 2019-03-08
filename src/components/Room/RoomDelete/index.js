@@ -1,13 +1,13 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import ErrorMessage from '../../Message/MessageDelete';
 
 const GET_ALL_ROOMS = gql`
     query {
         rooms(order: "DESC") @connection(key: "RoomsConnection") {
             edges {
                 id
-                text
                 createdAt
             }
             pageInfo {
@@ -47,11 +47,14 @@ const RoomDelete = ({ room }) => (
       });
     }}
   >
-    {(deleteMessage, { data, loading, error }) => (
-      <button type="button" onClick={deleteMessage}>
+    {(deleteRoom, { data, loading, error }) => {
+
+      if (error) return <ErrorMessage error={error}/>;
+
+      return <button type="button" onClick={deleteRoom}>
         Delete Room
       </button>
-    )}
+    }}
   </Mutation>
 );
 

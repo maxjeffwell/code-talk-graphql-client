@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
-// import RoomCreate from '../RoomCreate';
+import RoomCreate from '../RoomCreate';
+import RoomDelete from '../RoomDelete';
 
 const ROOM_CREATED = gql`
   subscription {
@@ -148,21 +149,13 @@ class RoomList extends Component {
     this.subscribeToMoreRooms();
   }
 
-//   render() {
-//     const { rooms } = this.props;
-//     return [<RoomCreate />,
-//       rooms.map(room => (
-//       <RoomListItem key={room.id} room={room}/>
-//     ))
-//       ];
-//   }
-// }
-
   render() {
     const { rooms } = this.props;
-    return rooms.map(room => (
+    return [<RoomCreate />,
+      rooms.map(room => (
       <RoomListItem key={room.id} room={room}/>
     ))
+      ];
   }
 }
 
@@ -195,10 +188,11 @@ const StyledRoomLink = styled(Link)`
 `;
 
 const RoomListItem = ({ room }) => (
-  <StyledRoomList>
+  <StyledRoomList key={room.id}>
     <li>
       <StyledRoomLink to={`${ROOMS}/${room.id}`}>
         {room.title}
+        <RoomDelete room={room} />
       </StyledRoomLink>
     </li>
   </StyledRoomList>
