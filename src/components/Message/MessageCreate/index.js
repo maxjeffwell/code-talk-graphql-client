@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextareaAutosize from 'react-autosize-textarea';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
+import Loading from '../../Loading';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
@@ -23,12 +25,9 @@ const StyledTextarea = styled(TextareaAutosize)`
 const CREATE_MESSAGE = gql`
     mutation($text: String!, $roomId: ID!) {
         createMessage(text: $text, roomId: $roomId) {
-            id
-            text
             createdAt
             user {
                 id
-                username
             }
             room {
                 id
@@ -40,8 +39,14 @@ const CREATE_MESSAGE = gql`
 class MessageCreate extends Component {
   state = {
     text: '',
-
+    roomId: ''
   };
+
+  componentDidMount() {
+    this.setState({
+      roomId: this.props.match.params.id
+    });
+  }
 
   onChange = event => {
     const { name, value } = event.target;
@@ -64,18 +69,26 @@ class MessageCreate extends Component {
     } catch (error) {}
   };
 
+  validateInput = () => {
+    const { text, roomId } = this.state;
+    return !text || !roomId;
+  }
+
   render() {
-    const { text } = this.state;
+    const { text, roomId } = this.state;
 
     return (
+      <Fragment>
       <Mutation
         mutation={CREATE_MESSAGE}
-        variables={{ text }}
+        variables={{ text, roomId }}
       >
         {(createMessage, { data, loading, error }) => (
+
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
+
             <label htmlFor="Message Input">
             <StyledTextarea theme={{
               textarea: {
@@ -95,15 +108,19 @@ class MessageCreate extends Component {
                             maxRows={7}
             />
             </label>
-            <button type="submit" ref={el => (this.button = el)}>
+            <button disabled={loading || this.validateInput()} type="submit" ref={el => (this.button = el)}>
               Send
             </button>
+
+            {loading && <Loading />}
             {error && <ErrorMessage error={error} />}
+
           </form>
         )}
       </Mutation>
+      </Fragment>
     );
   }
 }
 
-export default MessageCreate;
+export default withRouter(MessageCreate);

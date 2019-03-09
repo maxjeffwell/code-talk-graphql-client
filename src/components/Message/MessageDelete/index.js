@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ErrorMessage from '../../Error';
+import Loading from '../../Loading';
 
 const GET_ALL_MESSAGES_WITH_USERS = gql`
     query {
@@ -56,6 +57,7 @@ const MessageDelete = ({ message }) => (
     {(deleteMessage, { data, loading, error }) => {
 
       if (error) return <ErrorMessage error={error}/>;
+      if (loading) return <Loading />;
 
       return <button type="button" onClick={deleteMessage}>
         Delete Message

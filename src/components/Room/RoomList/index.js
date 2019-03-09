@@ -44,11 +44,10 @@ const Rooms = ({ limit })  => (
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
         return (
-          <div>
-            <p>No rooms have been created yet... Create one here
-            </p>
+          <Fragment>
+            <p>No rooms have been created yet ... Create one here ...</p>
             <RoomCreate />
-          </div>
+          </Fragment>
         );
       }
 
@@ -154,7 +153,7 @@ class RoomList extends Component {
     const { rooms } = this.props;
     return [<RoomCreate />,
       rooms.map(room => (
-      <RoomListItem key={room.id} room={room}/>
+      <RoomListItem key={room.key} room={room}/>
     ))
       ];
   }
@@ -188,13 +187,13 @@ const StyledRoomLink = styled(Link)`
   white-space: nowrap;
 `;
 
-const RoomListItem = ({ id, title }) => (
-  <StyledRoomList key={id}>
+const RoomListItem = ({ room }) => (
+  <StyledRoomList key={room.id}>
     <li>
-      <StyledRoomLink to={`${ROOMS}/${id}`}>
-        {title}
-        <RoomDelete />
+      <StyledRoomLink to={`${ROOMS}/${room.id}`}>
+        {room.title}
       </StyledRoomLink>
+      <RoomDelete room={room} />
     </li>
   </StyledRoomList>
 );

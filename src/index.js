@@ -54,7 +54,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 		graphQLErrors.forEach(({ message, locations, path }) => {
 			console.log('GraphQL error', message);
 
-			if (message === 'You are not authenticated. Please sign in.') {
+			if (message === 'Not authenticated.') {
 				signOut(client);
 			}
 		});

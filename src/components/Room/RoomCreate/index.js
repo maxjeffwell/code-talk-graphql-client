@@ -3,11 +3,11 @@ import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import ErrorMessage from '../../Error';
+import Loading from '../../Loading';
 
 const CREATE_ROOM = gql`
   mutation ($title: String!) {
       createRoom(title: $title) {
-          id
           title
       }
   }
@@ -39,6 +39,12 @@ class RoomCreate extends Component {
       <Mutation
         mutation={CREATE_ROOM}
         variables={{ title }}
+        optimisticResponse={{
+          createRoom: {
+            title,
+            __typename: 'Room',
+          }
+        }}
       >
         {(createRoom, { data, loading, error }) => (
           <form
@@ -54,7 +60,9 @@ class RoomCreate extends Component {
             />
             <button type="submit">Submit</button>
 
+            {loading && <Loading />}
             {error && <ErrorMessage error={error} />}
+
           </form>
         )}
       </Mutation>

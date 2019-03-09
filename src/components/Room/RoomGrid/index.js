@@ -4,6 +4,7 @@ import { Sidebar } from '../../Sidebar';
 import Editor from '../../Editor';
 
 import * as Grid from '../../Grid';
+
 const Row = Grid.Row;
 const Col = Grid.Column;
 

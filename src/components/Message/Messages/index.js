@@ -8,8 +8,8 @@ import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
 
 const MESSAGE_CREATED = gql`
-    subscription {
-        messageCreated {
+    subscription($roomId: ID!) {
+        messageCreated(roomId: $roomId) {
             message {
                 id
                 text
@@ -26,7 +26,7 @@ const MESSAGE_CREATED = gql`
     }
 `;
 
-const GET_PAGINATED_MESSAGES_WITH_USERS = gql`
+const GET_PAGINATED_MESSAGES_WITH_USER_AND_ROOM = gql`
     query($cursor: String, $limit: Int!) {
         messages(cursor: $cursor, limit: $limit)
         @connection(key: "MessagesConnection") {
@@ -75,14 +75,14 @@ const StyledP = styled.p`
 `;
 
 const Messages = ({ limit, me, room }) => (
-  <Query query={ GET_PAGINATED_MESSAGES_WITH_USERS } variables={{
+  <Query query={ GET_PAGINATED_MESSAGES_WITH_USER_AND_ROOM } variables={{
     limit
   }}>
     {({ data, loading, error, fetchMore, subscribeToMore }) => {
       if (!data) {
         return (
           <div>
-            No messages yet... (you're sure you signed in, right?)
+            No messages yet ... Create one here ...
           </div>
         );
       }

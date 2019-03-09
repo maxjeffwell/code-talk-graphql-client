@@ -1,7 +1,9 @@
 import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+
 import ErrorMessage from '../../Message/MessageDelete';
+import Loading from '../../Loading';
 
 const GET_ALL_ROOMS = gql`
     query {
@@ -50,6 +52,8 @@ const RoomDelete = ({ room }) => (
     {(deleteRoom, { data, loading, error }) => {
 
       if (error) return <ErrorMessage error={error}/>;
+
+      if (loading) return <Loading />;
 
       return <button type="button" onClick={deleteRoom}>
         Delete Room
