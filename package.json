@@ -21,6 +21,7 @@
     "apollo-link-ws": "^1.0.15",
     "apollo-utilities": "^1.2.1",
     "create-react-app": "^2.1.8",
+    "eslint-plugin-graphql": "^3.0.3",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "history": "^4.7.2",

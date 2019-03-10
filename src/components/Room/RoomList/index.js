@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -54,7 +54,7 @@ const Rooms = ({ limit })  => (
       const { rooms } = data;
 
       if (loading || !rooms) {
-        return <Loading />;
+        Redirect to="/landing" />
       }
 
       if (error) {
@@ -153,7 +153,7 @@ class RoomList extends Component {
     const { rooms } = this.props;
     return [<RoomCreate />,
       rooms.map(room => (
-      <RoomListItem key={room.key} room={room}/>
+      <RoomListItem key={room.id} room={room}/>
     ))
       ];
   }
