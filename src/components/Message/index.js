@@ -1,3 +1,4 @@
 import MessageCreate from './MessageCreate';
+import Messages from './Messages';
 
-export { MessageCreate };
+export { MessageCreate, Messages };

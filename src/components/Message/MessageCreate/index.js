@@ -24,14 +24,10 @@ const StyledTextarea = styled(TextareaAutosize)`
 
 const CREATE_MESSAGE = gql`
     mutation($text: String!, $roomId: ID!) {
-        createMessage(text: $text, roomId: $roomId) {
+        createMessage(text: $text, roomId: $roomId){
+            id
             createdAt
-            user {
-                id
-            }
-            room {
-                id
-            }
+            text
         }
     }
 `;
@@ -39,7 +35,7 @@ const CREATE_MESSAGE = gql`
 class MessageCreate extends Component {
   state = {
     text: '',
-    roomId: ''
+    roomId: '',
   };
 
   componentDidMount() {
@@ -65,14 +61,14 @@ class MessageCreate extends Component {
 
     try {
       await createMessage();
-      this.setState({ text: '' });
+      this.setState({ text: '', roomId: this.props.match.params.id });
     } catch (error) {}
   };
 
   validateInput = () => {
     const { text, roomId } = this.state;
     return !text || !roomId;
-  }
+  };
 
   render() {
     const { text, roomId } = this.state;

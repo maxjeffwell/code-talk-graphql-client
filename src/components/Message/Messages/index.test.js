@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MessageContainer  from './index';
+import Messages  from './index';
 
-describe('<MessageContainer />', () => {
+describe('<Messages />', () => {
   it('Should render without crashing', () => {
-    shallow(<MessageContainer />);
+    shallow(<Messages />);
   });
 });

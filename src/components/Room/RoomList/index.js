@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
-import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
 import { ROOMS } from '../../../constants/routes';
 import RoomCreate from '../RoomCreate';
 import RoomDelete from '../RoomDelete';
+import Loading from '../../Loading';
 
 const ROOM_CREATED = gql`
   subscription {
@@ -54,7 +54,7 @@ const Rooms = ({ limit })  => (
       const { rooms } = data;
 
       if (loading || !rooms) {
-        Redirect to="/landing" />
+        return <Loading />;
       }
 
       if (error) {
