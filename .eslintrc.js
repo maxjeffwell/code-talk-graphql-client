@@ -1,5 +1,6 @@
 module.exports = {
 	extends: ["airbnb", "plugin:prettier/recommended"],
+	plugins: ['react', 'jsx-a11y', 'import', 'graphql'],
 	rules: {
 		"react/jsx-filename-extension": 0,
 		"graphql/template-strings": ["error", {
