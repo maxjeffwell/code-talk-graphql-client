@@ -149,6 +149,12 @@ class RoomList extends Component {
     this.subscribeToMoreRooms();
   }
 
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
   render() {
     const { rooms } = this.props;
     return [<RoomCreate />,

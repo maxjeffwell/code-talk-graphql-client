@@ -102,10 +102,6 @@ const Messages = ({ limit, roomId, me })  => (
             me={me}
             roomId={roomId}
             subscribeToMore={subscribeToMore}
-            onScroll={this.handleScroll}
-            ref={(scroller) => {
-              this.scroller = scroller;
-            }}
           />
           {pageInfo.hasNextPage && (
             <MoreMessagesButton
@@ -161,44 +157,6 @@ const MoreMessagesButton = ({
 );
 
 class MessageList extends Component {
-  state = {
-    roomId: '',
-    hasMoreMessages: true,
-  };
-
-  componentWillMount() {
-    this.unsubscribe = this.subscribe(this.props.roomId);
-  }
-
-  componentWillReceiveProps({ data: { messages }, roomId }) {
-    if (this.props.roomId !== roomId) {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
-      this.unsubscribe = this.subscribe(roomId);
-    }
-
-    if (
-      this.scroller &&
-      this.scroller.scrollTop < 100 &&
-      this.props.data.messages &&
-      messages &&
-      this.props.data.messages.length !== messages.length
-    ) {
-      const heightBeforeRender = this.scroller.scrollHeight;
-      setTimeout(() => {
-        if (this.scroller) {
-          this.scroller.scrollTop = this.scroller.scrollHeight - heightBeforeRender;
-        }
-      }, 120);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
 
   subscribeToMoreMessages = () => {
     this.props.subscribeToMore({
@@ -222,39 +180,13 @@ class MessageList extends Component {
     });
   };
 
-  handleScroll = () => {
-    const { data: { messages, fetchMore }, roomId } = this.props;
-    if (
-      this.scroller &&
-      this.scroller.scrollTop < 100 &&
-      this.state.hasMoreMessages &&
-      messages.length >= 15
-    ) {
-      fetchMore({
-        variables: {
-          roomId,
-          cursor: messages[messages.length - 1].createdAt,
-        },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          if (!fetchMoreResult) {
-            return previousResult;
-          }
-
-          if (fetchMoreResult.messages.length < 10) {
-            this.setState({ hasMoreMessages: false });
-          }
-
-          return {
-            ...previousResult,
-            messages: [...previousResult.messages, ...fetchMoreResult.messages],
-          };
-        },
-      });
-    }
-  };
-
   componentDidMount() {
     this.subscribeToMoreMessages();
+  }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
   }
 
   render() {
