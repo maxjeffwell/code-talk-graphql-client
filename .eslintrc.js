@@ -1,6 +1,5 @@
 module.exports = {
-	extends: "airbnb",
-	plugins: ["react", "import", "graphql"],
+	extends: ["airbnb", "plugin:prettier/recommended"],
 	rules: {
 		"react/jsx-filename-extension": 0,
 		"react/prop-types": 0,

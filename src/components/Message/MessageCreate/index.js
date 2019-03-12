@@ -61,7 +61,7 @@ class MessageCreate extends Component {
 
     try {
       await createMessage();
-      this.setState({ text: '', roomId: this.props.match.params.id });
+      this.setState({ text: ''});
     } catch (error) {}
   };
 
