@@ -10,26 +10,24 @@ import RoomCreate from '../RoomCreate';
 import RoomDelete from '../RoomDelete';
 import Loading from '../../Loading';
 
-const ROOM_CREATED = gql`
+const ROOM_CREATED_SUBSCRIPTION = gql`
   subscription {
       roomCreated {
           room {
               id
               title
-              createdAt
           }
       }
   }
 `;
 
-const GET_PAGINATED_ROOMS = gql`
+const GET_PAGINATED_ROOMS_QUERY = gql`
   query($cursor: String, $limit: Int) {
       rooms(cursor: $cursor, limit: $limit) 
       @connection(key: "RoomsConnection") {
           edges {
               id
               title
-              createdAt
           }
           pageInfo {
               hasNextPage
@@ -40,7 +38,7 @@ const GET_PAGINATED_ROOMS = gql`
 `;
 
 const Rooms = ({ limit })  => (
-  <Query query={ GET_PAGINATED_ROOMS } variables={limit}>
+  <Query query={ GET_PAGINATED_ROOMS_QUERY } variables={limit}>
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
         return (
@@ -121,15 +119,15 @@ const GetMoreRoomsButton = ({
 );
 
 class RoomList extends Component {
-  subscribeToMoreRooms = () => {
+  componentDidMount() {
     this.props.subscribeToMore({
-      document: ROOM_CREATED,
+      document: ROOM_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return previousResult;
         }
 
-        const { roomCreated } =subscriptionData.data;
+        const { roomCreated } = subscriptionData.data;
 
         return {
           ...previousResult,
@@ -143,10 +141,6 @@ class RoomList extends Component {
         };
       },
     });
-  };
-
-  componentDidMount() {
-    this.subscribeToMoreRooms();
   }
 
   componentWillUnmount() {
@@ -159,7 +153,7 @@ class RoomList extends Component {
     const { rooms } = this.props;
     return [<RoomCreate />,
       rooms.map(room => (
-      <RoomListItem key={room.id} room={room}/>
+      <RoomListItem key={room.id} room={room} />
     ))
       ];
   }

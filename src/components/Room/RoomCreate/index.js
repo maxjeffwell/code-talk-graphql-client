@@ -24,8 +24,6 @@ class RoomCreate extends Component {
   };
 
   onSubmit = async (event, createRoom) => {
-    event.preventDefault();
-
     try {
       await createRoom();
       this.setState({ title: '' });

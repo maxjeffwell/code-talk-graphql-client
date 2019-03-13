@@ -5,12 +5,12 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../../Message/MessageDelete';
 import Loading from '../../Loading';
 
-const GET_ALL_ROOMS = gql`
-    query {
-        rooms(order: "DESC") @connection(key: "RoomsConnection") {
+const GET_ALL_ROOMS_QUERY = gql`
+    query getAllRoomsQuery {
+        rooms(order: "DESC") 
+        @connection(key: "RoomsConnection") {
             edges {
                 id
-                createdAt
             }
             pageInfo {
                 hasNextPage
@@ -19,23 +19,23 @@ const GET_ALL_ROOMS = gql`
     }
 `;
 
-const DELETE_ROOM = gql`
-    mutation($id: ID!) {
+const DELETE_ROOM_MUTATION = gql`
+    mutation deleteRoomMutation($id: ID!) {
         deleteRoom(id: $id)
     }
 `;
 
 const RoomDelete = ({ room }) => (
   <Mutation
-    mutation={DELETE_ROOM}
+    mutation={DELETE_ROOM_MUTATION}
     variables={{ id: room.id }}
     update={cache => {
       const data = cache.readQuery({
-        query: GET_ALL_ROOMS,
+        query: GET_ALL_ROOMS_QUERY,
       });
 
       cache.writeQuery({
-        query: GET_ALL_ROOMS,
+        query: GET_ALL_ROOMS_QUERY,
         data: {
           ...data,
           rooms: {

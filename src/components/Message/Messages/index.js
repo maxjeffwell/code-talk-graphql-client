@@ -37,7 +37,7 @@ const StyledP = styled.p`
 `;
 
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
-    subscription($roomId: ID!) {
+    subscription messageCreatedSubscription($roomId: ID!) {
         messageCreated(roomId: $roomId) {
             message {
                 id
@@ -52,8 +52,8 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
     }
 `;
 
-const GET_PAGINATED_MESSAGES_BY_ROOM = gql`
-  query($cursor: String, $limit: Int! $roomId: ID!) {
+const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
+  query getPaginatedMessagesByRoomQuery($cursor: String, $limit: Int! $roomId: ID!) {
     messages(cursor: $cursor, limit: $limit, roomId: $roomId)
     @connection(key: "MessagesConnection") {
       edges {
@@ -63,6 +63,9 @@ const GET_PAGINATED_MESSAGES_BY_ROOM = gql`
         user {
           id
           username
+        }
+        room {
+          id
         }
       }
       pageInfo {
@@ -74,7 +77,7 @@ const GET_PAGINATED_MESSAGES_BY_ROOM = gql`
 `;
 
 const Messages = ({ limit, roomId, me })  => (
-  <Query query={ GET_PAGINATED_MESSAGES_BY_ROOM } variables={{
+  <Query query={ GET_PAGINATED_MESSAGES_BY_ROOM_QUERY } variables={{
     limit,
     roomId
   }}>

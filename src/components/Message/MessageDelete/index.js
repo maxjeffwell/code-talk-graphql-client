@@ -5,9 +5,10 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
-const GET_ALL_MESSAGES_WITH_USERS = gql`
-    query {
-        messages(order: "DESC") @connection(key: "MessagesConnection") {
+const GET_ALL_MESSAGES_WITH_USERS_QUERY = gql`
+    query getAllMessagesWithUsersQuery {
+        messages(order: "DESC") 
+        @connection(key: "MessagesConnection") {
             edges {
                 id
                 text
@@ -24,23 +25,23 @@ const GET_ALL_MESSAGES_WITH_USERS = gql`
     }
 `;
 
-const DELETE_MESSAGE = gql`
-    mutation($id: ID!) {
+const DELETE_MESSAGE_MUTATION = gql`
+    mutation deleteMessageMutation($id: ID!) {
         deleteMessage(id: $id)
     }
 `;
 
 const MessageDelete = ({ message }) => (
   <Mutation
-    mutation={DELETE_MESSAGE}
+    mutation={DELETE_MESSAGE_MUTATION}
     variables={{ id: message.id }}
     update={cache => {
       const data = cache.readQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS,
+        query: GET_ALL_MESSAGES_WITH_USERS_QUERY,
       });
 
       cache.writeQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS,
+        query: GET_ALL_MESSAGES_WITH_USERS_QUERY,
         data: {
           ...data,
           messages: {
