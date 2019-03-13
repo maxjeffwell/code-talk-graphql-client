@@ -5,28 +5,23 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
-const GET_ALL_MESSAGES_WITH_USERS_QUERY = gql`
-    query getAllMessagesWithUsersQuery {
-        messages(order: "DESC") 
-        @connection(key: "MessagesConnection") {
-            edges {
+const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
+    query ($cursor: String, $roomId: ID!) {
+        messages(cursor: $cursor, roomId: $roomId){
+            id
+            text
+            createdAt
+            roomId
+            user {
                 id
-                text
-                createdAt
-                user {
-                    id
-                    username
-                }
-            }
-            pageInfo {
-                hasNextPage
+                username
             }
         }
     }
 `;
 
 const DELETE_MESSAGE_MUTATION = gql`
-    mutation deleteMessageMutation($id: ID!) {
+    mutation ($id: ID!) {
         deleteMessage(id: $id)
     }
 `;
@@ -37,19 +32,17 @@ const MessageDelete = ({ message }) => (
     variables={{ id: message.id }}
     update={cache => {
       const data = cache.readQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS_QUERY,
+        query: GET_PAGINATED_MESSAGES_BY_ROOM_QUERY,
       });
 
       cache.writeQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS_QUERY,
+        query: GET_PAGINATED_MESSAGES_BY_ROOM_QUERY,
         data: {
           ...data,
           messages: {
-            ...data.messages,
-            edges: data.messages.edges.filter(
+          ...data.messages.filter(
               node => node.id !== message.id,
             ),
-            pageInfo: data.messages.pageInfo,
           },
         },
       });

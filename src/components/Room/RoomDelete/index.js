@@ -6,7 +6,7 @@ import ErrorMessage from '../../Message/MessageDelete';
 import Loading from '../../Loading';
 
 const GET_ALL_ROOMS_QUERY = gql`
-    query getAllRoomsQuery {
+    query {
         rooms(order: "DESC") 
         @connection(key: "RoomsConnection") {
             edges {
@@ -20,7 +20,7 @@ const GET_ALL_ROOMS_QUERY = gql`
 `;
 
 const DELETE_ROOM_MUTATION = gql`
-    mutation deleteRoomMutation($id: ID!) {
+    mutation($id: ID!) {
         deleteRoom(id: $id)
     }
 `;

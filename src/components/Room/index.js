@@ -5,8 +5,8 @@ import RoomGrid from './RoomGrid';
 
 const Room = ({ match }) => {
 
-  const { id } = match.params;
-  console.log(id);
+  let roomId = match.params.id;
+  console.log(roomId);
 
   return <RoomGrid />
 };

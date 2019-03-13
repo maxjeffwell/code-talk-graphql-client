@@ -37,7 +37,7 @@ const StyledP = styled.p`
 `;
 
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
-    subscription messageCreatedSubscription($roomId: ID!) {
+    subscription($roomId: ID!) {
         messageCreated(roomId: $roomId) {
             message {
                 id
@@ -53,32 +53,22 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
 `;
 
 const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-  query getPaginatedMessagesByRoomQuery($cursor: String, $limit: Int! $roomId: ID!) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-    @connection(key: "MessagesConnection") {
-      edges {
+  query ($cursor: String, $roomId: ID!) {
+    messages(cursor: $cursor, roomId: $roomId){
         id
         text
         createdAt
+        roomId
         user {
-          id
-          username
+            id
+            username
         }
-        room {
-          id
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
     }
   }
 `;
 
-const Messages = ({ limit, roomId, me })  => (
+const Messages = ({ roomId })  => (
   <Query query={ GET_PAGINATED_MESSAGES_BY_ROOM_QUERY } variables={{
-    limit,
     roomId
   }}>
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
@@ -96,74 +86,30 @@ const Messages = ({ limit, roomId, me })  => (
       if (error) {
         return <ErrorMessage error={error} />;
       }
-      const { edges, pageInfo } = messages;
 
       return (
         <Fragment>
           <MessageList
-            messages={edges}
-            me={me}
+            messages={messages}
             roomId={roomId}
             subscribeToMore={subscribeToMore}
           />
-          {pageInfo.hasNextPage && (
-            <MoreMessagesButton
-              limit={limit}
-              pageInfo={pageInfo}
-              fetchMore={fetchMore}
-              roomId={roomId}
-            >
-              Get Older Messages
-            </MoreMessagesButton>
-          )}
         </Fragment>
       );
     }}
   </Query>
 );
 
-const MoreMessagesButton = ({
-                              limit,
-                              pageInfo,
-                              fetchMore,
-                              roomId,
-                              children
-                            }) => (
-  <StyledButton
-    type="button"
-    onClick={() =>
-      fetchMore({
-        variables: {
-          cursor: pageInfo.endCursor,
-          limit,
-          roomId
-        },
-        updateQuery: (previousResult, { fetchMoreResult }) => {
-          if (!fetchMoreResult) {
-            return previousResult;
-          }
-          return {
-            messages: {
-              ...fetchMoreResult.messages,
-              edges: [
-                ...previousResult.messages.edges,
-                ...fetchMoreResult.messages.edges
-              ],
-            },
-          };
-        },
-      })
-    }
-  >
-    {children}
-  </StyledButton>
-);
-
 class MessageList extends Component {
-
-  subscribeToMoreMessages = () => {
+  state = {
+    hasMoreItems: true,
+  };
+  subscribeToMoreMessages = roomId =>
     this.props.subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
+      variables: {
+        roomId,
+      },
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return previousResult;
@@ -172,30 +118,88 @@ class MessageList extends Component {
         return {
           ...previousResult,
           messages: {
+            messageCreated,
             ...previousResult.messages,
-            edges: [
-              messageCreated.message,
-              ...previousResult.messages.edges
-            ],
           },
         };
       },
     });
-  };
+
+  // componentWillMount() {
+  //   this.unsubscribe = this.subscribe(this.props.roomId);
+  // }
 
   componentDidMount() {
     this.subscribeToMoreMessages();
   }
+
+  componentWillReceiveProps({ data: { messages }, roomId }) {
+    if (this.props.roomId !== roomId) {
+      if (this.unsubscribe) {
+        this.unsubscribe();
+      }
+      this.unsubscribe = this.subscribe(this.props.roomId);
+    }
+
+    if (
+      this.scroller &&
+      this.scroller.scrollTop < 20 &&
+      this.props.data.messages &&
+      messages &&
+      this.props.data.messages.length !== messages.length
+    ) {
+      // 35 items
+      const heightBeforeRender = this.scroller.scrollHeight;
+      // wait for 70 items to render
+      setTimeout(() => {
+        if (this.scroller) {
+          this.scroller.scrollTop = this.scroller.scrollHeight - heightBeforeRender;
+        }
+      }, 120);
+    }
+  }
+
   componentWillUnmount() {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
   }
 
+  handleScroll = () => {
+    const { data: { messages, fetchMore }, roomId } = this.props;
+    if (
+      this.scroller &&
+      this.scroller.scrollTop < 100 &&
+      this.state.hasMoreItems &&
+      messages.length >= 35
+    ) {
+      fetchMore({
+        variables: {
+          roomId,
+          cursor: messages[messages.length - 1].createdAt,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return previousResult;
+          }
+
+          if (fetchMoreResult.messages.length < 35) {
+            this.setState({ hasMoreItems: false });
+          }
+
+          return {
+            ...previousResult,
+            messages: [...previousResult.messages, ...fetchMoreResult.messages],
+          };
+        },
+      });
+    }
+  };
+
   render() {
-    const { messages, roomId, me } = this.props;
+    const { messages, me } = this.props;
     return messages.map(message => (
-      <MessageItem key={message.id} roomId={roomId} message={message} me={me} />
+      <MessageItem key={message.id} message={message} me={me} />
       ));
   }
 }

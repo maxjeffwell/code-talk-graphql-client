@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { MessageContainer } from '../../MessageContainer';
+import MessageContainer from '../../MessageContainer';
 import Editor from '../../Editor';
 
 import * as Grid from '../../Grid';

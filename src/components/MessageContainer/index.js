@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
 import { MessageCreate, Messages } from '../Message';
 
@@ -27,8 +28,15 @@ const StyledMessageList = styled.div`
     }
 `;
 
-export const MessageContainer = () =>
-	<StyledMessageList>
+const MessageContainer = ({ match }) => {
+
+	const roomId = match.params.id;
+	console.log(roomId);
+
+	return <StyledMessageList>
 		<MessageCreate />
-		<Messages limit={10} />
+		<Messages limit={10} roomId={roomId} />
 	</StyledMessageList>;
+};
+
+export default withRouter(MessageContainer);

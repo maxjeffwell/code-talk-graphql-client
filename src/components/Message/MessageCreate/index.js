@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -28,9 +28,6 @@ const CREATE_MESSAGE = gql`
             id
             createdAt
             text
-            room {
-                id
-            }
         }
     }
 `;
@@ -77,7 +74,6 @@ class MessageCreate extends Component {
     const { text, roomId } = this.state;
 
     return (
-      <Fragment>
       <Mutation
         mutation={CREATE_MESSAGE}
         variables={{ text, roomId }}
@@ -117,7 +113,6 @@ class MessageCreate extends Component {
           </form>
         )}
       </Mutation>
-      </Fragment>
     );
   }
 }
