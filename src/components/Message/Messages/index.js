@@ -130,7 +130,8 @@ class MessageList extends Component {
   // }
 
   componentDidMount() {
-    this.subscribeToMoreMessages();
+    console.log('I did mount');
+    this.subscribeToMoreMessages(this.props.roomId);
   }
 
   componentWillReceiveProps({ data: { messages }, roomId }) {
@@ -197,9 +198,9 @@ class MessageList extends Component {
   };
 
   render() {
-    const { messages, me } = this.props;
+    const { messages } = this.props;
     return messages.map(message => (
-      <MessageItem key={message.id} message={message} me={me} />
+      <MessageItem key={message.id} message={message} />
       ));
   }
 }
