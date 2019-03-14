@@ -120,6 +120,7 @@ const GetMoreRoomsButton = ({
 
 class RoomList extends Component {
   componentDidMount() {
+    console.log('I DID MOUNT');
     this.props.subscribeToMore({
       document: ROOM_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
@@ -144,6 +145,7 @@ class RoomList extends Component {
   }
 
   componentWillUnmount() {
+    console.log('I UNMOUNTED');
     if (this.unsubscribe) {
       this.unsubscribe();
     }

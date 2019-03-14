@@ -125,12 +125,13 @@ class MessageList extends Component {
       },
     });
 
-  // componentWillMount() {
-  //   this.unsubscribe = this.subscribe(this.props.roomId);
-  // }
+  componentWillMount() {
+    console.log('I AM GOING TO MOUNT');
+    this.unsubscribe = this.subscribeToMoreMessages(this.props.roomId);
+  }
 
   componentDidMount() {
-    console.log('I did mount');
+    console.log('I DID MOUNT');
     this.subscribeToMoreMessages(this.props.roomId);
   }
 
@@ -139,7 +140,7 @@ class MessageList extends Component {
       if (this.unsubscribe) {
         this.unsubscribe();
       }
-      this.unsubscribe = this.subscribe(this.props.roomId);
+      this.unsubscribe = this.subscribeToMoreMessages(this.props.roomId);
     }
 
     if (
@@ -161,6 +162,7 @@ class MessageList extends Component {
   }
 
   componentWillUnmount() {
+    console.log('I UNMOUNTED');
     if (this.unsubscribe) {
       this.unsubscribe();
     }

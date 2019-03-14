@@ -31,7 +31,6 @@ const StyledMessageList = styled.div`
 const MessageContainer = ({ match }) => {
 
 	const roomId = match.params.id;
-	console.log(roomId);
 
 	return <StyledMessageList>
 		<MessageCreate />

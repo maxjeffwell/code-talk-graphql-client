@@ -5,10 +5,9 @@ import RoomGrid from './RoomGrid';
 
 const Room = ({ match }) => {
 
-  let roomId = match.params.id;
-  console.log(roomId);
+  const roomId = match.params.id;
 
-  return <RoomGrid />
+  return <RoomGrid roomId={roomId} />
 };
 
 export default withRouter(Room);
