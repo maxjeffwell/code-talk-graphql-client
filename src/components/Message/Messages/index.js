@@ -117,10 +117,9 @@ class MessageList extends Component {
         const { messageCreated } = subscriptionData.data;
         return {
           ...previousResult,
-          messages: {
-            messageCreated,
-            ...previousResult.messages,
-          },
+          messages: [
+            messageCreated.messages, ...previousResult.messages,
+          ],
         };
       },
     });

@@ -49,6 +49,16 @@ const authLink = new ApolloLink((operation, forward) => {
 	return forward(operation);
 });
 
+const createOmitTypenameLink = new ApolloLink((operation, forward) => {
+	const omitTypename = (key, value) => {
+		return key === '__typename' ? undefined : value
+	};
+	if (operation.variables) {
+		operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename)
+	}
+	return forward(operation)
+});
+
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach(({ message, locations, path }) => {
@@ -69,7 +79,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	}
 });
 
-const link = ApolloLink.from([authLink, errorLink, terminatingLink]);
+const link = ApolloLink.from([authLink, createOmitTypenameLink, errorLink, terminatingLink]);
 
 const cache = new InMemoryCache();
 
