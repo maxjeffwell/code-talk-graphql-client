@@ -6,22 +6,27 @@ import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
 const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-    query ($cursor: String, $roomId: ID!) {
-        messages(cursor: $cursor, roomId: $roomId){
-            id
-            text
-            createdAt
-            roomId
-            user {
-                id
-                username
-            }
+  query {
+    messages(order: "DESC") @connection(key: "MessageConnection") {
+      edges {
+        id
+        text
+        createdAt
+        roomId
+        user {
+          id
+          username
         }
+      }
+      pageInfo {
+        hasNextPage
+      }
     }
+  }
 `;
 
 const DELETE_MESSAGE_MUTATION = gql`
-    mutation ($id: ID!) {
+    mutation($id: ID!) {
         deleteMessage(id: $id)
     }
 `;
@@ -40,9 +45,11 @@ const MessageDelete = ({ message }) => (
         data: {
           ...data,
           messages: {
-          ...data.messages.filter(
+          ...data.messages,
+            edges: data.messages.filter(
               node => node.id !== message.id,
             ),
+            pageInfo: data.messages.pageInfo,
           },
         },
       });

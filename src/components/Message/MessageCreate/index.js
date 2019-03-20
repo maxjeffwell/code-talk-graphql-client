@@ -59,10 +59,11 @@ class MessageCreate extends Component {
   onSubmit = async (event, createMessage) => {
     event.preventDefault();
 
-    try {
-      await createMessage();
-      this.setState({ text: ''});
-    } catch (error) {}
+    // try {
+      return await createMessage()
+        .then(() => this.setState({ text: ''}));
+    // }
+    // catch (error) {}
   };
 
   validateInput = () => {

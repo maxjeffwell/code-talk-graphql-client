@@ -19,9 +19,6 @@ const StyledHeader = styled.header`
     max-width: 50%;
     max-height: 400px;
     }
-  img:hover {
-    transform: scale(1.25);
-  }
 `;
 
 class Header extends Component {

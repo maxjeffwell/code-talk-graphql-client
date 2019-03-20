@@ -8,16 +8,19 @@ import * as Grid from '../../Grid';
 const Row = Grid.Row;
 const Col = Grid.Column;
 
-export default function GridSystem() {
-  return <Row>
+const GridSystem = () => (
+  <Row>
     <Col colspan="1">
       <MessageContainer />
     </Col>
     <Col colspan="2" last>
       <Editor/>
     </Col>
-  </Row>;
-}
+  </Row>
+);
+
+export default GridSystem;
+
 
 
 
