@@ -42,8 +42,9 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
           message {
             id
             text
-            created_at
+            createdAt
             roomId
+            userId
             user {
               id
               username
@@ -60,8 +61,9 @@ const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
       edges {
         id
         text
-        created_at
+        createdAt
         roomId
+        userId
         user {
           id
           username
@@ -91,7 +93,7 @@ const Messages = ({ limit, roomId })  => (
       const { messages } = data;
 
       if (loading || !messages) {
-        return <Loading loading={loading} />;
+        return <Loading />;
       }
       if (error) {
         return <ErrorMessage error={error} />;
