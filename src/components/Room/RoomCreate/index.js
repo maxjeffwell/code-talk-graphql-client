@@ -9,6 +9,7 @@ const CREATE_ROOM = gql`
   mutation ($title: String!) {
       createRoom(title: $title) {
           title
+          createdAt
       }
   }
 `;
@@ -25,6 +26,7 @@ class RoomCreate extends Component {
 
   onSubmit = async (event, createRoom) => {
     try {
+      // event.preventDefault();
       await createRoom();
       this.setState({ title: '' });
     } catch (error) {}

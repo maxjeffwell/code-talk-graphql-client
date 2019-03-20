@@ -28,6 +28,7 @@ const GET_PAGINATED_ROOMS_QUERY = gql`
           edges {
               id
               title
+              createdAt
           }
           pageInfo {
               hasNextPage

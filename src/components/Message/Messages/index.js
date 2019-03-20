@@ -109,6 +109,7 @@ const Messages = ({ limit, roomId })  => (
           {pageInfo.hasNextPage && (
             <MoreMessagesButton
               limit={limit}
+              roomId={roomId}
               pageInfo={pageInfo}
               fetchMore={fetchMore}
             >
@@ -160,12 +161,9 @@ const MoreMessagesButton = ({
 );
 
 class MessageList extends Component {
-  subscribeToMoreMessages = roomId => {
+  subscribeToMoreMessages = () => {
     this.props.subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
-      variables: {
-        roomId,
-      },
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return previousResult;
@@ -193,16 +191,15 @@ class MessageList extends Component {
 
   componentWillReceiveProps({ roomId }) {
     if (this.props.roomId !== roomId) {
-      this.unsubscribe();
       if (this.unsubscribe) {
-        this.unsubscribe = this.subscribeToMoreMessages(this.props.roomId);
+        this.unsubscribe();
       }
+      this.unsubscribe = this.subscribe(roomId);
     }
   }
 
   componentDidMount() {
-  this.subscribeToMoreMessages(this.props.roomId);
-  console.log(this.props.roomId);
+  this.subscribeToMoreMessages();
 }
 
   componentWillUnmount() {
