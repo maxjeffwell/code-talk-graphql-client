@@ -57,11 +57,11 @@ class MessageCreate extends Component {
   };
 
   onSubmit = async (event, createMessage) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     // try {
       return await createMessage()
-        .then(() => this.setState({ text: ''}));
+        // .then(() => this.setState({ text: ''}));
     // }
     // catch (error) {}
   };

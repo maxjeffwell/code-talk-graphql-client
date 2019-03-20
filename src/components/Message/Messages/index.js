@@ -97,7 +97,7 @@ const Messages = ({ limit, roomId })  => (
         return <ErrorMessage error={error} />;
       }
 
-      const { edges, pageInfo } = messages;
+      const { edges, roomId, pageInfo } = messages;
 
       return (
         <Fragment>
@@ -193,10 +193,10 @@ class MessageList extends Component {
 
   componentWillReceiveProps({ roomId }) {
     if (this.props.roomId !== roomId) {
+      this.unsubscribe();
       if (this.unsubscribe) {
-        this.unsubscribe();
+        this.unsubscribe = this.subscribeToMoreMessages(this.props.roomId);
       }
-      this.unsubscribe = this.subscribeToMoreMessages(roomId);
     }
   }
 

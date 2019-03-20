@@ -2,8 +2,8 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ErrorMessage from '../../Error';
-import Loading from '../../Loading';
+// import ErrorMessage from '../../Error';
+// import Loading from '../../Loading';
 
 const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
   query {
@@ -46,7 +46,7 @@ const MessageDelete = ({ message }) => (
           ...data,
           messages: {
           ...data.messages,
-            edges: data.messages.filter(
+            edges: data.messages.edges.filter(
               node => node.id !== message.id,
             ),
             pageInfo: data.messages.pageInfo,
@@ -55,15 +55,11 @@ const MessageDelete = ({ message }) => (
       });
     }}
   >
-    {(deleteMessage, { data, loading, error }) => {
-
-      if (error) return <ErrorMessage error={error}/>;
-      if (loading) return <Loading />;
-
-      return <button type="button" onClick={deleteMessage}>
-        Delete Message
+    {(deleteMessage, { data, loading, error }) => (
+      <button type="button" onClick={deleteMessage}>
+        Delete
       </button>
-    }}
+    )}
   </Mutation>
 );
 
