@@ -42,7 +42,7 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
           message {
             id
             text
-            createdAt
+            created_at
             roomId
             user {
               id
@@ -60,7 +60,7 @@ const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
       edges {
         id
         text
-        createdAt
+        created_at
         roomId
         user {
           id
