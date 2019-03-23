@@ -222,24 +222,11 @@ class MessageList extends Component {
   });
 };
 
-  // componentWillMount() {
-  //   this.unsubscribe = this.subscribeToMoreMessages();
-  // }
-//
-//   componentWillReceiveProps({ roomId }) {
-//     if (this.props.roomId !== roomId) {
-//       if (this.unsubscribe) {
-//         this.unsubscribe();
-//       }
-//       this.unsubscribe = this.subscribe(roomId);
-//     }
-//   }
-//
   componentDidMount() {
   this.subscribeToMoreMessages();
 }
-//
-  componentWillUnmount() {
+
+componentWillUnmount() {
     if (this.unsubscribe) {
       this.unsubscribe();
     }
