@@ -2,28 +2,30 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ErrorMessage from '../../Error';
+// import ErrorMessage from '../../Error';
+// import Loading from '../../Loading';
 
-const GET_ALL_MESSAGES_WITH_USERS = gql`
-    query {
-        messages(order: "DESC") @connection(key: "MessagesConnection") {
-            edges {
-                id
-                text
-                createdAt
-                user {
-                    id
-                    username
-                }
-            }
-            pageInfo {
-                hasNextPage
-            }
+const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
+  query {
+    messages(order: "DESC") @connection(key: "MessageConnection") {
+      edges {
+        id
+        text
+        createdAt
+#        roomId
+        user {
+          id
+          username
         }
+      }
+      pageInfo {
+        hasNextPage
+      }
     }
+  }
 `;
 
-const DELETE_MESSAGE = gql`
+const DELETE_MESSAGE_MUTATION = gql`
     mutation($id: ID!) {
         deleteMessage(id: $id)
     }
@@ -31,19 +33,19 @@ const DELETE_MESSAGE = gql`
 
 const MessageDelete = ({ message }) => (
   <Mutation
-    mutation={DELETE_MESSAGE}
+    mutation={DELETE_MESSAGE_MUTATION}
     variables={{ id: message.id }}
     update={cache => {
       const data = cache.readQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS,
+        query: GET_PAGINATED_MESSAGES_BY_ROOM_QUERY,
       });
 
       cache.writeQuery({
-        query: GET_ALL_MESSAGES_WITH_USERS,
+        query: GET_PAGINATED_MESSAGES_BY_ROOM_QUERY,
         data: {
           ...data,
           messages: {
-            ...data.messages,
+          ...data.messages,
             edges: data.messages.edges.filter(
               node => node.id !== message.id,
             ),
@@ -53,14 +55,11 @@ const MessageDelete = ({ message }) => (
       });
     }}
   >
-    {(deleteMessage, { data, loading, error }) => {
-
-      if (error) return <ErrorMessage error={error}/>;
-
-      return <button type="button" onClick={deleteMessage}>
-        Delete Message
+    {(deleteMessage, { data, loading, error }) => (
+      <button type="button" onClick={deleteMessage}>
+        Delete
       </button>
-    }}
+    )}
   </Mutation>
 );
 

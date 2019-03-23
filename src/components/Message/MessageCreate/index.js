@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextareaAutosize from 'react-autosize-textarea';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
+import Loading from '../../Loading';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
@@ -20,27 +22,37 @@ const StyledTextarea = styled(TextareaAutosize)`
   padding: 3px 3px 3px 3px;
 `;
 
+// const CREATE_MESSAGE = gql`
+//     mutation($text: String!, $roomId: ID!) {
+//         createMessage(text: $text, roomId: $roomId){
+//             id
+//             createdAt
+//             text
+//         }
+//     }
+// `;
+
 const CREATE_MESSAGE = gql`
-    mutation($text: String!) {
-        createMessage(text: $text) {
-            id
-            text
-            createdAt
-            user {
-                id
-                username
-            }
-            room {
-                id
-            }
-        }
+  mutation($text: String!) {
+    createMessage(text: $text){
+      id
+      createdAt
+      text
     }
+  }
 `;
 
 class MessageCreate extends Component {
   state = {
     text: '',
+    // roomId: '',
   };
+
+  // componentDidMount() {
+  //   this.setState({
+  //     roomId: this.props.match.params.id
+  //   });
+  // }
 
   onChange = event => {
     const { name, value } = event.target;
@@ -55,26 +67,31 @@ class MessageCreate extends Component {
   };
 
   onSubmit = async (event, createMessage) => {
-    event.preventDefault();
+      await createMessage(event.preventDefault())
+      .then(() => this.setState({ text: '' }));
+  };
 
-    try {
-      await createMessage();
-      this.setState({ text: '' });
-    } catch (error) {}
+  validateInput = () => {
+    const { text } = this.state;
+    return !text;
   };
 
   render() {
+    // const { text, roomId } = this.state;
     const { text } = this.state;
 
     return (
       <Mutation
         mutation={CREATE_MESSAGE}
+        // variables={{ text, roomId }}
         variables={{ text }}
       >
         {(createMessage, { data, loading, error }) => (
+
           <form
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
+
             <label htmlFor="Message Input">
             <StyledTextarea theme={{
               textarea: {
@@ -94,10 +111,13 @@ class MessageCreate extends Component {
                             maxRows={7}
             />
             </label>
-            <button type="submit" ref={el => (this.button = el)}>
+            <button disabled={loading || this.validateInput()} type="submit" ref={el => (this.button = el)}>
               Send
             </button>
+
+            {loading && <Loading />}
             {error && <ErrorMessage error={error} />}
+
           </form>
         )}
       </Mutation>
@@ -105,4 +125,4 @@ class MessageCreate extends Component {
   }
 }
 
-export default MessageCreate;
+export default withRouter(MessageCreate);

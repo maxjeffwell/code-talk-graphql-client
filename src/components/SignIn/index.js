@@ -101,7 +101,7 @@ class SignInForm extends Component {
 
       await this.props.refetch();
 
-      this.props.history.push(routes.ROOMS);
+      this.props.history.push(routes.ROOM);
     });
 
     event.preventDefault();

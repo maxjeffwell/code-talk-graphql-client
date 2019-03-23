@@ -4,24 +4,24 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
-import Loading from '../../Loading';
 import ErrorMessage from '../../Error';
-import { ROOMS } from '../../../constants/routes';
+// import { ROOMS } from '../../../constants/routes';
 // import RoomCreate from '../RoomCreate';
+// import RoomDelete from '../RoomDelete';
+import Loading from '../../Loading';
 
-const ROOM_CREATED = gql`
+const ROOM_CREATED_SUBSCRIPTION = gql`
   subscription {
       roomCreated {
           room {
               id
               title
-              createdAt
           }
       }
   }
 `;
 
-const GET_PAGINATED_ROOMS = gql`
+const GET_PAGINATED_ROOMS_QUERY = gql`
   query($cursor: String, $limit: Int) {
       rooms(cursor: $cursor, limit: $limit) 
       @connection(key: "RoomsConnection") {
@@ -39,14 +39,14 @@ const GET_PAGINATED_ROOMS = gql`
 `;
 
 const Rooms = ({ limit })  => (
-  <Query query={ GET_PAGINATED_ROOMS } variables={limit}>
+  <Query query={ GET_PAGINATED_ROOMS_QUERY } variables={limit}>
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
         return (
-          <div>
-            <p>No rooms have been created yet... (you're sure you signed in, right?)
-            </p>
-          </div>
+          <Fragment>
+            <p>No rooms have been created yet ... Create one here ...</p>
+            {/*<RoomCreate />*/}
+          </Fragment>
         );
       }
 
@@ -107,7 +107,7 @@ const GetMoreRoomsButton = ({
             ...fetchMoreResult.rooms,
             edges: [
               ...previousResult.rooms.edges,
-              ...fetchMoreResult.rooms.rooms
+              ...fetchMoreResult.rooms.edges
             ],
           },
         };
@@ -120,15 +120,15 @@ const GetMoreRoomsButton = ({
 );
 
 class RoomList extends Component {
-  subscribeToMoreRooms = () => {
+  componentDidMount() {
     this.props.subscribeToMore({
-      document: ROOM_CREATED,
+      document: ROOM_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return previousResult;
         }
 
-        const { roomCreated } =subscriptionData.data;
+        const { roomCreated } = subscriptionData.data;
 
         return {
           ...previousResult,
@@ -142,27 +142,26 @@ class RoomList extends Component {
         };
       },
     });
-  };
-
-  componentDidMount() {
-    this.subscribeToMoreRooms();
   }
 
-//   render() {
-//     const { rooms } = this.props;
-//     return [<RoomCreate />,
-//       rooms.map(room => (
-//       <RoomListItem key={room.id} room={room}/>
-//     ))
-//       ];
-//   }
-// }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
+
+  // render() {
+  //   const { rooms } = this.props;
+  //   return [<RoomCreate />,
+  //     rooms.map(room => (
+  //     <RoomListItem key={room.id} room={room} />
+  //   ))
+  //     ];
+  // }
 
   render() {
     const { rooms } = this.props;
-    return rooms.map(room => (
-      <RoomListItem key={room.id} room={room}/>
-    ))
+    return rooms.map(room => <RoomListItem key={room.id} room={room}/>)
   }
 }
 
@@ -197,9 +196,10 @@ const StyledRoomLink = styled(Link)`
 const RoomListItem = ({ room }) => (
   <StyledRoomList>
     <li>
-      <StyledRoomLink to={`${ROOMS}/${room.id}`}>
+      {/*<StyledRoomLink to={`${ROOMS}/${room.id}`}>*/}
         {room.title}
-      </StyledRoomLink>
+      {/*</StyledRoomLink>*/}
+      {/*<RoomDelete room={room} />*/}
     </li>
   </StyledRoomList>
 );

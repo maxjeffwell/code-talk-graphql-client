@@ -2,13 +2,15 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const GET_ALL_ROOMS = gql`
+import ErrorMessage from '../../Message/MessageDelete';
+import Loading from '../../Loading';
+
+const GET_ALL_ROOMS_QUERY = gql`
     query {
-        rooms(order: "DESC") @connection(key: "RoomsConnection") {
+        rooms(order: "DESC") 
+        @connection(key: "RoomsConnection") {
             edges {
                 id
-                text
-                createdAt
             }
             pageInfo {
                 hasNextPage
@@ -17,7 +19,7 @@ const GET_ALL_ROOMS = gql`
     }
 `;
 
-const DELETE_ROOM = gql`
+const DELETE_ROOM_MUTATION = gql`
     mutation($id: ID!) {
         deleteRoom(id: $id)
     }
@@ -25,15 +27,15 @@ const DELETE_ROOM = gql`
 
 const RoomDelete = ({ room }) => (
   <Mutation
-    mutation={DELETE_ROOM}
+    mutation={DELETE_ROOM_MUTATION}
     variables={{ id: room.id }}
     update={cache => {
       const data = cache.readQuery({
-        query: GET_ALL_ROOMS,
+        query: GET_ALL_ROOMS_QUERY,
       });
 
       cache.writeQuery({
-        query: GET_ALL_ROOMS,
+        query: GET_ALL_ROOMS_QUERY,
         data: {
           ...data,
           rooms: {
@@ -47,11 +49,16 @@ const RoomDelete = ({ room }) => (
       });
     }}
   >
-    {(deleteMessage, { data, loading, error }) => (
-      <button type="button" onClick={deleteMessage}>
+    {(deleteRoom, { data, loading, error }) => {
+
+      if (error) return <ErrorMessage error={error}/>;
+
+      if (loading) return <Loading />;
+
+      return <button type="button" onClick={deleteRoom}>
         Delete Room
       </button>
-    )}
+    }}
   </Mutation>
 );
 

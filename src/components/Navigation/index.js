@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -39,33 +39,33 @@ const StyledParagraph = styled.p`
 `;
 
 const Navigation = ({ session }) => (
-  <div className="route types" role="navigation">
+  <Fragment>
     {session && session.me ? (
       <NavigationAuth session={session} />
     ) : (
       <NavigationNonAuth />
     )}
-  </div>
+  </Fragment>
 );
 
 const NavigationAuth = ({ session }) =>
-  <div className="header">
+  <Fragment>
   <Header />
   <Logo>
     <StyledParagraph>Welcome, {session.me.username}!</StyledParagraph>
   </Logo>
   <SignOutButton />
     <Logo>
-      <Link to={routes.ROOMS}>Code Talk Chat Rooms</Link>
+      <Link to={routes.ROOM}>Code Talk Chat</Link>
     </Logo>
-  </div>;
+  </Fragment>;
 
 const NavigationNonAuth = () =>
-  <div className="Nav-Bar" role="navigation">
-    <Header />
-    <Logo>
-      <Link to={routes.SIGN_IN}>Sign In</Link>
+     <Fragment>
+       <Header/>
+       <Logo>
+        <Link to={routes.SIGN_IN}>Sign In</Link>
       </Logo>
-  </div>;
+    </Fragment>;
 
 export default Navigation;
