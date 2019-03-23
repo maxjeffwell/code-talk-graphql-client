@@ -14,7 +14,7 @@ const GridSystem = () => (
       <MessageContainer />
     </Col>
     <Col colspan="2" last>
-      <Editor/>
+      <Editor />
     </Col>
   </Row>
 );

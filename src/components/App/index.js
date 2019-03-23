@@ -9,7 +9,7 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import withSession from '../Session/withSession';
-import RoomList  from '../Room/RoomList';
+// import RoomList  from '../Room/RoomList';
 import Room from '../Room';
 
 import * as routes from '../../constants/routes';
@@ -86,11 +86,11 @@ const App = ({ session, refetch }) => (
         component={() => <SignInPage refetch={refetch} />}
       />
 
-      <Route
-        exact
-        path={routes.ROOMS}
-        component={() => <RoomList />}
-      />
+      {/*<Route*/}
+        {/*exact*/}
+        {/*path={routes.ROOMS}*/}
+        {/*component={() => <RoomList />}*/}
+      {/*/>*/}
 
       <Route
         path={routes.ROOM}

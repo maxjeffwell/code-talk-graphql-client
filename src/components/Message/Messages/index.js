@@ -36,34 +36,73 @@ const StyledP = styled.p`
     width: 100%;
 `;
 
+// const MESSAGE_CREATED_SUBSCRIPTION = gql`
+//     subscription($roomId: ID!) {
+//         messageCreated(roomId: $roomId) {
+//           message {
+//             id
+//             text
+//             createdAt
+//             roomId
+//             userId
+//             user {
+//               id
+//               username
+//             }
+//           }
+//         }
+//     }
+// `;
+
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
-    subscription($roomId: ID!) {
-        messageCreated(roomId: $roomId) {
-          message {
-            id
-            text
-            createdAt
-            roomId
-            userId
-            user {
-              id
-              username
-            }
-          }
+  subscription{
+    messageCreated {
+      message {
+        id
+        text
+        createdAt
+        user {
+          id
+          username
         }
+      }
     }
+  }
 `;
 
-const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-  query($cursor: String, $limit: Int!, $roomId: ID!) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
+// const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
+//   query($cursor: String, $limit: Int!, $roomId: ID!) {
+//     messages(cursor: $cursor, limit: $limit, roomId: $roomId)
+//     @connection(key: "MessageConnection") {
+//       edges {
+//         id
+//         text
+//         createdAt
+//         roomId
+//         userId
+//         user {
+//           id
+//           username
+//         }
+//       }
+//       pageInfo {
+//         hasNextPage
+//         endCursor
+//       }
+//     }
+//   }
+// `;
+
+const GET_PAGINATED_MESSAGES_QUERY = gql`
+  query($cursor: String, $limit: Int!) {
+    messages(cursor: $cursor, limit: $limit)
     @connection(key: "MessageConnection") {
       edges {
         id
         text
         createdAt
-        roomId
-        userId
+        #        roomId
+        #        userId
         user {
           id
           username
@@ -77,9 +116,9 @@ const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
   }
 `;
 
-const Messages = ({ limit, roomId })  => (
-  <Query query={ GET_PAGINATED_MESSAGES_BY_ROOM_QUERY }
-         variables={{ limit, roomId }}
+const Messages = ({ limit })  => (
+  <Query query={ GET_PAGINATED_MESSAGES_QUERY }
+         variables={{ limit }}
   >
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
@@ -99,19 +138,17 @@ const Messages = ({ limit, roomId })  => (
         return <ErrorMessage error={error} />;
       }
 
-      const { edges, roomId, pageInfo } = messages;
+      const { edges, pageInfo } = messages;
 
       return (
         <Fragment>
           <MessageList
             messages={edges}
-            roomId={roomId}
             subscribeToMore={subscribeToMore}
           />
           {pageInfo.hasNextPage && (
             <MoreMessagesButton
               limit={limit}
-              roomId={roomId}
               pageInfo={pageInfo}
               fetchMore={fetchMore}
             >
@@ -126,7 +163,6 @@ const Messages = ({ limit, roomId })  => (
 
 const MoreMessagesButton = ({
                               limit,
-                              roomId,
                               pageInfo,
                               fetchMore,
                               children,
@@ -138,7 +174,6 @@ const MoreMessagesButton = ({
         variables: {
           cursor: pageInfo.endCursor,
           limit,
-          roomId,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
@@ -187,23 +222,23 @@ class MessageList extends Component {
   });
 };
 
-  componentWillMount() {
-    this.unsubscribe = this.subscribeToMoreMessages(this.props.roomId);
-  }
-
-  componentWillReceiveProps({ roomId }) {
-    if (this.props.roomId !== roomId) {
-      if (this.unsubscribe) {
-        this.unsubscribe();
-      }
-      this.unsubscribe = this.subscribe(roomId);
-    }
-  }
-
+  // componentWillMount() {
+  //   this.unsubscribe = this.subscribeToMoreMessages();
+  // }
+//
+//   componentWillReceiveProps({ roomId }) {
+//     if (this.props.roomId !== roomId) {
+//       if (this.unsubscribe) {
+//         this.unsubscribe();
+//       }
+//       this.unsubscribe = this.subscribe(roomId);
+//     }
+//   }
+//
   componentDidMount() {
   this.subscribeToMoreMessages();
 }
-
+//
   componentWillUnmount() {
     if (this.unsubscribe) {
       this.unsubscribe();

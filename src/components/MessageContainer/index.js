@@ -1,6 +1,6 @@
 import React from 'react';
 // import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 
 import { MessageCreate, Messages } from '../Message';
 
@@ -29,14 +29,18 @@ import { MessageCreate, Messages } from '../Message';
 // `;
 
 
-const MessageContainer = ({ match }) => {
+// const MessageContainer = ({ match }) => {
 
-	const roomId = match.params.id;
+const MessageContainer = () => {
+	// const roomId = match.params.id;
 
 	return <div>
 		<MessageCreate />
-		<Messages limit={10} roomId={roomId} />
+		{/*<Messages limit={10} roomId={roomId} />*/}
+		<Messages limit={10} />
 	</div>;
 };
 
-export default withRouter(MessageContainer);
+// export default withRouter(MessageContainer);
+
+export default MessageContainer;

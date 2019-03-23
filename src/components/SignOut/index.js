@@ -5,7 +5,7 @@ import * as routes from '../../constants/routes';
 import history from '../../constants/history';
 import styled from 'styled-components';
 
-const StyledButton = styled.button` S
+const StyledButton = styled.button`
   position: relative;
   margin-left: 10px;
   background: ${props => props.theme.black}; 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
@@ -7,23 +7,24 @@ import gql from 'graphql-tag';
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
 
-export const TYPE_CODE = gql`
-    mutation TypeCodeMutation($body: String!){
+export const TYPE_CODE_MUTATION = gql`
+    mutation typeCodeMutation ($body: String!){
         typeCode(code: {body: $body}) {
             body
         }
     }
 `;
 
-export const READ_CODE = gql`{
+export const READ_CODE_QUERY = gql`
+  query readCodeQuery {
     readCode {
-        body
+      body
     }
-}
+  }
 `;
 
 export const TYPING_CODE_SUBSCRIPTION = gql`
-    subscription {
+    subscription typingCodeSubscription {
         typingCode {
             body
         }
@@ -43,10 +44,10 @@ const StyledTextarea = styled(TextareaAutosize)`
 `;
 
 class Editor extends Component {
-  updateCode(e, typeCodeMutation) {
+  static updateCode(e, typeCodeMutation) {
     const newCode = e.currentTarget.value;
     typeCodeMutation({ variables: { body: newCode } });
-  }
+  };
 
   subscribeToNewCode(subscribeToMore) {
     subscribeToMore({
@@ -57,18 +58,18 @@ class Editor extends Component {
           readCode: subscriptionData.data.typingCode
         });
       }
-    })
+    });
   }
 
   render() {
     return (
-      <div className="editor">
-        <Query query={READ_CODE}>
+      <Fragment>
+        <Query query={READ_CODE_QUERY}>
           {({ loading, error, data, subscribeToMore }) => {
             this.subscribeToNewCode(subscribeToMore);
             if (loading) return <Loading />;
             if (error) return ErrorMessage;
-            return <Mutation mutation={TYPE_CODE}>
+            return <Mutation mutation={TYPE_CODE_MUTATION}>
               {typeCodeMutation =>
                 <label>
                   <StyledTextarea theme={{
@@ -81,14 +82,14 @@ class Editor extends Component {
                   }} aria-label="textarea"
                                   value={data.readCode.body}
                                   placeholder="Collaborate on code here ..."
-                                  onChange={e => this.updateCode(e, typeCodeMutation)}
+                                  onChange={e => Editor.updateCode(e, typeCodeMutation)}
                                   rows={50}
                   />
                 </label>}
             </Mutation>
           }}
         </Query>
-      </div>
+      </Fragment>
     );
   }
 }

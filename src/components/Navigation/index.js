@@ -56,7 +56,7 @@ const NavigationAuth = ({ session }) =>
   </Logo>
   <SignOutButton />
     <Logo>
-      <Link to={routes.ROOMS}>Code Talk Chat Rooms</Link>
+      <Link to={routes.ROOM}>Code Talk Chat</Link>
     </Logo>
   </Fragment>;
 
@@ -64,7 +64,7 @@ const NavigationNonAuth = () =>
      <Fragment>
        <Header/>
        <Logo>
-        <Link to={routes.SIGN_IN}> Sign In </Link>
+        <Link to={routes.SIGN_IN}>Sign In</Link>
       </Logo>
     </Fragment>;
 

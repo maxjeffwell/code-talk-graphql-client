@@ -12,7 +12,7 @@ const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
         id
         text
         createdAt
-        roomId
+#        roomId
         user {
           id
           username

@@ -5,9 +5,9 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
-import { ROOMS } from '../../../constants/routes';
-import RoomCreate from '../RoomCreate';
-import RoomDelete from '../RoomDelete';
+// import { ROOMS } from '../../../constants/routes';
+// import RoomCreate from '../RoomCreate';
+// import RoomDelete from '../RoomDelete';
 import Loading from '../../Loading';
 
 const ROOM_CREATED_SUBSCRIPTION = gql`
@@ -45,7 +45,7 @@ const Rooms = ({ limit })  => (
         return (
           <Fragment>
             <p>No rooms have been created yet ... Create one here ...</p>
-            <RoomCreate />
+            {/*<RoomCreate />*/}
           </Fragment>
         );
       }
@@ -150,13 +150,18 @@ class RoomList extends Component {
     }
   }
 
+  // render() {
+  //   const { rooms } = this.props;
+  //   return [<RoomCreate />,
+  //     rooms.map(room => (
+  //     <RoomListItem key={room.id} room={room} />
+  //   ))
+  //     ];
+  // }
+
   render() {
     const { rooms } = this.props;
-    return [<RoomCreate />,
-      rooms.map(room => (
-      <RoomListItem key={room.id} room={room} />
-    ))
-      ];
+    return rooms.map(room => <RoomListItem key={room.id} room={room}/>)
   }
 }
 
@@ -191,10 +196,10 @@ const StyledRoomLink = styled(Link)`
 const RoomListItem = ({ room }) => (
   <StyledRoomList>
     <li>
-      <StyledRoomLink to={`${ROOMS}/${room.id}`}>
+      {/*<StyledRoomLink to={`${ROOMS}/${room.id}`}>*/}
         {room.title}
-      </StyledRoomLink>
-      <RoomDelete room={room} />
+      {/*</StyledRoomLink>*/}
+      {/*<RoomDelete room={room} />*/}
     </li>
   </StyledRoomList>
 );
