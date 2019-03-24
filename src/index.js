@@ -8,12 +8,12 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ThemeProvider } from 'styled-components';
+import { createUploadLink } from 'apollo-upload-client';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
-import createFileLink from './createFileLink';
 
-const httpLink = createFileLink({
+const uploadLink = createUploadLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
 });
 
@@ -32,7 +32,7 @@ const terminatingLink = split(
 		);
 	},
 	wsLink,
-	httpLink,
+	uploadLink,
 );
 
 const authLink = new ApolloLink((operation, forward) => {

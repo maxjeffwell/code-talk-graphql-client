@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const Snippet = ({
-	                    children, disableClick, channelId, mutate, style = {},
+	                    children, disableClick, mutate, style = {},
                     }) => (
 	<Dropzone
 		style={style}
