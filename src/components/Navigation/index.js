@@ -29,7 +29,7 @@ export const StyledParagraph = styled.p`
   display: inline;
   position: relative;
   margin: 0 0 10px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   text-align: center;
   @media (max-width: 1000px) {
       margin: 5px;
