@@ -98,7 +98,7 @@ class Editor extends Component {
 }
 
 const DebouncedEditor = compose (
-  withDebouncedProps(["readCode"], func => debounce(func, 2000)),
+  withDebouncedProps(["readCode"], func => debounce(func, 275)),
   graphql(READ_CODE_QUERY),
 )(Editor);
 
