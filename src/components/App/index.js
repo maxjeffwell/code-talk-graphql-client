@@ -37,12 +37,12 @@ const GlobalStyle = createGlobalStyle`
 	  font-style: normal;
 	}
 
-  @font-face {
-	  font-family: FloodStd;
-	  src: url('../../../public/fonts/FloodStd.otf') format('opentype');
-	  font-weight: normal;
-	  font-style: normal;
-	}
+  // @font-face {
+	//   font-family: FloodStd;
+	//   src: url('../../../public/fonts/FloodStd.otf') format('opentype');
+	//   font-weight: normal;
+	//   font-style: normal;
+	// }
 
 html {
 		box-sizing: border-box; // set box sizing on root of doc in html

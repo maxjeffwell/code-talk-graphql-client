@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { StyledButton } from '../Messages';
@@ -35,12 +35,12 @@ const DELETE_MESSAGE_MUTATION = gql`
 const MessageDelete = ({ message }) => <Mutation
   mutation={DELETE_MESSAGE_MUTATION}
   variables={{ id: message.id }}
-  update={cache => {
-    const data = cache.readQuery({
+  update={client => {
+    const data = client.readQuery({
       query: GET_PAGINATED_MESSAGES_QUERY,
     });
 
-    cache.writeQuery({
+    client.writeQuery({
       query: GET_PAGINATED_MESSAGES_QUERY,
       data: {
         ...data,
@@ -56,9 +56,9 @@ const MessageDelete = ({ message }) => <Mutation
   }}
 >
   {(deleteMessage) => <StyledButton type="button" onClick={deleteMessage}>
-    Delete
+    Delete Message
   </StyledButton>
   }
 </Mutation>;
 
-export default MessageDelete;
+export default withApollo(MessageDelete);

@@ -22,7 +22,7 @@ class NavigationAuth extends Component {
 		return <Fragment>
 			<Header/>
 			<Logo>
-				<StyledParagraph>Welcome, {session.me.username}!</StyledParagraph>
+				<StyledParagraph>Current User: {session.me.username}</StyledParagraph>
 			</Logo>
 			<SignOutButton/>
 			<Logo>

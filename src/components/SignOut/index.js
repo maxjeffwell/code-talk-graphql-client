@@ -15,15 +15,12 @@ const StyledButton = styled.button`
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
+  font-family: RussellSquareStd, monospace;
   font-weight: bold;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 3px solid ${props => props.theme.green};
- //@media (max-width: 1000px) {
- //   margin: 2px;
- //   text-align: center;
- // }
  &:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px      50px 0 rgba(0,0,0,0.19);
  }
