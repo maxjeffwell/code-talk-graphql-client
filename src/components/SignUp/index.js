@@ -12,10 +12,7 @@ import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
 
 const StyledHeader = styled.h1`
-  color: ${props => props.theme.green};
-  background-color: ${props => props.theme.black};
-  border: 5px solid ${props => props.theme.green};
-  border-radius: 5px;
+  color: ${props => props.theme.black};
   font-size: 2rem;
   display: inline-block;
   padding: 5px 10px;
@@ -23,11 +20,11 @@ const StyledHeader = styled.h1`
 
 const StyledNavLink = styled(Link)`
   padding: 0.5rem 1rem;
+  border: 5px solid ${props => props.theme.green};
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
   text-transform: uppercase;
   text-decoration: none;
-  border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
   font-weight: bold;
   &:hover {
@@ -61,7 +58,7 @@ const INITIAL_STATE = {
 
 const SignUpPage = ({ history, refetch }) => (
   <StyledDiv role="form">
-    <StyledHeader>BECOME A CODE TALKER</StyledHeader>
+    <StyledHeader>Code Talk Registration</StyledHeader>
     <SignUpForm history={history} refetch={refetch} />
     <div>
       <p>Prefer not to sign up right now? Feel free to use a demo instead</p>

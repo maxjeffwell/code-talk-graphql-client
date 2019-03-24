@@ -1,7 +1,7 @@
 import React from 'react';
 
 import MessageContainer from '../../MessageContainer';
-import Editor from '../../Editor';
+import DebouncedEditor from '../../Editor';
 
 import * as Grid from '../../Grid';
 
@@ -14,7 +14,7 @@ const GridSystem = () => (
       <MessageContainer />
     </Col>
     <Col colspan="2" last>
-      <Editor />
+      <DebouncedEditor />
     </Col>
   </Row>
 );

@@ -9,7 +9,6 @@ const StyledHeader = styled.header`
     display: flex;
     height: 150px;
     grid-template-columns: auto 1fr;
-    border-bottom: 2px solid ${props => props.theme.black};
     justify-content: space-evenly;
     align-items: stretch;
     }  
@@ -17,7 +16,7 @@ const StyledHeader = styled.header`
     display: flex;
     margin: auto;
     max-width: 50%;
-    max-height: 400px;
+    max-height: 450px;
     }
 `;
 

@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Query, Mutation } from 'react-apollo';
+import { debounce } from "lodash";
+import withDebouncedProps from "react-debounced-props";
+import { Query, Mutation, compose, graphql } from 'react-apollo';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
 import gql from 'graphql-tag';
@@ -40,6 +42,7 @@ const StyledTextarea = styled(TextareaAutosize)`
   box-sizing: border-box;
   width: 100%;
   margin-right: 50px;
+  margin-left: 10px;
   padding: 10px 10px 10px 10px;
 `;
 
@@ -60,16 +63,6 @@ class Editor extends Component {
       }
     });
   }
-
-  // componentDidMount() {
-  //   this.subscribeToNewCode();
-  // }
-  //
-  // componentWillUnmount() {
-  //   if (this.unsubscribe) {
-  //     this.unsubscribe();
-  //   }
-  // }
 
   render() {
     return (
@@ -104,4 +97,9 @@ class Editor extends Component {
   }
 }
 
-export default Editor;
+const DebouncedEditor = compose (
+  withDebouncedProps(["readCode"], func => debounce(func, 2000)),
+  graphql(READ_CODE_QUERY),
+)(Editor);
+
+export default DebouncedEditor;

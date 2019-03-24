@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 // import styled from 'styled-components';
 // import { withRouter } from 'react-router-dom';
 
@@ -34,11 +34,11 @@ import { MessageCreate, Messages } from '../Message';
 const MessageContainer = () => {
 	// const roomId = match.params.id;
 
-	return <div>
+	return <Fragment>
 		<MessageCreate />
 		{/*<Messages limit={10} roomId={roomId} />*/}
-		<Messages limit={10} />
-	</div>;
+		<Messages limit={5} />
+	</Fragment>;
 };
 
 // export default withRouter(MessageContainer);
