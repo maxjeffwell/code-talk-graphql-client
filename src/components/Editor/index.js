@@ -61,15 +61,11 @@ class Editor extends Component {
     });
   }
 
-  // componentDidMount() {
-  //   this.subscribeToNewCode();
-  // }
-  //
-  // componentWillUnmount() {
-  //   if (this.unsubscribe) {
-  //     this.unsubscribe();
-  //   }
-  // }
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
 
   render() {
     return (

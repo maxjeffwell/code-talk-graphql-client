@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import * as routes from '../../constants/routes';
-import Header from '../Header';
-import SignOutButton from '../SignOut';
+import NavigationAuth from './Auth';
+import NavigationNonAuth from './NonAuth';
 
-const Logo = styled.h1`
+export const Logo = styled.h1`
   font-size: 1.5rem;
   position: relative;
   z-index: 2;
@@ -27,7 +25,7 @@ const Logo = styled.h1`
   }
 `;
 
-const StyledParagraph = styled.p`
+export const StyledParagraph = styled.p`
   display: inline;
   position: relative;
   margin: 0 0 10px;
@@ -47,25 +45,5 @@ const Navigation = ({ session }) => (
     )}
   </Fragment>
 );
-
-const NavigationAuth = ({ session }) =>
-  <Fragment>
-  <Header />
-  <Logo>
-    <StyledParagraph>Welcome, {session.me.username}!</StyledParagraph>
-  </Logo>
-  <SignOutButton />
-    <Logo>
-      <Link to={routes.ROOM}>Code Talk Chat</Link>
-    </Logo>
-  </Fragment>;
-
-const NavigationNonAuth = () =>
-     <Fragment>
-       <Header/>
-       <Logo>
-        <Link to={routes.SIGN_IN}>Sign In</Link>
-      </Logo>
-    </Fragment>;
 
 export default Navigation;

@@ -8,32 +8,38 @@ import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
 import ErrorMessage from '../../Error';
 
-const StyledMessage = styled.div`
-    border-top: 5px solid ${props => props.theme.black};
-    line-height: 1.5;
+const StyledMessage = styled.li`
+    border-top: 3px solid ${props => props.theme.black};
+    margin: 5px auto;
+    line-height: 1;
     overflow: auto;
     grid-column: 3;
     grid-row: 2;
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 5px;
     display: flex;
     flex-direction: column-reverse;
 `;
 
 export const StyledButton = styled.button`
   cursor: pointer;
+  display: block;
+  text-align: center;
   font-size: 1em;
-  margin: 5px auto;
+  margin: 0 auto;
   padding: .25em;
   color: ${props => props.theme.green};
   background: ${props => props.theme.black};
   border-radius: 5px;
-  border: 5px solid ${props => props.theme.green};
+  border: 3px solid ${props => props.theme.green};
 `;
 
 const StyledP = styled.p`
     word-wrap: break-word;
     width: 100%;
+    line-height: 1;
+    margin: 5px auto;
 `;
 
 // const MESSAGE_CREATED_SUBSCRIPTION = gql`
@@ -152,7 +158,7 @@ const Messages = ({ limit })  => (
               pageInfo={pageInfo}
               fetchMore={fetchMore}
             >
-              More
+              Get More Messages
             </MoreMessagesButton>
           )}
         </Fragment>
@@ -237,12 +243,12 @@ render() {
 
   const MessageItemBase = ({ message, session }) => (
     <StyledMessage>
-      <h2>{message.user.username}</h2>
-      <small>{message.createdAt}</small>
-      <StyledP>{message.text}</StyledP>
       {session && session.me && message.user.id === session.me.id && (
         <MessageDelete message={message}/>
       )}
+      <StyledP>Time: {message.createdAt}</StyledP>
+      <StyledP>Username: {message.user.username}</StyledP>
+      <StyledP>Message: {message.text}</StyledP>
     </StyledMessage>
   );
 

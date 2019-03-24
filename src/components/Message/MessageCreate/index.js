@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
+import { StyledButton } from '../Messages';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: ${({ theme }) => theme.textarea.fontSize};
@@ -20,6 +21,10 @@ const StyledTextarea = styled(TextareaAutosize)`
   width: 100%;
   margin-top: 2px;
   padding: 3px 3px 3px 3px;
+`;
+
+const StyledForm = styled.form`
+  margin-bottom: 5px;
 `;
 
 // const CREATE_MESSAGE = gql`
@@ -88,15 +93,14 @@ class MessageCreate extends Component {
       >
         {(createMessage, { data, loading, error }) => (
 
-          <form
+          <StyledForm
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
 
             <label htmlFor="Message Input">
             <StyledTextarea theme={{
               textarea: {
-                fontSize: '1.2em',
-                fontWeight: 'bold',
+                fontSize: '1em',
                 border: '5px solid #30d403',
                 backgroundColor: '#EDEDED',
                 color: '#393939',
@@ -111,14 +115,14 @@ class MessageCreate extends Component {
                             maxRows={7}
             />
             </label>
-            <button disabled={loading || this.validateInput()} type="submit" ref={el => (this.button = el)}>
-              Send
-            </button>
+            <StyledButton disabled={loading || this.validateInput()} type="submit" ref={el => (this.button = el)}>
+              Send Message
+            </StyledButton>
 
             {loading && <Loading />}
             {error && <ErrorMessage error={error} />}
 
-          </form>
+          </StyledForm>
         )}
       </Mutation>
     );
