@@ -31,7 +31,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.8.5",
-    "react-apollo": "^2.5.2",
+    "react-apollo": "^2.5.3",
     "react-autosize-textarea": "^6.0.0",
     "react-debounced-props": "^0.1.0",
     "react-dom": "^16.8.5",

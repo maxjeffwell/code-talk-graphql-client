@@ -5,13 +5,12 @@ import gql from 'graphql-tag';
 import { StyledButton } from '../Messages';
 
 const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query {
+  query getPaginatedMessagesQuery { 
     messages(order: "DESC") @connection(key: "MessageConnection") {
       edges {
         id
         text
         createdAt
-#        roomId
         user {
           id
           username
@@ -25,10 +24,8 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
 `;
 
 const DELETE_MESSAGE_MUTATION = gql`
-    mutation($id: ID!) {
-        deleteMessage(id: $id) {
-          text
-        }
+    mutation deleteMessageMutation($id: ID!) {
+        deleteMessage(id: $id)
     }
 `;
 

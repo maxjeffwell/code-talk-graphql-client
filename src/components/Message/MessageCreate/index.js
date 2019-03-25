@@ -26,38 +26,23 @@ const StyledTextarea = styled(TextareaAutosize)`
 const StyledForm = styled.form`
   margin-bottom: 5px;
 `;
-
-// const CREATE_MESSAGE = gql`
-//     mutation($text: String!, $roomId: ID!) {
-//         createMessage(text: $text, roomId: $roomId){
-//             id
-//             createdAt
-//             text
-//         }
-//     }
-// `;
-
-const CREATE_MESSAGE = gql`
-  mutation($text: String!) {
+const CREATE_MESSAGE_MUTATION = gql`
+  mutation createMessageMutation($text: String!) {
     createMessage(text: $text){
       id
       createdAt
-      text
+      user{
+        id
+        username
+      }
     }
   }
 `;
 
 class MessageCreate extends Component {
   state = {
-    text: '',
-    // roomId: '',
+    text: ''
   };
-
-  // componentDidMount() {
-  //   this.setState({
-  //     roomId: this.props.match.params.id
-  //   });
-  // }
 
   onChange = event => {
     const { name, value } = event.target;
@@ -71,9 +56,17 @@ class MessageCreate extends Component {
     }
   };
 
+  // onSubmit = async (event, createMessage) => {
+  //     await createMessage(event.preventDefault())
+  //     .then(() => this.setState({ text: '' }));
+  // };
+
   onSubmit = async (event, createMessage) => {
-      await createMessage(event.preventDefault())
-      .then(() => this.setState({ text: '' }));
+    event.preventDefault();
+    try {
+      await createMessage();
+      this.setState({ text: '' });
+    } catch (error) {}
   };
 
   validateInput = () => {
@@ -82,13 +75,12 @@ class MessageCreate extends Component {
   };
 
   render() {
-    // const { text, roomId } = this.state;
+
     const { text } = this.state;
 
     return (
       <Mutation
-        mutation={CREATE_MESSAGE}
-        // variables={{ text, roomId }}
+        mutation={CREATE_MESSAGE_MUTATION}
         variables={{ text }}
       >
         {(createMessage, { data, loading, error }) => (

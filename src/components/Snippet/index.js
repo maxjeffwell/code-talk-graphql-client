@@ -1,32 +1,20 @@
 import React from 'react';
-import Dropzone from 'react-dropzone';
-import { graphql } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const Snippet = ({
-	                    children, disableClick, mutate, style = {},
-                    }) => (
-	<Dropzone
-		style={style}
-		className="ignore"
-		onDrop={async ([file]) => {
-			const response = await mutate({
-				variables: {
-					file,
-				},
-			});
-			console.log(response);
-		}}
-		disableClick={disableClick}
-	>
-		{children}
-	</Dropzone>
-);
-
-const FILE_MESSAGE_MUTATION= gql`
-    mutation($file: File) {
-        createMessage(file: $file)
+const UPLOAD_FILE_MUTATION = gql`
+    mutation uploadFileMutation($file: Upload!) {
+        uploadFile(file: $file)
     }
 `;
 
-export default graphql(FILE_MESSAGE_MUTATION)(Snippet);
+export default () =>
+  <Mutation mutation={UPLOAD_FILE_MUTATION}>
+		{uploadFile => <input
+			type="file"
+			required
+			onChange={({target: {validity, files: [ file ]}}) =>
+				validity.valid && uploadFile({variables: { file }})
+			}
+		/>}
+	</Mutation>;

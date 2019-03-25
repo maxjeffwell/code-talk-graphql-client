@@ -42,26 +42,8 @@ const StyledP = styled.p`
     margin: 5px auto;
 `;
 
-// const MESSAGE_CREATED_SUBSCRIPTION = gql`
-//     subscription($roomId: ID!) {
-//         messageCreated(roomId: $roomId) {
-//           message {
-//             id
-//             text
-//             createdAt
-//             roomId
-//             userId
-//             user {
-//               id
-//               username
-//             }
-//           }
-//         }
-//     }
-// `;
-
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
-  subscription{
+  subscription messageCreatedSubscription {  
     messageCreated {
       message {
         id
@@ -76,39 +58,14 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
   }
 `;
 
-// const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-//   query($cursor: String, $limit: Int!, $roomId: ID!) {
-//     messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-//     @connection(key: "MessageConnection") {
-//       edges {
-//         id
-//         text
-//         createdAt
-//         roomId
-//         userId
-//         user {
-//           id
-//           username
-//         }
-//       }
-//       pageInfo {
-//         hasNextPage
-//         endCursor
-//       }
-//     }
-//   }
-// `;
-
 const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query($cursor: String, $limit: Int!) {
+  query getPaginatedMessagesQuery($cursor: String, $limit: Int!) {
     messages(cursor: $cursor, limit: $limit)
     @connection(key: "MessageConnection") {
       edges {
         id
         text
         createdAt
-        #        roomId
-        #        userId
         user {
           id
           username

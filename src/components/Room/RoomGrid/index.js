@@ -2,8 +2,7 @@ import React from 'react';
 
 import MessageContainer from '../../MessageContainer';
 import DebouncedEditor from '../../Editor';
-// import Snippet from '../../Snippet';
-// import { StyledButton } from '../../Message/Messages';
+import Snippet from '../../Snippet';
 
 import * as Grid from '../../Grid';
 
@@ -13,9 +12,10 @@ const Col = Grid.Column;
 const GridSystem = () => (
   <Row>
     <Col colspan="1">
+      <Snippet />
       <MessageContainer />
     </Col>
-    <Col colspan="2" last>
+      <Col colspan="2" last>
       <DebouncedEditor />
     </Col>
   </Row>
