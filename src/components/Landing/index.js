@@ -34,43 +34,41 @@ const Landing = () => (
         <span>So meta? </span>
       <Typing.Delay ms={1200} />
       <Typing speed={30} />
-      <span>Maybe. </span>
-      </p>
+      <span>Maybe.</span>
       <Typing.Delay ms={1000} />
-      <p>
-        <span>Too meta? </span>
+      </p>
+        <p>
+          <span>Too meta?</span>
       <Typing.Delay ms={1200} />
       <Typing speed={30} />
-      <span>Never. </span>
-      </p>
+          <span>Never.</span>
+        </p>
       <Typing.Delay ms={1000} />
       <Typing speed={15} />
       <p>
-        <span>Click the sign in button above </span>
+        <span>Click the sign in button above</span>
         <Typing.Delay ms={300} />
-        <span>(if you haven't already signed in) </span>
+        <span> (if you haven't already signed in) </span>
           <Typing.Delay ms={300} />
           <span>to sign in as either an existing user or to find the link to register as a new one.  </span>
         <Typing.Delay ms={750} />
+      </p>
         <span>Once signed in, </span>
       <Typing.Delay ms={650} />
       <span>you'll be taken to the Code Talk Chat Room. </span>
       <Typing.Delay ms={750} />
-      <p>
         <span>There, </span>
         <Typing.Delay ms={650} />
         <span>you can communicate with other users in real-time by using the chat app on the left sidebar. </span>
-      </p>
       <Typing.Delay ms={750} />
         <span>At the same time, </span>
         <Typing.Delay ms={650} />
         <span>you'll see a textarea on the right where you and other users can collaborate on code that will immediately be made visible to everyone in the room. </span>
-      </p>
-      <p>
       <Typing.Delay ms={1000} />
+      <p>
         <span>Account info for two demo accounts can be found on both the login and registration pages. </span>
       </p>
-    </StyledTyping>
+      </StyledTyping>
     <Footer />
   </StyledLanding>
 );

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -174,24 +174,24 @@ const StyledRoomList = styled.ul`
   }
 `;
 
-const StyledRoomLink = styled(Link)`
-  color: ${props => props.theme.green};
-  background-color: ${props => props.theme.black};
-  border: 7px solid ${props => props.theme.green};
-  border-radius: 5px;
-  padding: 0 8px;
-  height: auto;
-  &:hover {
-      text-decoration: underline;
-  }
-  font-weight: bold;
-  font-size: 1.5em;
-  text-transform: uppercase;
-  text-decoration: none;
-  text-align: center;
-  display: inline-block;
-  white-space: nowrap;
-`;
+// const StyledRoomLink = styled(Link)`
+//   color: ${props => props.theme.green};
+//   background-color: ${props => props.theme.black};
+//   border: 7px solid ${props => props.theme.green};
+//   border-radius: 5px;
+//   padding: 0 8px;
+//   height: auto;
+//   &:hover {
+//       text-decoration: underline;
+//   }
+//   font-weight: bold;
+//   font-size: 1.5em;
+//   text-transform: uppercase;
+//   text-decoration: none;
+//   text-align: center;
+//   display: inline-block;
+//   white-space: nowrap;
+// `;
 
 const RoomListItem = ({ room }) => (
   <StyledRoomList>

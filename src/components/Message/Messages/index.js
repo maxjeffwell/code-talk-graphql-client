@@ -1,26 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import MessageDelete from '../MessageDelete';
+import MessageList from '../MessageList';
 import Loading from '../../Loading';
-import withSession from '../../Session/withSession';
 import ErrorMessage from '../../Error';
-
-const StyledMessage = styled.li`
-    border-top: 3px solid ${props => props.theme.black};
-    margin: 5px auto;
-    line-height: 1;
-    overflow: auto;
-    grid-column: 3;
-    grid-row: 2;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 5px;
-    display: flex;
-    flex-direction: column-reverse;
-`;
 
 export const StyledButton = styled.button`
   cursor: pointer;
@@ -33,29 +18,6 @@ export const StyledButton = styled.button`
   background: ${props => props.theme.black};
   border-radius: 5px;
   border: 3px solid ${props => props.theme.green};
-`;
-
-const StyledP = styled.p`
-    word-wrap: break-word;
-    width: 100%;
-    line-height: 1;
-    margin: 5px auto;
-`;
-
-const MESSAGE_CREATED_SUBSCRIPTION = gql`
-  subscription messageCreatedSubscription {  
-    messageCreated {
-      message {
-        id
-        text
-        createdAt
-        user {
-          id
-          username
-        }
-      }
-    }
-  }
 `;
 
 const GET_PAGINATED_MESSAGES_QUERY = gql`
@@ -80,14 +42,12 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
 `;
 
 const Messages = ({ limit })  => (
-  <Query query={ GET_PAGINATED_MESSAGES_QUERY }
-         variables={{ limit }}
-  >
+  <Query query={ GET_PAGINATED_MESSAGES_QUERY } variables={{ limit }}>
     {({ data, loading, error, fetchMore, subscribeToMore}) => {
       if (!data) {
         return (
           <div>
-            <p>No messages have been created yet ... Create one here ...</p>
+            <p>No messages have been created yet ...</p>
           </div>
         );
       }
@@ -142,7 +102,6 @@ const MoreMessagesButton = ({
           if (!fetchMoreResult) {
             return previousResult;
           }
-
           return {
             messages: {
               ...fetchMoreResult.messages,
@@ -159,63 +118,6 @@ const MoreMessagesButton = ({
     {children}
   </StyledButton>
 );
-
-class MessageList extends Component {
-  subscribeToMoreMessages = () => {
-    this.props.subscribeToMore({
-      document: MESSAGE_CREATED_SUBSCRIPTION,
-      updateQuery: (previousResult, { subscriptionData }) => {
-        if (!subscriptionData.data) {
-          return previousResult;
-        }
-
-        const { messageCreated } = subscriptionData.data;
-
-        return {
-          ...previousResult,
-          messages: {
-            ...previousResult.messages,
-            edges: [
-              messageCreated.message,
-              ...previousResult.messages.edges,
-            ],
-          },
-        };
-      },
-  });
-};
-
-  componentDidMount() {
-  this.subscribeToMoreMessages();
-}
-
-componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-
-render() {
-  const { messages } = this.props;
-
-  const MessageItemBase = ({ message, session }) => (
-    <StyledMessage>
-      {session && session.me && message.user.id === session.me.id && (
-        <MessageDelete message={message}/>
-      )}
-      <StyledP>Time: {message.createdAt}</StyledP>
-      <StyledP>Username: {message.user.username}</StyledP>
-      <StyledP>Message: {message.text}</StyledP>
-    </StyledMessage>
-  );
-
-  const MessageItem = withSession(MessageItemBase);
-
-  return messages.map(message => (
-    <MessageItem key={message.id} message={message} />
-    ));
-}
-}
 
 export default Messages;
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
@@ -9,7 +9,6 @@ import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import withSession from '../Session/withSession';
-// import RoomList  from '../Room/RoomList';
 import Room from '../Room';
 
 import * as routes from '../../constants/routes';
@@ -37,20 +36,13 @@ const GlobalStyle = createGlobalStyle`
 	  font-style: normal;
 	}
 
-  // @font-face {
-	//   font-family: FloodStd;
-	//   src: url('../../../public/fonts/FloodStd.otf') format('opentype');
-	//   font-weight: normal;
-	//   font-style: normal;
-	// }
-
 html {
-		box-sizing: border-box; // set box sizing on root of doc in html
+		box-sizing: border-box;
 		font-size: 14px;
 	}
 	
 *, *:before, *:after {
-		box-sizing: inherit; // then inherit box sizing on everything else
+		box-sizing: inherit;
 	}
 	
 body {
@@ -64,40 +56,21 @@ body {
 
 const App = ({ session, refetch }) => (
   <Router history={history}>
-    <div className="routes" role="navigation">
+    <Fragment>
       <Navigation session={session} />
       <GlobalStyle />
+      <Switch>
 
-      <Route
-        exact
-        path={routes.LANDING}
-        component={() => <LandingPage />}
-      />
+      <Route exact path={routes.LANDING} component={LandingPage} />
 
-      <Route
-        exact
-        path={routes.SIGN_UP}
-        component={() => <SignUpPage refetch={refetch} />}
-      />
+      <Route exact path={routes.SIGN_UP} render={props => <SignUpPage {...props} refetch={refetch} />} />
 
-      <Route
-        exact
-        path={routes.SIGN_IN}
-        component={() => <SignInPage refetch={refetch} />}
-      />
+      <Route exact path={routes.SIGN_IN} render={props=> <SignInPage {...props} refetch={refetch} />}  />
 
-      {/*<Route*/}
-        {/*exact*/}
-        {/*path={routes.ROOMS}*/}
-        {/*component={() => <RoomList />}*/}
-      {/*/>*/}
+      <Route excact path={routes.ROOM} render={props => <Room {...props} />} />>
 
-      <Route
-        path={routes.ROOM}
-        component={() => <Room />}
-      />
-
-    </div>
+      </Switch>
+    </Fragment>
   </Router>
 );
 

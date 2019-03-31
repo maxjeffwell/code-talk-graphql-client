@@ -1,6 +1,7 @@
 import React from 'react';
 
-import MessageContainer from '../../MessageContainer';
+import MessageCreate from '../../Message/MessageCreate'
+import Messages from '../../Message/Messages';
 import DebouncedEditor from '../../Editor';
 import Snippet from '../../Snippet';
 
@@ -13,7 +14,8 @@ const GridSystem = () => (
   <Row>
     <Col colspan="1">
       <Snippet />
-      <MessageContainer />
+      <MessageCreate />
+      <Messages limit={10} />
     </Col>
       <Col colspan="2" last>
       <DebouncedEditor />

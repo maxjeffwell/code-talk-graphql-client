@@ -26,10 +26,12 @@ const StyledTextarea = styled(TextareaAutosize)`
 const StyledForm = styled.form`
   margin-bottom: 5px;
 `;
+
 const CREATE_MESSAGE_MUTATION = gql`
-  mutation createMessageMutation($text: String!) {
+  mutation ($text: String!) {
     createMessage(text: $text){
       id
+      text
       createdAt
       user{
         id
@@ -56,17 +58,12 @@ class MessageCreate extends Component {
     }
   };
 
-  // onSubmit = async (event, createMessage) => {
-  //     await createMessage(event.preventDefault())
-  //     .then(() => this.setState({ text: '' }));
-  // };
-
   onSubmit = async (event, createMessage) => {
     event.preventDefault();
     try {
       await createMessage();
-      this.setState({ text: '' });
-    } catch (error) {}
+      this.setState({text: ''});
+    } catch(error) {}
   };
 
   validateInput = () => {
@@ -81,14 +78,13 @@ class MessageCreate extends Component {
     return (
       <Mutation
         mutation={CREATE_MESSAGE_MUTATION}
-        variables={{ text }}
-      >
+        variables={{ text }}>
+
         {(createMessage, { data, loading, error }) => (
 
           <StyledForm
             onSubmit={event => this.onSubmit(event, createMessage)}
           >
-
             <label htmlFor="Message Input">
             <StyledTextarea theme={{
               textarea: {
@@ -99,10 +95,12 @@ class MessageCreate extends Component {
                 fontFamily: 'SerpentineStd-Medium, monospace',
               }
             }} aria-label="textarea"
+                            async={true}
               name="text" autoFocus
               value={text}
-              onChange={this.onChange} onKeyDown={this.onEnterPress}
-              placeholder="Type your messages here ..." required
+              onChange={this.onChange}
+                            onKeyDown={this.onEnterPress}
+                            placeholder="Type your messages here ..." required
                             rows={2}
                             maxRows={7}
             />
