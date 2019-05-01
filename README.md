@@ -7,9 +7,7 @@
 
 
 ## Build Status
-![React](https://img.shields.io/badge/react-16.8.0%2B-30d403.svg?style=popout&logo=react&logoWidth=40) [![npm version](https://img.shields.io/badge/npm%20package-6.4.1-30d403.svg?style=popout&logo=npm&logoWidth=40)](https://badge.fury.io/js/npm) [![Build Status](https://img.shields.io/travis/maxjeffwell/code-talk-graphql-client.svg?style=popout&logo=travis&logoWidth=40)](https://travis-ci.org/maxjeffwell/code-talk-graphql-client) ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-30d403.svg?style=popout&logo=appveyor&logoWidth=40) [![Live Demo](https://img.shields.io/badge/demo-online-30d403.svg?style=popout&logo=heroku&logoWidth=40)](https://jmaxwell-code-talk-client.herokuapp.com/)
-
-## [Live App](https://jmaxwell-code-talk-client.herokuapp.com/)
+![React](https://img.shields.io/badge/react-16.8.0%2B-30d403.svg?style=popout&logo=react&labelColor=30d403&logoColor=393939&color=393939&logoWidth=30) [![npm version](https://img.shields.io/badge/npm%20package-6.4.1-30d403.svg?style=popout&logo=npm&labelColor=30d403&color=393939&logoWidth=30)](https://badge.fury.io/js/npm) [![Build Status](https://img.shields.io/travis/maxjeffwell/code-talk-graphql-client.svg?style=popout&logo=travis&color=393939&labelColor=30d403&logoColor=393939&logoWidth=30)](https://travis-ci.org/maxjeffwell/code-talk-graphql-client) ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-30d403.svg?style=popout&logo=appveyor&logoColor=393939&labelColor=30d403&color=393939&logoWidth=30) [![Live Demo](https://img.shields.io/badge/demo-online.svg?style=popout&logo=heroku&logoColor=393939&labelColor=30d403&color=393939&logoWidth=30)](https://jmaxwell-code-talk-client.herokuapp.com/)
 
 ```
 Demo Accounts
