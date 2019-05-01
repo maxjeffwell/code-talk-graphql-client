@@ -49,7 +49,6 @@ Code Talk is a code collaboration tool with real-time text editing and real-time
 >
 Please note that in order to perform queries, mutations (other than the login mutation), or subscriptions using GraphQL Playground, you will have to provide an authorization token in the Playground's http headers, which can be found in the lower left corner of the Playground.
 >
->
 The format of the header is as follows:
 >
 >
