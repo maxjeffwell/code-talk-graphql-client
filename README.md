@@ -1,4 +1,6 @@
 # Code Talk
+![React](https://img.shields.io/badge/React-badge.svg?style=flat-square&logo=react&labelColor=393939&logoColor=30d403&color=grey&logoWidth=30)
+![GraphQL](https://img.shields.io/badge/GraphQL-badge.svg?style=flat-square&logo=graphql&labelColor=393939&logoColor=30d403&color=grey&logoWidth=30)
 > Real-time messaging and code collaboration environment
 
 <h1 align="center"><img width=100% src=https://github.com/maxjeffwell/code-talk-graphql-client/blob/master/src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
