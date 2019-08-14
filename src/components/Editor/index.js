@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { debounce } from "lodash";
 import withDebouncedProps from "react-debounced-props";
-import { Query, Mutation, compose, graphql } from 'react-apollo';
+import { Query, Mutation, graphql } from 'react-apollo';
+import * as compose from 'lodash.flowright';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
 import gql from 'graphql-tag';
@@ -97,7 +98,7 @@ class Editor extends Component {
   }
 }
 
-const DebouncedEditor = compose (
+const DebouncedEditor = compose(
   withDebouncedProps(["readCode"], func => debounce(func, 200)),
   graphql(READ_CODE_QUERY),
 )(Editor);
