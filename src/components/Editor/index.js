@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { debounce } from "lodash";
 import withDebouncedProps from "react-debounced-props";
 import { Query, Mutation, graphql } from 'react-apollo';
-import * as compose from 'lodash.flowright';
+import compose from 'lodash.flowright';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
 import gql from 'graphql-tag';
