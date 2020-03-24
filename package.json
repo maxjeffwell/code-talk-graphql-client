@@ -8,18 +8,18 @@
     "url": "https://github.com/npm/npm.git"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.8.4",
-    "babel-eslint": "^10.0.3",
+    "@babel/runtime": "^7.9.2",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-styled-components": "^1.10.7",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-graphql": "^3.1.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3"
+    "eslint-plugin-react": "^7.19.0"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.6.5",
@@ -29,7 +29,7 @@
     "apollo-link-http": "^1.5.16",
     "apollo-link-ws": "^1.0.19",
     "apollo-utilities": "^1.3.3",
-    "create-react-app": "^3.3.1",
+    "create-react-app": "^3.4.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "history": "^4.10.1",
@@ -37,18 +37,18 @@
     "lodash.flowright": "^3.5.0",
     "npm-check-updates": "^3.2.2",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
+    "react": "^16.13.1",
     "react-apollo": "^3.1.3",
     "react-autosize-textarea": "^7.0.0",
     "react-debounced-props": "^0.1.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.3.1",
+    "react-scripts": "^3.4.1",
     "react-typing-animation": "^1.6.2",
     "styled-components": "^4.4.1",
     "subscriptions-transport-ws": "^0.9.16",
     "webfontloader": "^1.6.28",
-    "webpack": "^4.41.6"
+    "webpack": "^4.42.1"
   },
   "scripts": {
     "start": "react-scripts start",
