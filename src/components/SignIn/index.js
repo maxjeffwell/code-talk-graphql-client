@@ -7,6 +7,7 @@ import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 import DemoAccounts from '../Demo';
+import { setToken } from '../../utils/auth';
 
 import styled from 'styled-components';
 
@@ -97,7 +98,8 @@ class SignInForm extends Component {
     signIn().then(async ({ data }) => {
       this.setState({ ...INITIAL_STATE });
 
-      localStorage.setItem('token', data.signIn.token);
+      // Use secure token storage
+      setToken(data.signIn.token);
 
       await this.props.refetch();
 

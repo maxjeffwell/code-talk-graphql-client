@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 import DemoAccounts from '../Demo';
+import { setToken } from '../../utils/auth';
 
 import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
@@ -79,7 +80,8 @@ class SignUpForm extends Component {
     signUp().then(async ({ data }) => {
       this.setState({ ...INITIAL_STATE });
 
-      localStorage.setItem('token', data.signUp.token);
+      // Use secure token storage
+      setToken(data.signUp.token);
 
       await this.props.refetch();
 

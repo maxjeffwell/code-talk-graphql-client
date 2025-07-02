@@ -4,6 +4,7 @@ import { ApolloConsumer } from 'react-apollo';
 import * as routes from '../../constants/routes';
 import history from '../../constants/history';
 import styled from 'styled-components';
+import { removeToken } from '../../utils/auth';
 
 const StyledButton = styled.button`
   position: relative;
@@ -27,8 +28,13 @@ const StyledButton = styled.button`
 `;
 
 export const signOut = client => {
-  localStorage.setItem('token', '');
+  // Securely remove token from all storage locations
+  removeToken();
+  
+  // Clear Apollo cache
   client.resetStore();
+  
+  // Redirect to sign in page
   history.push(routes.SIGN_IN);
 };
 

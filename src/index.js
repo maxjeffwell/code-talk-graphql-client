@@ -12,6 +12,7 @@ import { ThemeProvider } from 'styled-components';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
+import { getToken, isTokenExpired } from './utils/auth';
 
 const httpLink = new HttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
@@ -37,10 +38,14 @@ const terminatingLink = split(
 
 const authLink = new ApolloLink((operation, forward) => {
 	operation.setContext(({ headers = {} }) => {
-		const token = localStorage.getItem('token');
+		const token = getToken();
 
-		if (token) {
+		// Check if token is expired before using it
+		if (token && !isTokenExpired(token)) {
 			headers = { ...headers, 'x-token': token };
+		} else if (token && isTokenExpired(token)) {
+			// Token is expired, trigger logout
+			signOut(client);
 		}
 
 		return { headers };
@@ -62,7 +67,10 @@ const authLink = new ApolloLink((operation, forward) => {
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach(({ message, locations, path }) => {
-			console.log('GraphQL error', message);
+			// Only log errors in development
+			if (process.env.NODE_ENV === 'development') {
+				console.log('GraphQL error', message);
+			}
 
 			if (message === 'Not authenticated.') {
 				signOut(client);
@@ -71,7 +79,10 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	}
 
 	if (networkError) {
-		console.log('Network error', networkError);
+		// Only log errors in development
+		if (process.env.NODE_ENV === 'development') {
+			console.log('Network error', networkError);
+		}
 
 		if (networkError.statusCode === 401) {
 			signOut(client);
