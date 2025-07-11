@@ -16,21 +16,25 @@ export const measurePerformance = (name, fn) => {
 
 export const reportWebVitals = (onPerfEntry) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
-    // Check if we're in a browser environment
+    // Basic performance tracking without web-vitals dependency
     if (typeof window !== 'undefined' && window.performance) {
-      import('web-vitals').then(({ onCLS, onFCP, onINP, onLCP, onTTFB }) => {
-        try {
-          onCLS(onPerfEntry);
-          onFCP(onPerfEntry);
-          onINP(onPerfEntry); // INP replaces FID in v5
-          onLCP(onPerfEntry);
-          onTTFB(onPerfEntry);
-        } catch (error) {
-          console.warn('Error initializing web-vitals:', error);
+      // Use native Performance API for basic metrics
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          onPerfEntry({
+            name: entry.name,
+            value: entry.startTime,
+            delta: entry.duration,
+            id: entry.entryType
+          });
         }
-      }).catch(error => {
-        console.warn('Error loading web-vitals:', error);
       });
+      
+      try {
+        observer.observe({ entryTypes: ['navigation', 'paint'] });
+      } catch (error) {
+        console.warn('Performance observer not supported:', error);
+      }
     }
   }
 };

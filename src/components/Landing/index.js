@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import Footer from '../Footer';
 
@@ -33,7 +33,10 @@ const StyledContent = styled.div`
     overflow: hidden;
     border-right: 3px solid;
     white-space: nowrap;
-    animation: ${css`${typewriter} 3s steps(40, end), ${blinkCursor} 0.75s step-end infinite`};
+    animation-name: ${typewriter}, ${blinkCursor};
+    animation-duration: 3s, 0.75s;
+    animation-timing-function: steps(40, end), step-end;
+    animation-iteration-count: 1, infinite;
     font-size: 2em;
     margin-bottom: 2em;
   }

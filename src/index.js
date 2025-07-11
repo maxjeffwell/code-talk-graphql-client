@@ -12,7 +12,7 @@ import { ThemeProvider } from 'styled-components';
 import App from './components/App';
 import { signOut } from './components/SignOut';
 import { getToken, isTokenExpired } from './utils/auth';
-import { reportWebVitals, observeLongTasks } from './utils/performance';
+import { observeLongTasks } from './utils/performance';
 
 const httpLink = createHttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
@@ -133,8 +133,8 @@ root.render(
     </React.StrictMode>
 );
 
-// Register service worker
-if ('serviceWorker' in navigator) {
+// Register service worker (disabled in development)
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
@@ -148,4 +148,3 @@ if ('serviceWorker' in navigator) {
 
 // Initialize performance monitoring
 observeLongTasks();
-reportWebVitals(console.log);
