@@ -1,13 +1,14 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { useState, Fragment } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
-import ErrorMessage from '../Error';
 import DemoAccounts from '../Demo';
 import { setToken } from '../../utils/auth';
+import { useNotifications } from '../Notifications/NotificationSystem';
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
 import styled from 'styled-components';
 
@@ -74,9 +75,9 @@ const SIGN_IN = gql`
     }
 `;
 
-const SignInPage = ({ history, refetch }) => (
+const SignInPage = ({ refetch }) => (
   <Fragment>
-  <SignInForm history={history} refetch={refetch} />
+  <SignInForm refetch={refetch} />
     <SignUpLink />
   </Fragment>
 );
@@ -86,75 +87,93 @@ const INITIAL_STATE = {
   password: '',
 };
 
-class SignInForm extends Component {
-  state = { ...INITIAL_STATE };
+const SignInForm = ({ refetch }) => {
+  const [formState, setFormState] = useState({ ...INITIAL_STATE });
+  const navigate = useNavigate();
+  const { success, error: showError } = useNotifications();
 
-  onChange = event => {
+  const [signIn, { loading }] = useMutation(SIGN_IN, {
+    variables: { 
+      login: formState.login, 
+      password: formState.password 
+    }
+  });
+
+  const onChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormState(prevState => ({ ...prevState, [name]: value }));
   };
 
-  onSubmit = (event, signIn) => {
-    signIn().then(async ({ data }) => {
-      this.setState({ ...INITIAL_STATE });
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    
+    try {
+      const { data } = await signIn();
+      setFormState({ ...INITIAL_STATE });
 
       // Use secure token storage
       setToken(data.signIn.token);
 
-      await this.props.refetch();
+      await refetch();
 
-      this.props.history.push(routes.ROOM);
-    });
+      success('Successfully signed in! Welcome back.', {
+        duration: 3000
+      });
 
-    event.preventDefault();
+      navigate(routes.ROOM);
+    } catch (error) {
+      showError('Failed to sign in. Please check your credentials and try again.', {
+        title: 'Sign In Failed',
+        duration: 8000
+      });
+    }
   };
 
-  render() {
-    const { login, password } = this.state;
+  const { login, password } = formState;
 
-    const isInvalid = password === '' || login === '';
+  const isInvalid = password === '' || login === '';
 
-    return (
-      <Mutation mutation={SIGN_IN} variables={{ login, password }}>
-        {(signIn, { data, loading, error }) => (
+  return (
+    <StyledDiv className="loginForm" aria-live="polite">
+    <StyledForm aria-label="Sign In" onSubmit={onSubmit}>
 
-          <StyledDiv className="loginForm" aria-live="polite">
-          <StyledForm aria-label="Sign In" onSubmit={event => this.onSubmit(event, signIn)}>
+      <label htmlFor="Username" aria-label="Username">
+      <StyledInput
+        name="login"
+        value={login}
+        onChange={onChange}
+        type="text"
+        placeholder="Email or Username"
+      /></label>
 
-            <label htmlFor="Username" aria-label="Username">
-            <StyledInput
-              name="login"
-              value={login}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Email or Username"
-            /></label>
+      <label htmlFor="Password" aria-label="Password">
+      <StyledInput
+        name="password"
+        value={password}
+        onChange={onChange}
+        type="password"
+        placeholder="Password"
+      /> </label>
 
-            <label htmlFor="Password" aria-label="Password">
-            <StyledInput
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-            /> </label>
+      <StyledHeader>
+        <StyledButton disabled={isInvalid || loading} type="submit" className="btn-login">
+        {loading ? 'Signing In...' : 'Sign In'}
+      </StyledButton>
+      </StyledHeader>
 
-            <StyledHeader>
-              <StyledButton disabled={isInvalid || loading} type="submit" className="btn-login">
-              Sign In
-            </StyledButton>
-            </StyledHeader>
+      {loading && (
+        <LoadingSpinner 
+          text="Signing you in..." 
+          size="24px" 
+          padding="10px"
+        />
+      )}
+    </StyledForm>
+      <DemoAccounts />
+    </StyledDiv>
+  );
+};
 
-            {error && <ErrorMessage error={error} />}
-          </StyledForm>
-            <DemoAccounts />
-          </StyledDiv>
-        )}
-      </Mutation>
-    );
-  }
-}
-
-export default withRouter(SignInPage);
+export default SignInPage;
 
 export { SignInForm };

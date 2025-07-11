@@ -1,35 +1,32 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Header from '../../Header';
 import * as routes from '../../../constants/routes';
 import SignOutButton from '../../SignOut';
 import { Logo, StyledParagraph } from '../index';
 
-class NavigationAuth extends Component {
-	static propTypes = {
-		location: PropTypes.object.isRequired,
-	};
+const NavigationAuth = ({ session }) => {
+	const location = useLocation();
 
-	render() {
+	const link = <Link to={routes.ROOM}>Code Talk Chat</Link>;
+	const ConditionalLink = () => location.pathname !== '/code-talk-chat/' ? link : Fragment;
 
-		const { location, session } = this.props;
+	return <Fragment>
+		<Header/>
+		<Logo>
+			<StyledParagraph>Current User: {session.me.username}</StyledParagraph>
+		</Logo>
+		<SignOutButton/>
+		<Logo>
+			<ConditionalLink />
+		</Logo>
+	</Fragment>;
+};
 
-		const link = <Link to={routes.ROOM}>Code Talk Chat</Link>;
-		const ConditionalLink = () => location.pathname !== '/code-talk-chat/' ? link : Fragment;
+NavigationAuth.propTypes = {
+	session: PropTypes.object.isRequired,
+};
 
-		return <Fragment>
-			<Header/>
-			<Logo>
-				<StyledParagraph>Current User: {session.me.username}</StyledParagraph>
-			</Logo>
-			<SignOutButton/>
-			<Logo>
-				<ConditionalLink />
-			</Logo>
-		</Fragment>;
-	};
-}
-
-export default withRouter(NavigationAuth);
+export default NavigationAuth;

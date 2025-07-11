@@ -1,24 +1,22 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import { Redirect } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import { GET_ME } from './queries';
 
-const withAuthorization = conditionFn => Component => props => (
-  <Query query={GET_ME}>
-      {({ data, networkStatus }) => {
-          if (networkStatus < 7) {
-              return null;
-          }
+const withAuthorization = conditionFn => Component => props => {
+  const { data, networkStatus } = useQuery(GET_ME);
 
-          return conditionFn(data) ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to={routes.SIGN_IN} />
-          );
-      }}
-  </Query>
-);
+  if (networkStatus < 7) {
+    return null;
+  }
+
+  return conditionFn(data) ? (
+    <Component {...props} />
+  ) : (
+    <Redirect to={routes.SIGN_IN} />
+  );
+};
 
 export default withAuthorization;

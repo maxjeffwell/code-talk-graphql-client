@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation, withApollo } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
 import { StyledButton } from '../Messages';
@@ -32,33 +32,38 @@ const DELETE_MESSAGE_MUTATION = gql`
     }
 `;
 
-const MessageDelete = ({ message }) => <Mutation
-  mutation={DELETE_MESSAGE_MUTATION}
-  variables={{ id: message.id }}
-  update={client => {
-    const data = client.readQuery({
-      query: GET_PAGINATED_MESSAGES_QUERY,
-    });
+const MessageDelete = ({ message }) => {
+  const [deleteMessage] = useMutation(
+    DELETE_MESSAGE_MUTATION,
+    {
+      variables: { id: message.id },
+      update: client => {
+        const data = client.readQuery({
+          query: GET_PAGINATED_MESSAGES_QUERY,
+        });
 
-    client.writeQuery({
-      query: GET_PAGINATED_MESSAGES_QUERY,
-      data: {
-        ...data,
-        messages: {
-          ...data.messages,
-          edges: data.messages.edges.filter(
-            node => node.id !== message.id,
-          ),
-          pageInfo: data.messages.pageInfo,
-        },
-      },
-    });
-  }}
->
-  {(deleteMessage) => <StyledButton type="button" onClick={deleteMessage}>
-    Delete Message
-  </StyledButton>
-  }
-</Mutation>;
+        client.writeQuery({
+          query: GET_PAGINATED_MESSAGES_QUERY,
+          data: {
+            ...data,
+            messages: {
+              ...data.messages,
+              edges: data.messages.edges.filter(
+                node => node.id !== message.id,
+              ),
+              pageInfo: data.messages.pageInfo,
+            },
+          },
+        });
+      }
+    }
+  );
 
-export default withApollo(MessageDelete);
+  return (
+    <StyledButton type="button" onClick={deleteMessage}>
+      Delete Message
+    </StyledButton>
+  );
+};
+
+export default MessageDelete;

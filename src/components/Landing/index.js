@@ -1,8 +1,17 @@
 import React from 'react';
-import styled from 'styled-components';
-import Typing from 'react-typing-animation';
+import styled, { keyframes, css } from 'styled-components';
 
 import Footer from '../Footer';
+
+const typewriter = keyframes`
+  from { width: 0; }
+  to { width: 100%; }
+`;
+
+const blinkCursor = keyframes`
+  from, to { border-color: transparent; }
+  50% { border-color: currentColor; }
+`;
 
 const StyledLanding = styled.div`
   background: ${props => props.theme.black};
@@ -16,61 +25,56 @@ const StyledLanding = styled.div`
   overflow: auto;
 `;
 
-const StyledTyping = styled(Typing)`
+const StyledContent = styled.div`
   margin: 20px 20px;
   font-weight: bold;
+  
+  h1 {
+    overflow: hidden;
+    border-right: 3px solid;
+    white-space: nowrap;
+    animation: ${css`${typewriter} 3s steps(40, end), ${blinkCursor} 0.75s step-end infinite`};
+    font-size: 2em;
+    margin-bottom: 2em;
+  }
+  
+  p {
+    margin: 1.5em 0;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out 3s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 `;
 
 const Landing = () => (
   <StyledLanding>
-    <StyledTyping speed={15}>
-      <span>Welcome to Code Talk. </span>
-      <Typing.Delay ms={750} />
-      <span>Code Talk is all about real-time code collaboration with concurrent real-time messaging capability. </span>
-      <Typing.Delay ms={750} />
-      <span>This is the place where you can write about writing code. </span>
-      <Typing.Delay ms={750} />
+    <StyledContent>
+      <h1>Welcome to Code Talk</h1>
       <p>
-        <span>So meta? </span>
-      <Typing.Delay ms={1200} />
-      <Typing speed={30} />
-      <span>Maybe. </span>
-      </p>
-      <Typing.Delay ms={1000} />
-      <p>
-        <span>Too meta? </span>
-      <Typing.Delay ms={1200} />
-      <Typing speed={30} />
-      <span>Never. </span>
-      </p>
-      <Typing.Delay ms={1000} />
-      <Typing speed={15} />
-      <p>
-        <span>Click the sign in button above </span>
-        <Typing.Delay ms={300} />
-        <span>(if you haven't already signed in) </span>
-          <Typing.Delay ms={300} />
-          <span>to sign in as either an existing user or to find the link to register as a new one.  </span>
-        <Typing.Delay ms={750} />
-        <span>Once signed in, </span>
-      <Typing.Delay ms={650} />
-      <span>you'll be taken to the Code Talk Chat Room. </span>
-      <Typing.Delay ms={750} />
-      <p>
-        <span>There, </span>
-        <Typing.Delay ms={650} />
-        <span>you can communicate with other users in real-time by using the chat app on the left sidebar. </span>
-      </p>
-      <Typing.Delay ms={750} />
-        <span>At the same time, </span>
-        <Typing.Delay ms={650} />
-        <span>you'll see a textarea on the right where you and other users can collaborate on code that will immediately be made visible to everyone in the room. </span>
+        Code Talk is all about real-time code collaboration with concurrent real-time messaging capability.
+        This is the place where you can write about writing code.
       </p>
       <p>
-      <Typing.Delay ms={1000} />
-        <span>Account info for two demo accounts can be found on both the login and registration pages. </span>
+        <strong>So meta?</strong> Maybe. <strong>Too meta?</strong> Never.
       </p>
-    </StyledTyping>
+      <p>
+        Click the sign in button above (if you haven't already signed in) to sign in as either an existing user 
+        or to find the link to register as a new one. Once signed in, you'll be taken to the Code Talk Chat Room.
+      </p>
+      <p>
+        There, you can communicate with other users in real-time by using the chat app on the left sidebar. 
+        At the same time, you'll see a textarea on the right where you and other users can collaborate on code 
+        that will immediately be made visible to everyone in the room.
+      </p>
+      <p>
+        Account info for two demo accounts can be found on both the login and registration pages.
+      </p>
+    </StyledContent>
     <Footer />
   </StyledLanding>
 );

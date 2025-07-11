@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { NavLink as Link, withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import React, { useState } from 'react';
+import { NavLink as Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import styled from 'styled-components';
 
 import * as routes from '../../constants/routes';
@@ -57,10 +57,10 @@ const INITIAL_STATE = {
   passwordConfirmation: ''
 };
 
-const SignUpPage = ({ history, refetch }) => (
+const SignUpPage = ({ refetch }) => (
   <StyledDiv role="form">
     <StyledHeader>Code Talk Registration</StyledHeader>
-    <SignUpForm history={history} refetch={refetch} />
+    <SignUpForm refetch={refetch} />
     <div>
       <p>Prefer not to sign up right now? Feel free to use a demo instead</p>
     </div>
@@ -68,99 +68,102 @@ const SignUpPage = ({ history, refetch }) => (
   </StyledDiv>
 );
 
-class SignUpForm extends Component {
-  state = { ...INITIAL_STATE };
+const SignUpForm = ({ refetch }) => {
+  const [formState, setFormState] = useState({ ...INITIAL_STATE });
+  const navigate = useNavigate();
 
-  onChange = event => {
+  const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
+    variables: { 
+      username: formState.username, 
+      email: formState.email, 
+      password: formState.password 
+    }
+  });
+
+  const onChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    setFormState(prevState => ({ ...prevState, [name]: value }));
   };
 
-  onSubmit = (event, signUp) => {
-    signUp().then(async ({ data }) => {
-      this.setState({ ...INITIAL_STATE });
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    
+    try {
+      const { data } = await signUp();
+      setFormState({ ...INITIAL_STATE });
 
       // Use secure token storage
       setToken(data.signUp.token);
 
-      await this.props.refetch();
+      await refetch();
 
-      this.props.history.push(routes.ROOM);
-    });
-
-    event.preventDefault();
+      navigate(routes.ROOM);
+    } catch (error) {
+      // Error is handled by the error state from useMutation
+    }
   };
 
-  render() {
-    const {
-      username,
-      email,
-      password,
-      passwordConfirmation,
-    } = this.state;
+  const {
+    username,
+    email,
+    password,
+    passwordConfirmation,
+  } = formState;
 
-    const isInvalid =
-      password !== passwordConfirmation ||
-      password === '' ||
-      email === '' ||
-      username === '';
+  const isInvalid =
+    password !== passwordConfirmation ||
+    password === '' ||
+    email === '' ||
+    username === '';
 
-    return (
-      <Mutation
-        mutation={SIGN_UP}
-        variables={{ username, email, password }}
-      >
-        {(signUp, { data, loading, error }) => (
-          <form aria-label="Sign Up" onSubmit={event => this.onSubmit(event, signUp)}>
-            <label htmlFor="Username" aria-label="Username">
-            <StyledInput
-              name="username"
-              value={username}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Username"
-            />
-            </label>
-            <label htmlFor="Email" aria-label="Email">
-            <StyledInput
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Email Address"
-            />
-            </label>
-            <label htmlFor="Password" aria-label="Password">
-            <StyledInput
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Password"
-            />
-            </label>
-            <label htmlFor="Confirm Password" aria-label="Confirm Password">
-            <StyledInput
-              name="passwordConfirmation"
-              value={passwordConfirmation}
-              onChange={this.onChange}
-              type="password"
-              placeholder="Confirm Password"
-            />
-            </label>
-            <h1>
-            <StyledButton disabled={isInvalid || loading} type="submit">
-              Sign Up
-            </StyledButton>
-            </h1>
+  return (
+    <form aria-label="Sign Up" onSubmit={onSubmit}>
+      <label htmlFor="Username" aria-label="Username">
+      <StyledInput
+        name="username"
+        value={username}
+        onChange={onChange}
+        type="text"
+        placeholder="Username"
+      />
+      </label>
+      <label htmlFor="Email" aria-label="Email">
+      <StyledInput
+        name="email"
+        value={email}
+        onChange={onChange}
+        type="text"
+        placeholder="Email Address"
+      />
+      </label>
+      <label htmlFor="Password" aria-label="Password">
+      <StyledInput
+        name="password"
+        value={password}
+        onChange={onChange}
+        type="password"
+        placeholder="Password"
+      />
+      </label>
+      <label htmlFor="Confirm Password" aria-label="Confirm Password">
+      <StyledInput
+        name="passwordConfirmation"
+        value={passwordConfirmation}
+        onChange={onChange}
+        type="password"
+        placeholder="Confirm Password"
+      />
+      </label>
+      <h1>
+      <StyledButton disabled={isInvalid || loading} type="submit">
+        Sign Up
+      </StyledButton>
+      </h1>
 
-            {error && <ErrorMessage error={error}/>}
-          </form>
-        )}
-      </Mutation>
-    );
-  }
-}
+      {error && <ErrorMessage error={error}/>}
+    </form>
+  );
+};
 
 const SignUpLink = () => (
   <StyledRegistrationDiv role="navigation">
@@ -173,7 +176,7 @@ const SignUpLink = () => (
   </StyledRegistrationDiv>
 );
 
-export default withRouter(SignUpPage);
+export default SignUpPage;
 
 export { SignUpForm, SignUpLink };
 

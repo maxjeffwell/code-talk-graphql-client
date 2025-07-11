@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Mutation } from 'react-apollo';
+import React, { useState, useRef } from 'react';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import TextareaAutosize from 'react-autosize-textarea';
 import styled from 'styled-components';
@@ -47,86 +46,74 @@ const CREATE_MESSAGE = gql`
   }
 `;
 
-class MessageCreate extends Component {
-  state = {
-    text: '',
-    // roomId: '',
+const MessageCreate = () => {
+  const [text, setText] = useState('');
+  const buttonRef = useRef(null);
+
+  const [createMessage, { data, loading, error }] = useMutation(
+    CREATE_MESSAGE,
+    {
+      variables: { text }
+    }
+  );
+
+  const onChange = event => {
+    const { value } = event.target;
+    setText(value);
   };
 
-  // componentDidMount() {
-  //   this.setState({
-  //     roomId: this.props.match.params.id
-  //   });
-  // }
-
-  onChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  onEnterPress = event => {
+  const onEnterPress = event => {
     if (event.keyCode === 13 && event.shiftKey === false) {
       event.preventDefault();
-      this.button.click();
+      if (buttonRef.current) {
+        buttonRef.current.click();
+      }
     }
   };
 
-  onSubmit = async (event, createMessage) => {
-      await createMessage(event.preventDefault())
-      .then(() => this.setState({ text: '' }));
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await createMessage();
+      setText('');
+    } catch (err) {
+      // Error is handled by the error state from useMutation
+    }
   };
 
-  validateInput = () => {
-    const { text } = this.state;
+  const validateInput = () => {
     return !text;
   };
 
-  render() {
-    // const { text, roomId } = this.state;
-    const { text } = this.state;
+  return (
+    <StyledForm onSubmit={onSubmit}>
+      <label htmlFor="Message Input">
+        <StyledTextarea theme={{
+          textarea: {
+            fontSize: '1em',
+            border: '5px solid #30d403',
+            backgroundColor: '#EDEDED',
+            color: '#393939',
+            fontFamily: 'SerpentineStd-Medium, monospace',
+          }
+        }} aria-label="textarea"
+          name="text" autoFocus
+          value={text}
+          onChange={onChange} onKeyDown={onEnterPress}
+          placeholder="Type your messages here ..." required
+          rows={2}
+          maxRows={7}
+        />
+      </label>
+      <StyledButton disabled={loading || validateInput()} type="submit" ref={buttonRef}>
+        Send Message
+      </StyledButton>
 
-    return (
-      <Mutation
-        mutation={CREATE_MESSAGE}
-        // variables={{ text, roomId }}
-        variables={{ text }}
-      >
-        {(createMessage, { data, loading, error }) => (
+      {loading && <Loading />}
+      {error && <ErrorMessage error={error} />}
 
-          <StyledForm
-            onSubmit={event => this.onSubmit(event, createMessage)}
-          >
+    </StyledForm>
+  );
+};
 
-            <label htmlFor="Message Input">
-            <StyledTextarea theme={{
-              textarea: {
-                fontSize: '1em',
-                border: '5px solid #30d403',
-                backgroundColor: '#EDEDED',
-                color: '#393939',
-                fontFamily: 'SerpentineStd-Medium, monospace',
-              }
-            }} aria-label="textarea"
-              name="text" autoFocus
-              value={text}
-              onChange={this.onChange} onKeyDown={this.onEnterPress}
-              placeholder="Type your messages here ..." required
-                            rows={2}
-                            maxRows={7}
-            />
-            </label>
-            <StyledButton disabled={loading || this.validateInput()} type="submit" ref={el => (this.button = el)}>
-              Send Message
-            </StyledButton>
-
-            {loading && <Loading />}
-            {error && <ErrorMessage error={error} />}
-
-          </StyledForm>
-        )}
-      </Mutation>
-    );
-  }
-}
-
-export default withRouter(MessageCreate);
+export default MessageCreate;

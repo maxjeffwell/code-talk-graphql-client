@@ -1,16 +1,15 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import GridSystem from './RoomGrid';
 
-const Room = ({ match }) => {
-
-  const roomId = match.params.id;
+const Room = () => {
+  const { id: roomId } = useParams();
 
   return <GridSystem roomId={roomId} />
 };
 
-export default withRouter(Room);
+export default Room;
 
 
 

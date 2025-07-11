@@ -1,8 +1,8 @@
 import React from 'react';
-import { ApolloConsumer } from 'react-apollo';
+import { useApolloClient } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
-import history from '../../constants/history';
 import styled from 'styled-components';
 import { removeToken } from '../../utils/auth';
 
@@ -27,7 +27,7 @@ const StyledButton = styled.button`
  }
 `;
 
-export const signOut = client => {
+export const signOut = (client, navigate) => {
   // Securely remove token from all storage locations
   removeToken();
   
@@ -35,19 +35,22 @@ export const signOut = client => {
   client.resetStore();
   
   // Redirect to sign in page
-  history.push(routes.SIGN_IN);
+  if (navigate) {
+    navigate(routes.SIGN_IN);
+  }
 };
 
-const SignOutButton = () => (
-  <ApolloConsumer>
-    {client => (
-      <div>
-      <StyledButton type="button" onClick={() => signOut(client)}>
+const SignOutButton = () => {
+  const client = useApolloClient();
+  const navigate = useNavigate();
+  
+  return (
+    <div>
+      <StyledButton type="button" onClick={() => signOut(client, navigate)}>
         Sign Out
       </StyledButton>
-      </div>
-    )}
-  </ApolloConsumer>
-);
+    </div>
+  );
+};
 
 export default SignOutButton;

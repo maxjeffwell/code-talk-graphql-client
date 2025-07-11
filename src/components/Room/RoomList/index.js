@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
@@ -38,51 +38,51 @@ const GET_PAGINATED_ROOMS_QUERY = gql`
   }
 `;
 
-const Rooms = ({ limit })  => (
-  <Query query={ GET_PAGINATED_ROOMS_QUERY } variables={limit}>
-    {({ data, loading, error, fetchMore, subscribeToMore}) => {
-      if (!data) {
-        return (
-          <Fragment>
-            <p>No rooms have been created yet ... Create one here ...</p>
-            {/*<RoomCreate />*/}
-          </Fragment>
-        );
-      }
+const Rooms = ({ limit }) => {
+  const { data, loading, error, fetchMore, subscribeToMore } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
+    variables: limit
+  });
 
-      const { rooms } = data;
+  if (!data) {
+    return (
+      <Fragment>
+        <p>No rooms have been created yet ... Create one here ...</p>
+        {/*<RoomCreate />*/}
+      </Fragment>
+    );
+  }
 
-      if (loading || !rooms) {
-        return <Loading />;
-      }
+  const { rooms } = data;
 
-      if (error) {
-        return <ErrorMessage error={error} />;
-      }
+  if (loading || !rooms) {
+    return <Loading />;
+  }
 
-      const { edges, pageInfo } = rooms;
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
 
-      return (
-        <Fragment>
-          <RoomList
-            rooms={edges}
-            subscribeToMore={subscribeToMore}
-          />
+  const { edges, pageInfo } = rooms;
 
-          {pageInfo.hasNextPage && (
-            <GetMoreRoomsButton
-              limit={limit}
-              pageInfo={pageInfo}
-              fetchMore={fetchMore}
-            >
-              Get More Rooms
-            </GetMoreRoomsButton>
-          )}
-        </Fragment>
-      );
-    }}
-  </Query>
-);
+  return (
+    <Fragment>
+      <RoomList
+        rooms={edges}
+        subscribeToMore={subscribeToMore}
+      />
+
+      {pageInfo.hasNextPage && (
+        <GetMoreRoomsButton
+          limit={limit}
+          pageInfo={pageInfo}
+          fetchMore={fetchMore}
+        >
+          Get More Rooms
+        </GetMoreRoomsButton>
+      )}
+    </Fragment>
+  );
+};
 
 const GetMoreRoomsButton = ({
   limit,
@@ -119,9 +119,9 @@ const GetMoreRoomsButton = ({
   </button>
 );
 
-class RoomList extends Component {
-  componentDidMount() {
-    this.props.subscribeToMore({
+const RoomList = ({ rooms, subscribeToMore }) => {
+  useEffect(() => {
+    const unsubscribe = subscribeToMore({
       document: ROOM_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
@@ -142,13 +142,13 @@ class RoomList extends Component {
         };
       },
     });
-  }
 
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [subscribeToMore]);
 
   // render() {
   //   const { rooms } = this.props;
@@ -159,11 +159,8 @@ class RoomList extends Component {
   //     ];
   // }
 
-  render() {
-    const { rooms } = this.props;
-    return rooms.map(room => <RoomListItem key={room.id} room={room}/>)
-  }
-}
+  return rooms.map(room => <RoomListItem key={room.id} room={room}/>);
+};
 
 const StyledRoomList = styled.ul`
   list-style-type: none;

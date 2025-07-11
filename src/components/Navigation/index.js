@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import styled from 'styled-components';
 
 import NavigationAuth from './Auth';
@@ -36,7 +36,7 @@ export const StyledParagraph = styled.p`
     }
 `;
 
-const Navigation = ({ session }) => (
+const Navigation = memo(({ session }) => (
   <Fragment>
     {session && session.me ? (
       <NavigationAuth session={session} />
@@ -44,6 +44,8 @@ const Navigation = ({ session }) => (
       <NavigationNonAuth />
     )}
   </Fragment>
-);
+));
+
+Navigation.displayName = 'Navigation';
 
 export default Navigation;

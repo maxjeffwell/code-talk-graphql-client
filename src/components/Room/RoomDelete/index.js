@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
 import ErrorMessage from '../../Message/MessageDelete';
@@ -25,11 +25,10 @@ const DELETE_ROOM_MUTATION = gql`
     }
 `;
 
-const RoomDelete = ({ room }) => (
-  <Mutation
-    mutation={DELETE_ROOM_MUTATION}
-    variables={{ id: room.id }}
-    update={cache => {
+const RoomDelete = ({ room }) => {
+  const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
+    variables: { id: room.id },
+    update: (cache) => {
       const data = cache.readQuery({
         query: GET_ALL_ROOMS_QUERY,
       });
@@ -47,19 +46,18 @@ const RoomDelete = ({ room }) => (
           },
         },
       });
-    }}
-  >
-    {(deleteRoom, { data, loading, error }) => {
+    }
+  });
 
-      if (error) return <ErrorMessage error={error}/>;
+  if (error) return <ErrorMessage error={error}/>;
 
-      if (loading) return <Loading />;
+  if (loading) return <Loading />;
 
-      return <button type="button" onClick={deleteRoom}>
-        Delete Room
-      </button>
-    }}
-  </Mutation>
-);
+  return (
+    <button type="button" onClick={deleteRoom}>
+      Delete Room
+    </button>
+  );
+};
 
 export default RoomDelete;

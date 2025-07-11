@@ -1,11 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { debounce } from "lodash";
-import withDebouncedProps from "react-debounced-props";
-import { Query, Mutation, graphql } from 'react-apollo';
-import compose from 'lodash.flowright';
+import React, { Fragment, useEffect, useRef } from 'react';
+import debounce from "lodash/debounce";
+import { useQuery, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 import styled from 'styled-components';
 import TextareaAutosize from 'react-autosize-textarea';
-import gql from 'graphql-tag';
 
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
@@ -47,60 +45,71 @@ const StyledTextarea = styled(TextareaAutosize)`
   padding: 10px 10px 10px 10px;
 `;
 
-class Editor extends Component {
-  static updateCode(e, typeCodeMutation) {
+const Editor = () => {
+  const { loading, error, data, subscribeToMore } = useQuery(READ_CODE_QUERY);
+  const [typeCodeMutation] = useMutation(TYPE_CODE_MUTATION);
+
+  const debouncedFnRef = useRef(null);
+
+  // Create debounced function only once
+  useEffect(() => {
+    debouncedFnRef.current = debounce((newCode) => {
+      typeCodeMutation({ variables: { body: newCode } });
+    }, 200);
+
+    return () => {
+      if (debouncedFnRef.current) {
+        debouncedFnRef.current.cancel();
+      }
+    };
+  }, [typeCodeMutation]);
+
+  const updateCode = (e) => {
     const newCode = e.currentTarget.value;
-    typeCodeMutation({ variables: { body: newCode } });
+    if (debouncedFnRef.current) {
+      debouncedFnRef.current(newCode);
+    }
   };
 
-  subscribeToNewCode(subscribeToMore) {
-    subscribeToMore({
-      document: TYPING_CODE_SUBSCRIPTION,
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev;
-        return Object.assign({}, prev, {
-          readCode: subscriptionData.data.typingCode
-        });
-      }
-    });
-  }
+  useEffect(() => {
+    if (subscribeToMore) {
+      const unsubscribe = subscribeToMore({
+        document: TYPING_CODE_SUBSCRIPTION,
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) return prev;
+          return Object.assign({}, prev, {
+            readCode: subscriptionData.data.typingCode
+          });
+        }
+      });
+      return unsubscribe;
+    }
+  }, [subscribeToMore]);
 
-  render() {
-    return (
-      <Fragment>
-        <Query query={READ_CODE_QUERY}>
-          {({ loading, error, data, subscribeToMore }) => {
-            this.subscribeToNewCode(subscribeToMore);
-            if (loading) return <Loading />;
-            if (error) return ErrorMessage;
-            return <Mutation mutation={TYPE_CODE_MUTATION}>
-              {typeCodeMutation =>
-                <label>
-                  <StyledTextarea theme={{
-                    textarea: {
-                      fontSize: '1.2em',
-                      border: '5px solid #30d403',
-                      backgroundColor: '#393939',
-                      color: '#30d403',
-                    }
-                  }} aria-label="textarea"
-                                  value={data.readCode.body}
-                                  placeholder="Collaborate on code here ..."
-                                  onChange={e => Editor.updateCode(e, typeCodeMutation)}
-                                  rows={50}
-                  />
-                </label>}
-            </Mutation>
-          }}
-        </Query>
-      </Fragment>
-    );
-  }
-}
+  if (loading) return <Loading />;
+  if (error) return <ErrorMessage error={error} />;
 
-const DebouncedEditor = compose(
-  withDebouncedProps(["readCode"], func => debounce(func, 200)),
-  graphql(READ_CODE_QUERY),
-)(Editor);
+  return (
+    <Fragment>
+      <label>
+        <StyledTextarea 
+          theme={{
+            textarea: {
+              fontSize: '1.2em',
+              border: '5px solid #30d403',
+              backgroundColor: '#393939',
+              color: '#30d403',
+            }
+          }} 
+          aria-label="textarea"
+          value={data.readCode.body}
+          placeholder="Collaborate on code here ..."
+          onChange={updateCode}
+          rows={50}
+        />
+      </label>
+    </Fragment>
+  );
+};
 
-export default DebouncedEditor;
+export default Editor;

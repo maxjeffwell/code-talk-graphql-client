@@ -1,25 +1,50 @@
-import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
 
 import Navigation from '../Navigation';
-import LandingPage from '../Landing';
-import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
+import LoadingSpinner from '../Loading/LoadingSpinner';
+import ErrorBoundary from '../ErrorBoundary';
+import { NotificationProvider } from '../Notifications/NotificationSystem';
+import ConnectionStatus from '../ConnectionStatus';
 import withSession from '../Session/withSession';
-// import RoomList  from '../Room/RoomList';
-import Room from '../Room';
 
 import * as routes from '../../constants/routes';
-import history from '../../constants/history';
 
+// Lazy load route components for better performance
+const LandingPage = React.lazy(() => import('../Landing'));
+const SignUpPage = React.lazy(() => import('../SignUp'));
+const SignInPage = React.lazy(() => import('../SignIn'));
+const Room = React.lazy(() => import('../Room'));
+
+// Lazy load heavy components (prepared for future implementation)
+// const MessagesList = React.lazy(() => import('../Message/Messages'));
+// const Editor = React.lazy(() => import('../Editor'));
+// const UserList = React.lazy(() => import('../UserList'));
+
+// Optimized font loading with display swap and preload
 WebFont.load({
   custom: {
     families: ['RussellSquareStd', 'SerpentineStd-Medium', 'FloodStd']
   },
-  timeout: 2000
+  timeout: 2000,
+  fontdisplay: 'swap',
+  loading: () => {
+    // Add font loading class for better FOUT handling
+    document.documentElement.classList.add('fonts-loading');
+  },
+  active: () => {
+    // Remove loading class when fonts are loaded
+    document.documentElement.classList.remove('fonts-loading');
+    document.documentElement.classList.add('fonts-loaded');
+  },
+  inactive: () => {
+    // Handle font loading failure
+    document.documentElement.classList.remove('fonts-loading');
+    document.documentElement.classList.add('fonts-failed');
+  }
 });
 
 const GlobalStyle = createGlobalStyle`
@@ -28,6 +53,7 @@ const GlobalStyle = createGlobalStyle`
 		src: url('../../../public/fonts/RussellSquareStd.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
+		font-display: swap;
 	}
 	
   @font-face {
@@ -35,22 +61,24 @@ const GlobalStyle = createGlobalStyle`
 	  src: url('../../../public/fonts/SerpentineStd-Medium.otf') format('opentype');
 	  font-weight: 300;
 	  font-style: normal;
+	  font-display: swap;
 	}
 
-  // @font-face {
-	//   font-family: FloodStd;
-	//   src: url('../../../public/fonts/FloodStd.otf') format('opentype');
-	//   font-weight: normal;
-	//   font-style: normal;
-	// }
+  @font-face {
+	  font-family: FloodStd;
+	  src: url('../../../public/fonts/FloodStd.otf') format('opentype');
+	  font-weight: normal;
+	  font-style: normal;
+	  font-display: swap;
+	}
 
 html {
-		box-sizing: border-box; // set box sizing on root of doc in html
+		box-sizing: border-box;
 		font-size: 14px;
 	}
 	
 *, *:before, *:after {
-		box-sizing: inherit; // then inherit box sizing on everything else
+		box-sizing: inherit;
 	}
 	
 body {
@@ -59,46 +87,69 @@ body {
 		font-size: 1.5rem;
 		line-height: 2;
 		font-family: RussellSquareStd, monospace;
+		
+		/* Optimize font loading states */
+		opacity: 1;
+		transition: opacity 0.3s ease;
+	}
+	
+	.fonts-loading body {
+		opacity: 0.8;
+	}
+	
+	.fonts-loaded body {
+		opacity: 1;
+	}
+	
+	.fonts-failed body {
+		font-family: monospace; /* Fallback font */
 	}
 `;
 
 const App = ({ session, refetch }) => (
-  <Router history={history}>
-    <div className="routes" role="navigation">
-      <Navigation session={session} />
-      <GlobalStyle />
+  <ErrorBoundary name="App">
+    <NotificationProvider>
+      <BrowserRouter>
+        <div className="routes" role="navigation">
+          <GlobalStyle />
+          <ConnectionStatus />
+          <Navigation session={session} />
 
-      <Route
-        exact
-        path={routes.LANDING}
-        component={() => <LandingPage />}
-      />
+          <ErrorBoundary name="Routes">
+            <Suspense fallback={<LoadingSpinner text="Loading page..." minHeight="400px" />}>
+              <Routes>
+                <Route
+                  path={routes.LANDING}
+                  element={<LandingPage />}
+                />
 
-      <Route
-        exact
-        path={routes.SIGN_UP}
-        component={() => <SignUpPage refetch={refetch} />}
-      />
+                <Route
+                  path={routes.SIGN_UP}
+                  element={<SignUpPage refetch={refetch} />}
+                />
 
-      <Route
-        exact
-        path={routes.SIGN_IN}
-        component={() => <SignInPage refetch={refetch} />}
-      />
+                <Route
+                  path={routes.SIGN_IN}
+                  element={<SignInPage refetch={refetch} />}
+                />
 
-      {/*<Route*/}
-        {/*exact*/}
-        {/*path={routes.ROOMS}*/}
-        {/*component={() => <RoomList />}*/}
-      {/*/>*/}
+                {/*<Route*/}
+                  {/*path={routes.ROOMS}*/}
+                  {/*element={<RoomList />}*/}
+                {/*/>*/}
 
-      <Route
-        path={routes.ROOM}
-        component={() => <Room />}
-      />
+                <Route
+                  path={routes.ROOM}
+                  element={<Room />}
+                />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
 
-    </div>
-  </Router>
+        </div>
+      </BrowserRouter>
+    </NotificationProvider>
+  </ErrorBoundary>
 );
 
 export default withSession(App);

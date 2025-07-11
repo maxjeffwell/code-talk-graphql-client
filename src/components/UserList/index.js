@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import React from 'react';
+import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 
@@ -35,24 +35,23 @@ const UserList = styled.ul`
   overflow: hidden;
 `;
 
-class Users extends Component {
-  render() {
-    return (
-      <Centered>
-        <h1>Code Talkers</h1>
-        <Query query={GET_ALL_USERS_QUERY}>
-          {({ data, error, loading }) => {
-            if(loading) return <Loading />;
+const Users = () => {
+  const { data, error, loading } = useQuery(GET_ALL_USERS_QUERY);
 
-            if(error) return <ErrorMessage error={error} />;
+  if (loading) return <Loading />;
 
-            return <UserList>{data.users.map(user =>
-              <li key={user.id}>{user.username}</li>)}</UserList>;
-          }}
-        </Query>
-      </Centered>
-    );
-  }
-}
+  if (error) return <ErrorMessage error={error} />;
+
+  return (
+    <Centered>
+      <h1>Code Talkers</h1>
+      <UserList>
+        {data.users.map(user =>
+          <li key={user.id}>{user.username}</li>
+        )}
+      </UserList>
+    </Centered>
+  );
+};
 
 export default Users;

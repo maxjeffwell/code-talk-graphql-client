@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 
 import ErrorMessage from '../../Error';
@@ -14,60 +14,51 @@ const CREATE_ROOM = gql`
   }
 `;
 
-class RoomCreate extends Component {
-  state = {
-    title: '',
-  };
+const RoomCreate = () => {
+  const [title, setTitle] = useState('');
+  
+  const [createRoom, { data, loading, error }] = useMutation(CREATE_ROOM, {
+    variables: { title },
+    optimisticResponse: {
+      createRoom: {
+        title,
+        __typename: 'Room',
+      }
+    }
+  });
 
-  onChange = event => {
+  const onChange = event => {
     const { name, value } = event.target;
-    this.setState({ [name]: value });
+    if (name === 'title') {
+      setTitle(value);
+    }
   };
 
-  onSubmit = async (event, createRoom) => {
+  const onSubmit = async (event) => {
     try {
       // event.preventDefault();
       await createRoom();
-      this.setState({ title: '' });
+      setTitle('');
     } catch (error) {}
   };
 
-  render() {
-    const { title } = this.state;
+  return (
+    <form onSubmit={onSubmit}>
+      <input 
+        type="text"
+        name="title"
+        value={title}
+        onChange={onChange}
+        autoComplete="off"
+        placeholder="Create a room..."
+        required
+      />
+      <button type="submit">Submit</button>
 
-    return (
-      <Mutation
-        mutation={CREATE_ROOM}
-        variables={{ title }}
-        optimisticResponse={{
-          createRoom: {
-            title,
-            __typename: 'Room',
-          }
-        }}
-      >
-        {(createRoom, { data, loading, error }) => (
-          <form
-            onSubmit={event => this.onSubmit(event, createRoom)}
-          >
-            <input type="text"
-                   name="title"
-                   value={title}
-                   onChange={this.onChange}
-                   autoComplete="off"
-                   placeholder="Create a room..."
-                   required
-            />
-            <button type="submit">Submit</button>
-
-            {loading && <Loading />}
-            {error && <ErrorMessage error={error} />}
-
-          </form>
-        )}
-      </Mutation>
-    );
-  }
-}
+      {loading && <Loading />}
+      {error && <ErrorMessage error={error} />}
+    </form>
+  );
+};
 
 export default RoomCreate;

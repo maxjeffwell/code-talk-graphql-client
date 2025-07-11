@@ -1,68 +1,57 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { getMainDefinition } from 'apollo-utilities';
-import { ApolloLink, split } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { WebSocketLink } from 'apollo-link-ws';
-import { onError } from 'apollo-link-error';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createRoot } from 'react-dom/client';
+import { ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { onError } from '@apollo/client/link/error';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 import { ThemeProvider } from 'styled-components';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
 import { getToken, isTokenExpired } from './utils/auth';
+import { reportWebVitals, observeLongTasks } from './utils/performance';
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
 });
 
-const wsLink = new WebSocketLink({
-	uri: process.env.NODE_ENV === 'development' ? `ws://localhost:8000/graphql` : `wss://jmaxwell-code-talk-server.herokuapp.com/graphql`,
-	options: {
-		reconnect: true,
-	},
-});
+const wsLink = new GraphQLWsLink(createClient({
+	url: process.env.NODE_ENV === 'development' ? 'ws://localhost:8000/graphql' : 'wss://jmaxwell-code-talk-server.herokuapp.com/graphql',
+}));
 
-const terminatingLink = split(
+const splitLink = split(
 	({ query }) => {
-		const { kind, operation } = getMainDefinition(query);
+		const definition = getMainDefinition(query);
 		return (
-			kind === 'OperationDefinition' && operation === 'subscription'
+			definition.kind === 'OperationDefinition' &&
+			definition.operation === 'subscription'
 		);
 	},
 	wsLink,
 	httpLink,
 );
 
-const authLink = new ApolloLink((operation, forward) => {
-	operation.setContext(({ headers = {} }) => {
-		const token = getToken();
+const authLink = setContext((_, { headers }) => {
+	const token = getToken();
 
-		// Check if token is expired before using it
-		if (token && !isTokenExpired(token)) {
-			headers = { ...headers, 'x-token': token };
-		} else if (token && isTokenExpired(token)) {
-			// Token is expired, trigger logout
-			signOut(client);
-		}
+	// Check if token is expired before using it
+	if (token && !isTokenExpired(token)) {
+		return {
+			headers: {
+				...headers,
+				'x-token': token,
+			}
+		};
+	} else if (token && isTokenExpired(token)) {
+		// Token is expired, trigger logout
+		signOut(client, null);
+	}
 
-		return { headers };
-	});
-
-	return forward(operation);
+	return { headers };
 });
-
-// const createOmitTypenameLink = new ApolloLink((operation, forward) => {
-// 	const omitTypename = (key, value) => {
-// 		return key === '__typename' ? undefined : value
-// 	};
-// 	if (operation.variables) {
-// 		operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename)
-// 	}
-// 	return forward(operation)
-// });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
@@ -73,7 +62,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 			}
 
 			if (message === 'Not authenticated.') {
-				signOut(client);
+				signOut(client, null);
 			}
 		});
 	}
@@ -85,17 +74,42 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 		}
 
 		if (networkError.statusCode === 401) {
-			signOut(client);
+			signOut(client, null);
 		}
 	}
 });
 
-const link = ApolloLink.from([authLink, errorLink, terminatingLink]);
-
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+	typePolicies: {
+		Query: {
+			fields: {
+				messages: {
+					keyArgs: false,
+					merge(existing = { edges: [], pageInfo: {} }, incoming) {
+						return {
+							...incoming,
+							edges: [...existing.edges, ...incoming.edges],
+						};
+					},
+				},
+			},
+		},
+		Message: {
+			fields: {
+				createdAt: {
+					read(value) {
+						return value ? new Date(value).toLocaleString() : '';
+					},
+				},
+			},
+		},
+	},
+	possibleTypes: {},
+	resultCaching: true,
+});
 
 const client = new ApolloClient({
-	link,
+	link: authLink.concat(errorLink).concat(splitLink),
 	cache,
 	connectToDevTools: true,
 });
@@ -106,11 +120,32 @@ const theme = {
 	white: '#EDEDED',
 };
 
-ReactDOM.render(
-    <ThemeProvider theme={theme}>
-			<ApolloProvider client={client}>
-				<App />
-			</ApolloProvider>
-		</ThemeProvider>,
-	document.getElementById('root'),
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
+    <React.StrictMode>
+        <ThemeProvider theme={theme}>
+            <ApolloProvider client={client}>
+                <App />
+            </ApolloProvider>
+        </ThemeProvider>
+    </React.StrictMode>
 );
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
+}
+
+// Initialize performance monitoring
+observeLongTasks();
+reportWebVitals(console.log);

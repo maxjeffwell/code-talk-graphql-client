@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { useEffect, Fragment, memo, useMemo } from 'react';
 import styled from 'styled-components';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 import MessageDelete from '../MessageDelete';
-import Loading from '../../Loading';
 import withSession from '../../Session/withSession';
 import ErrorMessage from '../../Error';
+import { MessageSkeleton } from '../../Loading/SkeletonLoader';
 
 const StyledMessage = styled.li`
     border-top: 3px solid ${props => props.theme.black};
@@ -122,50 +122,66 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
   }
 `;
 
-const Messages = ({ limit })  => (
-  <Query query={ GET_PAGINATED_MESSAGES_QUERY }
-         variables={{ limit }}
-  >
-    {({ data, loading, error, fetchMore, subscribeToMore}) => {
-      if (!data) {
-        return (
-          <div>
-            <p>No messages have been created yet ... Create one here ...</p>
-          </div>
-        );
-      }
+const Messages = memo(({ limit }) => {
+  const { data, loading, error, fetchMore, subscribeToMore } = useQuery(
+    GET_PAGINATED_MESSAGES_QUERY,
+    {
+      variables: { limit }
+    }
+  );
 
-      const { messages } = data;
+  const memoizedData = useMemo(() => {
+    if (!data) {
+      return null;
+    }
+    return data;
+  }, [data]);
 
-      if (loading || !messages) {
-        return <Loading />;
-      }
-      if (error) {
-        return <ErrorMessage error={error} />;
-      }
+  if (!memoizedData) {
+    return (
+      <div>
+        <p>No messages have been created yet ... Create one here ...</p>
+      </div>
+    );
+  }
 
-      const { edges, pageInfo } = messages;
+  const { messages } = memoizedData;
 
-      return (
-        <Fragment>
-          <MessageList
-            messages={edges}
-            subscribeToMore={subscribeToMore}
-          />
-          {pageInfo.hasNextPage && (
-            <MoreMessagesButton
-              limit={limit}
-              pageInfo={pageInfo}
-              fetchMore={fetchMore}
-            >
-              Get More Messages
-            </MoreMessagesButton>
-          )}
-        </Fragment>
-      );
-    }}
-  </Query>
-);
+  if (loading || !messages) {
+    return (
+      <div>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <MessageSkeleton key={index} />
+        ))}
+      </div>
+    );
+  }
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
+  const { edges, pageInfo } = messages;
+
+  return (
+    <Fragment>
+      <MessageList
+        messages={edges}
+        subscribeToMore={subscribeToMore}
+      />
+      {pageInfo.hasNextPage && (
+        <MoreMessagesButton
+          limit={limit}
+          pageInfo={pageInfo}
+          fetchMore={fetchMore}
+        >
+          Get More Messages
+        </MoreMessagesButton>
+      )}
+    </Fragment>
+  );
+});
+
+Messages.displayName = 'Messages';
 
 const MoreMessagesButton = ({
                               limit,
@@ -203,9 +219,9 @@ const MoreMessagesButton = ({
   </StyledButton>
 );
 
-class MessageList extends Component {
-  subscribeToMoreMessages = () => {
-    this.props.subscribeToMore({
+const MessageList = ({ messages, subscribeToMore }) => {
+  const subscribeToMoreMessages = () => {
+    subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
@@ -225,40 +241,44 @@ class MessageList extends Component {
           },
         };
       },
+    });
+  };
+
+  useEffect(() => {
+    const unsubscribe = subscribeToMoreMessages();
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [subscribeToMore]);
+
+  const MessageItemBase = memo(({ message, session }) => {
+    const isOwner = useMemo(() => 
+      session && session.me && message.user.id === session.me.id, 
+      [session, message.user.id]
+    );
+
+    return (
+      <StyledMessage>
+        {isOwner && (
+          <MessageDelete message={message}/>
+        )}
+        <StyledP>Time: {message.createdAt}</StyledP>
+        <StyledP>Username: {message.user.username}</StyledP>
+        <StyledP>Message: {message.text}</StyledP>
+      </StyledMessage>
+    );
   });
-};
 
-  componentDidMount() {
-  this.subscribeToMoreMessages();
-}
-
-componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-
-render() {
-  const { messages } = this.props;
-
-  const MessageItemBase = ({ message, session }) => (
-    <StyledMessage>
-      {session && session.me && message.user.id === session.me.id && (
-        <MessageDelete message={message}/>
-      )}
-      <StyledP>Time: {message.createdAt}</StyledP>
-      <StyledP>Username: {message.user.username}</StyledP>
-      <StyledP>Message: {message.text}</StyledP>
-    </StyledMessage>
-  );
+  MessageItemBase.displayName = 'MessageItemBase';
 
   const MessageItem = withSession(MessageItemBase);
 
   return messages.map(message => (
     <MessageItem key={message.id} message={message} />
-    ));
-}
-}
+  ));
+};
 
 export default Messages;
 

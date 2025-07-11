@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import CodeTalk_Title_Logo from '../Images/Logo/CodeTalk_Title_Logo.png';
 import styled from 'styled-components';
+import LazyImage from '../LazyImage';
 
 const StyledHeader = styled.header`
   .bar {
@@ -12,27 +13,33 @@ const StyledHeader = styled.header`
     justify-content: space-evenly;
     align-items: stretch;
     }  
-  img {
+  
+  .logo-container {
     display: flex;
     margin: auto;
     max-width: 50%;
     max-height: 450px;
-    }
+  }
 `;
 
-class Header extends Component {
-  render () {
-    return (
-      <StyledHeader>
-        <div className="bar">
-          <Link to="/" className="home" role="button">
-            <img src={CodeTalk_Title_Logo} alt="Code Talk"/>
-          </Link>
-        </div>
-      </StyledHeader>
+const Header = memo(() => {
+  return (
+    <StyledHeader>
+      <div className="bar">
+        <Link to="/" className="home" role="button">
+          <LazyImage 
+            src={CodeTalk_Title_Logo} 
+            alt="Code Talk Logo"
+            className="logo-container"
+            placeholder="Loading logo..."
+          />
+        </Link>
+      </div>
+    </StyledHeader>
   );
-  }
-}
+});
+
+Header.displayName = 'Header';
 
 export default Header;
 
