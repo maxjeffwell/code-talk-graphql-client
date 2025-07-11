@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
+import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
@@ -36,29 +36,78 @@ const RoomCreate = () => {
 
   const onSubmit = async (event) => {
     try {
-      // event.preventDefault();
-      await createRoom();
-      setTitle('');
+      event.preventDefault();
+      if (title.trim()) {
+        await createRoom();
+        setTitle('');
+      }
     } catch (error) {}
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input 
+    <StyledForm onSubmit={onSubmit}>
+      <StyledInput 
         type="text"
         name="title"
         value={title}
         onChange={onChange}
         autoComplete="off"
-        placeholder="Create a room..."
+        placeholder="Create a new room..."
         required
       />
-      <button type="submit">Submit</button>
+      <StyledButton type="submit" disabled={loading || !title.trim()}>
+        {loading ? 'Creating...' : 'Create Room'}
+      </StyledButton>
 
-      {loading && <Loading />}
       {error && <ErrorMessage error={error} />}
-    </form>
+    </StyledForm>
   );
 };
+
+const StyledForm = styled.form`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+`;
+
+const StyledInput = styled.input`
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  border: 3px solid ${props => props.theme.green};
+  background-color: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  
+  &::placeholder {
+    color: ${props => props.theme.green};
+    opacity: 0.6;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px ${props => props.theme.green};
+  }
+`;
+
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: ${props => props.theme.black};
+  background-color: ${props => props.theme.green};
+  border: 3px solid ${props => props.theme.green};
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover:not(:disabled) {
+    background-color: ${props => props.theme.black};
+    color: ${props => props.theme.green};
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
 
 export default RoomCreate;

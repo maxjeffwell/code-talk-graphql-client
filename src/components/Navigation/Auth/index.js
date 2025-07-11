@@ -10,8 +10,8 @@ import { Logo, StyledParagraph } from '../index';
 const NavigationAuth = ({ session }) => {
 	const location = useLocation();
 
-	const link = <Link to={routes.ROOM}>Code Talk Chat</Link>;
-	const ConditionalLink = () => location.pathname !== '/code-talk-chat/' ? link : Fragment;
+	const isOnRoomsPage = location.pathname === routes.ROOMS;
+	const isOnRoomPage = location.pathname.startsWith('/rooms/');
 
 	return <Fragment>
 		<Header/>
@@ -20,7 +20,9 @@ const NavigationAuth = ({ session }) => {
 		</Logo>
 		<SignOutButton/>
 		<Logo>
-			<ConditionalLink />
+			{!isOnRoomsPage && <Link to={routes.ROOMS}>Chat Rooms</Link>}
+			{isOnRoomsPage && isOnRoomPage && <span> | </span>}
+			{isOnRoomPage && <Link to={routes.ROOMS}>Back to Rooms</Link>}
 		</Logo>
 	</Fragment>;
 };

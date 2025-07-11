@@ -1,6 +1,5 @@
 import React from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
 
 import { StyledButton } from '../Messages';
 

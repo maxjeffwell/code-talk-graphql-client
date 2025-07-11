@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { useApolloClient } from '@apollo/client';
+import logger from '../../utils/logger';
 
 const pulse = keyframes`
   0% { opacity: 1; }
@@ -135,7 +136,7 @@ const ConnectionStatus = () => {
             setStatus('disconnected');
           }
         } catch (error) {
-          console.error('Connection check failed:', error);
+          logger.error('Connection check failed:', error);
           setStatus('error');
         }
         setLastUpdated(new Date());
@@ -150,7 +151,7 @@ const ConnectionStatus = () => {
         clearInterval(interval);
       };
     } catch (error) {
-      console.error('Error setting up ConnectionStatus:', error);
+      logger.error('Error setting up ConnectionStatus:', error);
       setStatus('error');
     }
   }, [client]);
@@ -169,7 +170,7 @@ const ConnectionStatus = () => {
       }
       setStatus('connected');
     } catch (error) {
-      console.error('Retry failed:', error);
+      logger.error('Retry failed:', error);
       setStatus('error');
     } finally {
       setIsRetrying(false);

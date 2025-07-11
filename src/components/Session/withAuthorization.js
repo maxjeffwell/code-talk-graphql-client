@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import { GET_ME } from './queries';
@@ -15,7 +15,7 @@ const withAuthorization = conditionFn => Component => props => {
   return conditionFn(data) ? (
     <Component {...props} />
   ) : (
-    <Redirect to={routes.SIGN_IN} />
+    <Navigate to={routes.SIGN_IN} replace />
   );
 };
 

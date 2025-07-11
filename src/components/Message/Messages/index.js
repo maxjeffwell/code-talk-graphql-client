@@ -76,28 +76,28 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
   }
 `;
 
-// const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-//   query($cursor: String, $limit: Int!, $roomId: ID!) {
-//     messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-//     @connection(key: "MessageConnection") {
-//       edges {
-//         id
-//         text
-//         createdAt
-//         roomId
-//         userId
-//         user {
-//           id
-//           username
-//         }
-//       }
-//       pageInfo {
-//         hasNextPage
-//         endCursor
-//       }
-//     }
-//   }
-// `;
+const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
+  query($cursor: String, $limit: Int!, $roomId: ID!) {
+    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
+    @connection(key: "MessageConnection") {
+      edges {
+        id
+        text
+        createdAt
+        roomId
+        userId
+        user {
+          id
+          username
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+`;
 
 const GET_PAGINATED_MESSAGES_QUERY = gql`
   query($cursor: String, $limit: Int!) {
@@ -122,11 +122,14 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
   }
 `;
 
-const Messages = memo(({ limit }) => {
+const Messages = memo(({ limit, roomId }) => {
+  const query = roomId ? GET_PAGINATED_MESSAGES_BY_ROOM_QUERY : GET_PAGINATED_MESSAGES_QUERY;
+  const variables = roomId ? { limit, roomId } : { limit };
+  
   const { data, loading, error, fetchMore, subscribeToMore } = useQuery(
-    GET_PAGINATED_MESSAGES_QUERY,
+    query,
     {
-      variables: { limit }
+      variables
     }
   );
 
@@ -167,12 +170,14 @@ const Messages = memo(({ limit }) => {
       <MessageList
         messages={edges}
         subscribeToMore={subscribeToMore}
+        roomId={roomId}
       />
       {pageInfo.hasNextPage && (
         <MoreMessagesButton
           limit={limit}
           pageInfo={pageInfo}
           fetchMore={fetchMore}
+          roomId={roomId}
         >
           Get More Messages
         </MoreMessagesButton>
@@ -187,6 +192,7 @@ const MoreMessagesButton = ({
                               limit,
                               pageInfo,
                               fetchMore,
+                              roomId,
                               children,
                             }) => (
   <StyledButton
@@ -196,6 +202,7 @@ const MoreMessagesButton = ({
         variables: {
           cursor: pageInfo.endCursor,
           limit,
+          ...(roomId && { roomId }),
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {

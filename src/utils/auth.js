@@ -1,4 +1,5 @@
 // Secure token management utilities
+import logger from './logger';
 
 const TOKEN_KEY = 'auth_token';
 
@@ -19,7 +20,7 @@ export const getToken = () => {
     // Fallback to localStorage for development
     return localStorage.getItem(TOKEN_KEY);
   } catch (error) {
-    console.warn('Failed to retrieve token:', error);
+    logger.warn('Failed to retrieve token:', error);
     return null;
   }
 };
@@ -40,7 +41,7 @@ export const setToken = (token) => {
       localStorage.setItem(TOKEN_KEY, token);
     }
   } catch (error) {
-    console.warn('Failed to store token:', error);
+    logger.warn('Failed to store token:', error);
   }
 };
 
@@ -50,7 +51,7 @@ export const removeToken = () => {
     localStorage.removeItem(TOKEN_KEY);
     sessionStorage.removeItem(TOKEN_KEY);
   } catch (error) {
-    console.warn('Failed to remove token:', error);
+    logger.warn('Failed to remove token:', error);
   }
 };
 
@@ -71,7 +72,7 @@ export const decodeTokenPayload = (token) => {
     const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
     return decoded;
   } catch (error) {
-    console.warn('Failed to decode token:', error);
+    logger.warn('Failed to decode token:', error);
     return null;
   }
 };
@@ -89,7 +90,7 @@ export const isTokenExpired = (token = null) => {
     const now = Math.floor(Date.now() / 1000);
     return payload.exp <= (now + 30);
   } catch (error) {
-    console.warn('Failed to check token expiration:', error);
+    logger.warn('Failed to check token expiration:', error);
     return true;
   }
 };
@@ -106,7 +107,7 @@ export const getTokenTimeToExpiry = (token = null) => {
     const now = Math.floor(Date.now() / 1000);
     return Math.max(0, payload.exp - now);
   } catch (error) {
-    console.warn('Failed to get token expiry time:', error);
+    logger.warn('Failed to get token expiry time:', error);
     return 0;
   }
 };

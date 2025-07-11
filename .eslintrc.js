@@ -3,13 +3,8 @@ module.exports = {
 		"react-app",
 		"react-app/jest"
 	],
-	plugins: ['graphql'],
 	rules: {
 		"react/jsx-filename-extension": 0,
-		"graphql/template-strings": ["error", {
-		 env: "apollo",
-			validators: "all"
-		}],
 		"react/prop-types": 0
 	},
 	parserOptions: {

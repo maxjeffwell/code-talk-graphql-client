@@ -8,13 +8,13 @@ import * as Grid from '../../Grid';
 const Row = Grid.Row;
 const Col = Grid.Column;
 
-const GridSystem = () => (
+const GridSystem = ({ roomId }) => (
   <Row>
     <Col colspan="1">
-      <MessageContainer />
+      <MessageContainer roomId={roomId} />
     </Col>
     <Col colspan="2" last>
-      <DebouncedEditor />
+      <DebouncedEditor roomId={roomId} />
     </Col>
   </Row>
 );

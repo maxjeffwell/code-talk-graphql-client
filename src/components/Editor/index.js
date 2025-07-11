@@ -3,7 +3,7 @@ import debounce from "lodash/debounce";
 import { useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import styled from 'styled-components';
-import TextareaAutosize from 'react-autosize-textarea';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import ErrorMessage from '../Error';
 import Loading from '../Loading';
@@ -45,7 +45,8 @@ const StyledTextarea = styled(TextareaAutosize)`
   padding: 10px 10px 10px 10px;
 `;
 
-const Editor = () => {
+const Editor = ({ roomId }) => {
+  // TODO: Implement room-based code editing when backend supports it
   const { loading, error, data, subscribeToMore } = useQuery(READ_CODE_QUERY);
   const [typeCodeMutation] = useMutation(TYPE_CODE_MUTATION);
 

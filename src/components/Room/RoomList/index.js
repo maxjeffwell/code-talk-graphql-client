@@ -1,13 +1,11 @@
 import React, { useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useQuery, gql } from '@apollo/client';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
-// import { ROOMS } from '../../../constants/routes';
-// import RoomCreate from '../RoomCreate';
-// import RoomDelete from '../RoomDelete';
+import RoomCreate from '../RoomCreate';
+import RoomDelete from '../RoomDelete';
 import Loading from '../../Loading';
 
 const ROOM_CREATED_SUBSCRIPTION = gql`
@@ -43,19 +41,20 @@ const Rooms = ({ limit }) => {
     variables: limit
   });
 
-  if (!data) {
-    return (
-      <Fragment>
-        <p>No rooms have been created yet ... Create one here ...</p>
-        {/*<RoomCreate />*/}
-      </Fragment>
-    );
+  if (loading || !data) {
+    return <Loading />;
   }
 
   const { rooms } = data;
 
-  if (loading || !rooms) {
-    return <Loading />;
+  if (!rooms || rooms.edges.length === 0) {
+    return (
+      <RoomsContainer>
+        <h1>Chat Rooms</h1>
+        <p>No rooms have been created yet. Create one below:</p>
+        <RoomCreate />
+      </RoomsContainer>
+    );
   }
 
   if (error) {
@@ -65,12 +64,12 @@ const Rooms = ({ limit }) => {
   const { edges, pageInfo } = rooms;
 
   return (
-    <Fragment>
+    <RoomsContainer>
+      <h1>Chat Rooms</h1>
       <RoomList
         rooms={edges}
         subscribeToMore={subscribeToMore}
       />
-
       {pageInfo.hasNextPage && (
         <GetMoreRoomsButton
           limit={limit}
@@ -80,7 +79,7 @@ const Rooms = ({ limit }) => {
           Get More Rooms
         </GetMoreRoomsButton>
       )}
-    </Fragment>
+    </RoomsContainer>
   );
 };
 
@@ -159,15 +158,31 @@ const RoomList = ({ rooms, subscribeToMore }) => {
   //     ];
   // }
 
-  return rooms.map(room => <RoomListItem key={room.id} room={room}/>);
+  return (
+    <StyledRoomList>
+      <RoomCreate />
+      {rooms.map(room => (
+        <RoomListItem key={room.id} room={room} />
+      ))}
+    </StyledRoomList>
+  );
 };
+
+const RoomsContainer = styled.div`
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+`;
 
 const StyledRoomList = styled.ul`
   list-style-type: none;
-  margin: 100px auto;
-  width: 16.5%;
-  &li {
-  padding-left: 20px;
+  margin: 20px 0;
+  padding: 0;
+  li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 `;
 
@@ -191,14 +206,12 @@ const StyledRoomLink = styled(Link)`
 `;
 
 const RoomListItem = ({ room }) => (
-  <StyledRoomList>
-    <li>
-      {/*<StyledRoomLink to={`${ROOMS}/${room.id}`}>*/}
-        {room.title}
-      {/*</StyledRoomLink>*/}
-      {/*<RoomDelete room={room} />*/}
-    </li>
-  </StyledRoomList>
+  <li>
+    <StyledRoomLink to={`/rooms/${room.id}`}>
+      {room.title}
+    </StyledRoomLink>
+    <RoomDelete room={room} />
+  </li>
 );
 
 export default Rooms;

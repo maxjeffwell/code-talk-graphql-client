@@ -31,13 +31,10 @@ import { MessageCreate, Messages } from '../Message';
 
 // const MessageContainer = ({ match }) => {
 
-const MessageContainer = () => {
-	// const roomId = match.params.id;
-
+const MessageContainer = ({ roomId }) => {
 	return <Fragment>
-		<MessageCreate />
-		{/*<Messages limit={10} roomId={roomId} />*/}
-		<Messages limit={5} />
+		<MessageCreate roomId={roomId} />
+		<Messages limit={10} roomId={roomId} />
 	</Fragment>;
 };
 

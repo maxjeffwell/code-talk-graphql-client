@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
-import TextareaAutosize from 'react-autosize-textarea';
+import { useMutation, gql } from '@apollo/client';
+import TextareaAutosize from 'react-textarea-autosize';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
@@ -26,15 +25,16 @@ const StyledForm = styled.form`
   margin-bottom: 5px;
 `;
 
-// const CREATE_MESSAGE = gql`
-//     mutation($text: String!, $roomId: ID!) {
-//         createMessage(text: $text, roomId: $roomId){
-//             id
-//             createdAt
-//             text
-//         }
-//     }
-// `;
+const CREATE_MESSAGE_WITH_ROOM = gql`
+    mutation($text: String!, $roomId: ID!) {
+        createMessage(text: $text, roomId: $roomId){
+            id
+            createdAt
+            text
+            roomId
+        }
+    }
+`;
 
 const CREATE_MESSAGE = gql`
   mutation($text: String!) {
@@ -46,14 +46,17 @@ const CREATE_MESSAGE = gql`
   }
 `;
 
-const MessageCreate = () => {
+const MessageCreate = ({ roomId }) => {
   const [text, setText] = useState('');
   const buttonRef = useRef(null);
 
+  const mutation = roomId ? CREATE_MESSAGE_WITH_ROOM : CREATE_MESSAGE;
+  const variables = roomId ? { text, roomId } : { text };
+  
   const [createMessage, { data, loading, error }] = useMutation(
-    CREATE_MESSAGE,
+    mutation,
     {
-      variables: { text }
+      variables
     }
   );
 

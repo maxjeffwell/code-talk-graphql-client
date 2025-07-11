@@ -18,6 +18,7 @@ const LandingPage = React.lazy(() => import('../Landing'));
 const SignUpPage = React.lazy(() => import('../SignUp'));
 const SignInPage = React.lazy(() => import('../SignIn'));
 const Room = React.lazy(() => import('../Room'));
+const RoomList = React.lazy(() => import('../Room/RoomList'));
 
 // Lazy load heavy components (prepared for future implementation)
 // const MessagesList = React.lazy(() => import('../Message/Messages'));
@@ -133,10 +134,10 @@ const App = ({ session, refetch }) => (
                   element={<SignInPage refetch={refetch} />}
                 />
 
-                {/*<Route*/}
-                  {/*path={routes.ROOMS}*/}
-                  {/*element={<RoomList />}*/}
-                {/*/>*/}
+                <Route
+                  path={routes.ROOMS}
+                  element={<RoomList />}
+                />
 
                 <Route
                   path={routes.ROOM}

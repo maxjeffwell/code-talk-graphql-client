@@ -13,6 +13,8 @@ import App from './components/App';
 import { signOut } from './components/SignOut';
 import { getToken, isTokenExpired } from './utils/auth';
 import { observeLongTasks } from './utils/performance';
+import logger from './utils/logger';
+import theme from './theme';
 
 const httpLink = createHttpLink({
 	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://jmaxwell-code-talk-server.herokuapp.com/graphql'
@@ -56,10 +58,7 @@ const authLink = setContext((_, { headers }) => {
 const errorLink = onError(({ graphQLErrors, networkError }) => {
 	if (graphQLErrors) {
 		graphQLErrors.forEach(({ message, locations, path }) => {
-			// Only log errors in development
-			if (process.env.NODE_ENV === 'development') {
-				console.log('GraphQL error', message);
-			}
+			logger.error('GraphQL error:', message, 'Location:', locations, 'Path:', path);
 
 			if (message === 'Not authenticated.') {
 				signOut(client, null);
@@ -68,10 +67,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 	}
 
 	if (networkError) {
-		// Only log errors in development
-		if (process.env.NODE_ENV === 'development') {
-			console.log('Network error', networkError);
-		}
+		logger.error('Network error:', networkError);
 
 		if (networkError.statusCode === 401) {
 			signOut(client, null);
@@ -114,11 +110,6 @@ const client = new ApolloClient({
 	connectToDevTools: true,
 });
 
-const theme = {
-	green: '#30d403',
-	black: '#393939',
-	white: '#EDEDED',
-};
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -138,10 +129,10 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-                console.log('SW registered: ', registration);
+                logger.info('SW registered:', registration);
             })
             .catch((registrationError) => {
-                console.log('SW registration failed: ', registrationError);
+                logger.error('SW registration failed:', registrationError);
             });
     });
 }

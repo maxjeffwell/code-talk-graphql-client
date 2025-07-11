@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import logger from '../../utils/logger';
 
 const ErrorContainer = styled.div`
   display: flex;
@@ -114,8 +115,8 @@ class ErrorBoundary extends React.Component {
 
     // Log error to console in development
     if (process.env.NODE_ENV === 'development') {
-      console.error('Error caught by boundary:', error);
-      console.error('Error info:', errorInfo);
+      logger.error('Error caught by boundary:', error);
+      logger.error('Error info:', errorInfo);
     }
 
     // In production, you might want to send this to an error tracking service
@@ -139,9 +140,9 @@ class ErrorBoundary extends React.Component {
       //   }
       // });
       
-      console.error('Error logged to service:', { error, errorInfo, errorId });
+      logger.info('Error logged to service:', { error, errorInfo, errorId });
     } catch (loggingError) {
-      console.error('Failed to log error to service:', loggingError);
+      logger.error('Failed to log error to service:', loggingError);
     }
   };
 

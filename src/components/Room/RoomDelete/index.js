@@ -1,8 +1,8 @@
 import React from 'react';
-import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, gql } from '@apollo/client';
+import styled from 'styled-components';
 
-import ErrorMessage from '../../Message/MessageDelete';
+import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
 const GET_ALL_ROOMS_QUERY = gql`
@@ -54,10 +54,30 @@ const RoomDelete = ({ room }) => {
   if (loading) return <Loading />;
 
   return (
-    <button type="button" onClick={deleteRoom}>
-      Delete Room
-    </button>
+    <StyledDeleteButton type="button" onClick={deleteRoom} disabled={loading}>
+      {loading ? 'Deleting...' : 'Delete'}
+    </StyledDeleteButton>
   );
 };
+
+const StyledDeleteButton = styled.button`
+  padding: 5px 10px;
+  font-size: 14px;
+  color: ${props => props.theme.white};
+  background-color: #dc3545;
+  border: 2px solid #dc3545;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover:not(:disabled) {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
 
 export default RoomDelete;

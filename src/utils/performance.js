@@ -1,4 +1,5 @@
 // Performance monitoring utilities for Code Talk app
+import logger from './logger';
 
 export const measurePerformance = (name, fn) => {
   return (...args) => {
@@ -7,7 +8,7 @@ export const measurePerformance = (name, fn) => {
     const end = performance.now();
     
     if (process.env.NODE_ENV === 'development') {
-      console.log(`${name} took ${end - start} milliseconds`);
+      logger.perf(`${name} took ${end - start} milliseconds`);
     }
     
     return result;
@@ -33,7 +34,7 @@ export const reportWebVitals = (onPerfEntry) => {
       try {
         observer.observe({ entryTypes: ['navigation', 'paint'] });
       } catch (error) {
-        console.warn('Performance observer not supported:', error);
+        logger.warn('Performance observer not supported:', error);
       }
     }
   }
@@ -41,7 +42,7 @@ export const reportWebVitals = (onPerfEntry) => {
 
 export const trackComponentRender = (componentName) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`${componentName} rendered at ${Date.now()}`);
+    logger.perf(`${componentName} rendered at ${Date.now()}`);
   }
 };
 
@@ -52,7 +53,7 @@ export const trackNetworkRequest = (url, method = 'GET') => {
     end: () => {
       const end = performance.now();
       if (process.env.NODE_ENV === 'development') {
-        console.log(`Network request to ${url} (${method}) took ${end - start} milliseconds`);
+        logger.perf(`Network request to ${url} (${method}) took ${end - start} milliseconds`);
       }
     }
   };
@@ -62,7 +63,7 @@ export const trackNetworkRequest = (url, method = 'GET') => {
 export const trackMemoryUsage = () => {
   if (process.env.NODE_ENV === 'development' && 'memory' in performance) {
     const memInfo = performance.memory;
-    console.log({
+    logger.perf({
       usedJSHeapSize: memInfo.usedJSHeapSize,
       totalJSHeapSize: memInfo.totalJSHeapSize,
       jsHeapSizeLimit: memInfo.jsHeapSizeLimit
@@ -76,7 +77,7 @@ export const observeLongTasks = () => {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         if (entry.duration > 50) { // Tasks longer than 50ms
-          console.warn(`Long task detected: ${entry.duration}ms`);
+          logger.warn(`Long task detected: ${entry.duration}ms`);
         }
       }
     });
