@@ -19,68 +19,71 @@ const ROOM_CREATED_SUBSCRIPTION = gql`
   }
 `;
 
-const GET_PAGINATED_ROOMS_QUERY = gql`
-  query($cursor: String, $limit: Int) {
-      rooms(cursor: $cursor, limit: $limit) 
-      @connection(key: "RoomsConnection") {
-          edges {
-              id
-              title
-              createdAt
-          }
-          pageInfo {
-              hasNextPage
-              endCursor
-          }
-      }
-  }
-`;
+// Temporarily disabled - server doesn't support rooms query
+// const GET_PAGINATED_ROOMS_QUERY = gql`
+//   query($cursor: String, $limit: Int) {
+//       rooms(cursor: $cursor, limit: $limit) 
+//       @connection(key: "RoomsConnection") {
+//           edges {
+//               id
+//               title
+//               createdAt
+//           }
+//           pageInfo {
+//               hasNextPage
+//               endCursor
+//           }
+//       }
+//   }
+// `;
 
 const Rooms = ({ limit }) => {
-  const { data, loading, error, fetchMore, subscribeToMore } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
-    variables: limit
-  });
+  // Temporarily disabled - server doesn't support rooms query
+  // const { data, loading, error, fetchMore, subscribeToMore } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
+  //   variables: limit
+  // });
 
-  if (loading || !data) {
-    return <Loading />;
-  }
+  // if (loading || !data) {
+  //   return <Loading />;
+  // }
 
-  const { rooms } = data;
+  // const { rooms } = data;
 
-  if (!rooms || rooms.edges.length === 0) {
+  // if (!rooms || rooms.edges.length === 0) {
     return (
       <RoomsContainer>
         <h1>Chat Rooms</h1>
-        <p>No rooms have been created yet. Create one below:</p>
+        <p>The rooms feature is temporarily unavailable while the server is being updated.</p>
+        <p>Please use the main chat for now.</p>
         <RoomCreate />
       </RoomsContainer>
     );
-  }
+  // }
 
-  if (error) {
-    return <ErrorMessage error={error} />;
-  }
+  // if (error) {
+  //   return <ErrorMessage error={error} />;
+  // }
 
-  const { edges, pageInfo } = rooms;
+  // const { edges, pageInfo } = rooms;
 
-  return (
-    <RoomsContainer>
-      <h1>Chat Rooms</h1>
-      <RoomList
-        rooms={edges}
-        subscribeToMore={subscribeToMore}
-      />
-      {pageInfo.hasNextPage && (
-        <GetMoreRoomsButton
-          limit={limit}
-          pageInfo={pageInfo}
-          fetchMore={fetchMore}
-        >
-          Get More Rooms
-        </GetMoreRoomsButton>
-      )}
-    </RoomsContainer>
-  );
+  // return (
+  //   <RoomsContainer>
+  //     <h1>Chat Rooms</h1>
+  //     <RoomList
+  //       rooms={edges}
+  //       subscribeToMore={subscribeToMore}
+  //     />
+  //     {pageInfo.hasNextPage && (
+  //       <GetMoreRoomsButton
+  //         limit={limit}
+  //         pageInfo={pageInfo}
+  //         fetchMore={fetchMore}
+  //       >
+  //         Get More Rooms
+  //       </GetMoreRoomsButton>
+  //     )}
+  //   </RoomsContainer>
+  // );
 };
 
 const GetMoreRoomsButton = ({

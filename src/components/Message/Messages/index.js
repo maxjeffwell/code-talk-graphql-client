@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, memo, useMemo } from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@apollo/client';
+import { useQuery, useSubscription } from '@apollo/client';
 import { gql } from '@apollo/client';
 
 import MessageDelete from '../MessageDelete';
@@ -71,6 +71,21 @@ const MESSAGE_CREATED_SUBSCRIPTION = gql`
           id
           username
         }
+      }
+    }
+  }
+`;
+
+const MESSAGE_DELETED_SUBSCRIPTION = gql`
+  subscription {
+    messageDeleted {
+      id
+      text
+      createdAt
+      roomId
+      user {
+        id
+        username
       }
     }
   }
@@ -226,9 +241,11 @@ const MoreMessagesButton = ({
   </StyledButton>
 );
 
-const MessageList = ({ messages, subscribeToMore }) => {
+const MessageList = ({ messages, subscribeToMore, roomId }) => {
+  // Note: Using subscribeToMore for message deletions to ensure proper integration
+
   const subscribeToMoreMessages = () => {
-    subscribeToMore({
+    return subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
@@ -236,29 +253,143 @@ const MessageList = ({ messages, subscribeToMore }) => {
         }
 
         const { messageCreated } = subscriptionData.data;
+        const newMessage = messageCreated.message;
+        
+        // If we're in a room-specific view, only handle creations for this room
+        if (roomId && newMessage.roomId && newMessage.roomId !== roomId) {
+          return previousResult;
+        }
+        
+        // If we're in general view, only handle creations for messages without roomId
+        if (!roomId && newMessage.roomId) {
+          return previousResult;
+        }
+
+        // Check if message already exists to prevent duplicates
+        const messageExists = previousResult.messages.edges.some(
+          message => message.id === newMessage.id
+        );
+        
+        if (messageExists) {
+          console.log('Message creation subscription: message already exists', newMessage.id, `"${newMessage.text.substring(0, 30)}..."`);
+          return previousResult;
+        }
+        
+        console.log('Message creation subscription: adding new message', newMessage.id, `"${newMessage.text.substring(0, 30)}..."`, 'from', newMessage.user.username);
 
         return {
           ...previousResult,
           messages: {
             ...previousResult.messages,
             edges: [
-              messageCreated.message,
+              newMessage,
               ...previousResult.messages.edges,
             ],
           },
         };
       },
+      onError: (error) => {
+        console.error('Message creation subscription error:', error);
+      },
+    });
+  };
+
+  // Message deletion subscription is now handled above
+
+  const subscribeToMessageDeletions = () => {
+    console.log('Setting up message deletion subscription for roomId:', roomId);
+    return subscribeToMore({
+      document: MESSAGE_DELETED_SUBSCRIPTION,
+      updateQuery: (previousResult, { subscriptionData }) => {
+        console.log('Message deletion subscription triggered:', subscriptionData);
+        
+        if (!subscriptionData?.data?.messageDeleted) {
+          console.log('No deletion subscription data or messageDeleted field');
+          return previousResult;
+        }
+
+        const { messageDeleted } = subscriptionData.data;
+        console.log('Message deleted via subscription:', {
+          id: messageDeleted.id,
+          text: messageDeleted.text?.substring(0, 30) + '...',
+          roomId: messageDeleted.roomId,
+          username: messageDeleted.user?.username
+        });
+        
+        // Room filtering logic
+        if (roomId && messageDeleted.roomId && messageDeleted.roomId !== roomId) {
+          console.log('Ignoring deletion - different room. Expected:', roomId, 'Got:', messageDeleted.roomId);
+          return previousResult;
+        }
+        
+        if (!roomId && messageDeleted.roomId) {
+          console.log('Ignoring deletion - room message in general view');
+          return previousResult;
+        }
+
+        // Safety check for messages structure
+        if (!previousResult?.messages?.edges) {
+          console.log('No messages in previousResult');
+          return previousResult;
+        }
+
+        // Filter out the deleted message from the cache
+        const filteredEdges = previousResult.messages.edges.filter(
+          message => message.id !== messageDeleted.id
+        );
+        
+        // Only update if something was actually removed
+        if (filteredEdges.length === previousResult.messages.edges.length) {
+          console.log('Message deletion subscription: message not found in cache', messageDeleted.id);
+          return previousResult;
+        }
+        
+        console.log('Message deletion subscription: removing message', messageDeleted.id, 'from', messageDeleted.user?.username);
+        console.log('Messages count - Before:', previousResult.messages.edges.length, 'After:', filteredEdges.length);
+
+        const updatedResult = {
+          ...previousResult,
+          messages: {
+            ...previousResult.messages,
+            edges: filteredEdges,
+          },
+        };
+        
+        console.log('Subscription returning updated result with', updatedResult.messages.edges.length, 'messages');
+        return updatedResult;
+      },
+      onError: (error) => {
+        console.error('Message deletion subscription error:', error);
+        console.error('Subscription will attempt to reconnect automatically');
+      },
     });
   };
 
   useEffect(() => {
-    const unsubscribe = subscribeToMoreMessages();
+    let unsubscribeCreated;
+    let unsubscribeDeleted;
+    
+    try {
+      unsubscribeCreated = subscribeToMoreMessages();
+      unsubscribeDeleted = subscribeToMessageDeletions();
+      console.log('Message subscriptions set up for roomId:', roomId);
+    } catch (error) {
+      console.error('Failed to set up message subscriptions:', error);
+    }
+    
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
+      try {
+        if (unsubscribeCreated && typeof unsubscribeCreated === 'function') {
+          unsubscribeCreated();
+        }
+        if (unsubscribeDeleted && typeof unsubscribeDeleted === 'function') {
+          unsubscribeDeleted();
+        }
+      } catch (error) {
+        console.error('Failed to unsubscribe from message subscriptions:', error);
       }
     };
-  }, [subscribeToMore]);
+  }, [subscribeToMore, roomId]);
 
   const MessageItemBase = memo(({ message, session }) => {
     const isOwner = useMemo(() => 
@@ -269,7 +400,7 @@ const MessageList = ({ messages, subscribeToMore }) => {
     return (
       <StyledMessage>
         {isOwner && (
-          <MessageDelete message={message}/>
+          <MessageDelete message={message} roomId={roomId}/>
         )}
         <StyledP>Time: {message.createdAt}</StyledP>
         <StyledP>Username: {message.user.username}</StyledP>
@@ -282,8 +413,12 @@ const MessageList = ({ messages, subscribeToMore }) => {
 
   const MessageItem = withSession(MessageItemBase);
 
-  return messages.map(message => (
-    <MessageItem key={message.id} message={message} />
+  // Note: We rely on cache-level deduplication rather than render-time filtering
+  // This allows messages with duplicate content but different IDs to be displayed
+  console.log('Message rendering - Total messages:', messages.length);
+  
+  return messages.map((message, index) => (
+    <MessageItem key={`${message.id}-${index}`} message={message} />
   ));
 };
 

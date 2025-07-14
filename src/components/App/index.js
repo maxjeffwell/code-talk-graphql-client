@@ -19,6 +19,7 @@ const SignUpPage = React.lazy(() => import('../SignUp'));
 const SignInPage = React.lazy(() => import('../SignIn'));
 const Room = React.lazy(() => import('../Room'));
 const RoomList = React.lazy(() => import('../Room/RoomList'));
+const MessageContainer = React.lazy(() => import('../MessageContainer'));
 
 // Lazy load heavy components (prepared for future implementation)
 // const MessagesList = React.lazy(() => import('../Message/Messages'));
@@ -132,6 +133,11 @@ const App = ({ session, refetch }) => (
                 <Route
                   path={routes.SIGN_IN}
                   element={<SignInPage refetch={refetch} />}
+                />
+
+                <Route
+                  path={routes.CHAT}
+                  element={<MessageContainer />}
                 />
 
                 <Route

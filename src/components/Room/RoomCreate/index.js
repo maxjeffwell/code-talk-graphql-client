@@ -8,21 +8,82 @@ import Loading from '../../Loading';
 const CREATE_ROOM = gql`
   mutation ($title: String!) {
       createRoom(title: $title) {
+          id
           title
           createdAt
+          user {
+            id
+            username
+          }
       }
   }
 `;
+
+// Temporarily disabled - server doesn't support rooms query
+// const GET_ALL_ROOMS_QUERY = gql`
+//     query {
+//         rooms(order: "DESC") 
+//         @connection(key: "RoomsConnection") {
+//             edges {
+//                 id
+//                 title
+//                 createdAt
+//                 user {
+//                   id
+//                   username
+//                 }
+//             }
+//             pageInfo {
+//                 hasNextPage
+//             }
+//         }
+//     }
+// `;
 
 const RoomCreate = () => {
   const [title, setTitle] = useState('');
   
   const [createRoom, { data, loading, error }] = useMutation(CREATE_ROOM, {
     variables: { title },
+    // Temporarily disabled - server doesn't support rooms query
+    // update: (cache, { data: mutationData }) => {
+    //   if (!mutationData?.createRoom) return;
+      
+    //   const newRoom = mutationData.createRoom;
+      
+    //   try {
+    //     const existingData = cache.readQuery({
+    //       query: GET_ALL_ROOMS_QUERY,
+    //     });
+        
+    //     if (existingData?.rooms) {
+    //       cache.writeQuery({
+    //         query: GET_ALL_ROOMS_QUERY,
+    //         data: {
+    //           ...existingData,
+    //           rooms: {
+    //             ...existingData.rooms,
+    //             edges: [newRoom, ...existingData.rooms.edges],
+    //           },
+    //         },
+    //       });
+    //     }
+    //   } catch (error) {
+    //     // Query might not exist in cache yet, that's okay
+    //     console.log('Cache update failed, query not in cache:', error);
+    //   }
+    // },
     optimisticResponse: {
       createRoom: {
-        title,
         __typename: 'Room',
+        id: `temp-${Date.now()}`,
+        title,
+        createdAt: new Date().toISOString(),
+        user: {
+          __typename: 'User',
+          id: 'temp-user',
+          username: 'You',
+        },
       }
     }
   });
@@ -35,13 +96,15 @@ const RoomCreate = () => {
   };
 
   const onSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      if (title.trim()) {
-        await createRoom();
-        setTitle('');
-      }
-    } catch (error) {}
+    event.preventDefault();
+    // Temporarily disabled - server doesn't support rooms
+    alert('Room creation is temporarily disabled while the server is being updated. Please use the main chat instead.');
+    // try {
+    //   if (title.trim()) {
+    //     await createRoom();
+    //     setTitle('');
+    //   }
+    // } catch (error) {}
   };
 
   return (
@@ -55,8 +118,8 @@ const RoomCreate = () => {
         placeholder="Create a new room..."
         required
       />
-      <StyledButton type="submit" disabled={loading || !title.trim()}>
-        {loading ? 'Creating...' : 'Create Room'}
+      <StyledButton type="submit" disabled={true}>
+        Create Room (Disabled)
       </StyledButton>
 
       {error && <ErrorMessage error={error} />}

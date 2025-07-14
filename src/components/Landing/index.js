@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import Footer from '../Footer';
+import { breakpoint } from '../Variables';
 
 const typewriter = keyframes`
   from { width: 0; }
@@ -11,6 +12,17 @@ const typewriter = keyframes`
 const blinkCursor = keyframes`
   from, to { border-color: transparent; }
   50% { border-color: currentColor; }
+`;
+
+const fadeIn = keyframes`
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
 `;
 
 const StyledLanding = styled.div`
@@ -23,11 +35,31 @@ const StyledLanding = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   overflow: auto;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px 20px 10px;
+    border-width: 3px;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px 15px 10px;
+    border-width: 2px;
+    border-radius: 3px;
+  }
 `;
 
 const StyledContent = styled.div`
   margin: 20px 20px;
   font-weight: bold;
+  padding-bottom: 2em;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px 15px;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px 10px;
+  }
   
   h1 {
     overflow: hidden;
@@ -39,18 +71,34 @@ const StyledContent = styled.div`
     animation-iteration-count: 1, infinite;
     font-size: 2em;
     margin-bottom: 2em;
+    
+    @media (max-width: ${breakpoint.tablet}) {
+      font-size: 1.8em;
+      margin-bottom: 1.5em;
+    }
+    
+    @media (max-width: ${breakpoint.mobileL}) {
+      font-size: 1.5em;
+      margin-bottom: 1.2em;
+    }
   }
   
   p {
     margin: 1.5em 0;
     line-height: 1.6;
     opacity: 0;
-    animation: fadeIn 1s ease-in-out 3s forwards;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    animation: ${fadeIn} 1s ease-in-out 3s forwards;
+    
+    @media (max-width: ${breakpoint.tablet}) {
+      margin: 1.2em 0;
+      font-size: 0.95em;
+    }
+    
+    @media (max-width: ${breakpoint.mobileL}) {
+      margin: 1em 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
   }
 `;
 

@@ -6,10 +6,12 @@ import NavigationNonAuth from './NonAuth';
 
 export const Logo = styled.h1`
   font-size: 1.5rem;
-  position: relative;
-  z-index: 2;
   text-align: center;
+  margin: 1rem 0;
+  position: relative;
+  z-index: 10;
   a  { 
+    display: inline-block;
     padding: 0.5rem 1rem;
     background: ${props => props.theme.black};
     color: ${props => props.theme.green};
@@ -21,7 +23,7 @@ export const Logo = styled.h1`
     cursor: pointer;
   }
   a:hover {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px      50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
   }
 `;
 

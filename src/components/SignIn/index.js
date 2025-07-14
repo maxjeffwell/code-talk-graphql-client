@@ -6,15 +6,16 @@ import { gql } from '@apollo/client';
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
 import DemoAccounts from '../Demo';
-import { setToken } from '../../utils/auth';
+import { setToken, getToken } from '../../utils/auth';
 import { useNotifications } from '../Notifications/NotificationSystem';
 import LoadingSpinner from '../Loading/LoadingSpinner';
 
 import styled from 'styled-components';
+import { breakpoint } from '../Variables';
 
 export const StyledButton = styled.button`
   cursor: pointer;
-  padding: 5px 5px 5px 5px;
+  padding: 0.8rem 1.5rem;
   background: ${props => props.theme.green};
   color: ${props => props.theme.black};
   font-family: RussellSquareStd, monospace;
@@ -23,48 +24,130 @@ export const StyledButton = styled.button`
   border: 2px solid ${props => props.theme.black};
   border-radius: 5px;
   font-weight: bold;
-  font-size: .5em;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  
   &:hover:not([disabled]) {
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px     50px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transform: translateY(-2px);
   }
+  
   &:disabled {
     background: #dddddd;
     cursor: not-allowed;
+    transform: none;
+  }
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
   }
 `;
 
 const StyledDiv = styled.div`
-  display: inline-block;
+  display: block;
   text-align: center;
   width: 100%;
-  margin-top: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 2rem;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  border: 3px solid ${props => props.theme.green};
+  border-radius: 10px;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px auto;
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px auto;
+    padding: 1rem;
+    max-width: 95%;
+  }
 `;
 
 export const StyledInput = styled.input`
   display: block;
-  margin: 5px auto;
+  margin: 1rem auto;
   font-family: RussellSquareStd, monospace;
   font-weight: normal;
   font-style: normal;
-  font-size: 1.2em;
-  border: 2px solid ${props => props.theme.black};
-  border-radius: 3px;
+  font-size: 1.1rem;
+  border: 2px solid ${props => props.theme.green};
+  border-radius: 5px;
   outline: none;
-  padding: 5px 5px 2px 10px;
-  background-color: ${props => props.theme.green} ;
-  &::-webkit-input-placeholder {
+  padding: 0.8rem 1rem;
+  background-color: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.3s ease;
+  
+  &:focus {
+    border-color: ${props => props.theme.green};
+    box-shadow: 0 0 0 2px rgba(48, 212, 3, 0.2);
+  }
+  
+  &::placeholder {
     font-family: RussellSquareStd, monospace;
     font-weight: bold;
-    color: ${props => props.theme.black};
-  } 
+    color: ${props => props.theme.green};
+    opacity: 0.7;
+  }
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    font-size: 1rem;
+    padding: 0.7rem 0.8rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.7rem;
+    max-width: 100%;
+  }
 `;
 
 const StyledHeader = styled.h1`
-  margin-top: 5px;
+  margin: 1.5rem 0 1rem 0;
+  color: ${props => props.theme.green};
+  font-size: 1.5rem;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    font-size: 1.3rem;
+    margin: 1.2rem 0 0.8rem 0;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.6rem 0;
+  }
 `;
 
 const StyledForm = styled.form`
-  margin-bottom: 5px;
+  margin-bottom: 2rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: ${props => props.theme.green};
+  }
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const SIGN_IN = gql`
@@ -96,6 +179,15 @@ const SignInForm = ({ refetch }) => {
     variables: { 
       login: formState.login, 
       password: formState.password 
+    },
+    onCompleted: (data) => {
+      if (data?.signIn?.token) {
+        console.log('Sign in mutation completed successfully');
+        // Don't reload page - let the normal flow handle navigation
+      }
+    },
+    onError: (error) => {
+      console.error('Sign in error:', error);
     }
   });
 
@@ -112,7 +204,9 @@ const SignInForm = ({ refetch }) => {
       setFormState({ ...INITIAL_STATE });
 
       // Use secure token storage
+      console.log('Sign in successful, storing token:', data.signIn.token ? 'Token received' : 'No token received');
       setToken(data.signIn.token);
+      console.log('Token stored, checking storage:', !!getToken());
 
       await refetch();
 
@@ -120,7 +214,7 @@ const SignInForm = ({ refetch }) => {
         duration: 3000
       });
 
-      navigate(routes.ROOM);
+      navigate(routes.CHAT);
     } catch (error) {
       showError('Failed to sign in. Please check your credentials and try again.', {
         title: 'Sign In Failed',

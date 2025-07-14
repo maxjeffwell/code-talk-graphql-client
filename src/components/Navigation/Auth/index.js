@@ -10,6 +10,7 @@ import { Logo, StyledParagraph } from '../index';
 const NavigationAuth = ({ session }) => {
 	const location = useLocation();
 
+	const isOnChatPage = location.pathname === routes.CHAT;
 	const isOnRoomsPage = location.pathname === routes.ROOMS;
 	const isOnRoomPage = location.pathname.startsWith('/rooms/');
 
@@ -20,6 +21,8 @@ const NavigationAuth = ({ session }) => {
 		</Logo>
 		<SignOutButton/>
 		<Logo>
+			{!isOnChatPage && <Link to={routes.CHAT}>Main Chat</Link>}
+			{!isOnChatPage && !isOnRoomsPage && <span> | </span>}
 			{!isOnRoomsPage && <Link to={routes.ROOMS}>Chat Rooms</Link>}
 			{isOnRoomsPage && isOnRoomPage && <span> | </span>}
 			{isOnRoomPage && <Link to={routes.ROOMS}>Back to Rooms</Link>}

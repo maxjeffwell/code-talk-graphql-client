@@ -77,6 +77,15 @@ const SignUpForm = ({ refetch }) => {
       username: formState.username, 
       email: formState.email, 
       password: formState.password 
+    },
+    onCompleted: (data) => {
+      if (data?.signUp?.token) {
+        console.log('Sign up mutation completed successfully');
+        // Don't reload page - let the normal flow handle navigation
+      }
+    },
+    onError: (error) => {
+      console.error('Sign up error:', error);
     }
   });
 
@@ -97,7 +106,7 @@ const SignUpForm = ({ refetch }) => {
 
       await refetch();
 
-      navigate(routes.ROOM);
+      navigate(routes.CHAT);
     } catch (error) {
       // Error is handled by the error state from useMutation
     }

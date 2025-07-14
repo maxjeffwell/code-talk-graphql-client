@@ -34,9 +34,9 @@ export const signOut = (client, navigate) => {
   // Clear Apollo cache
   client.resetStore();
   
-  // Redirect to sign in page
+  // Redirect to landing page
   if (navigate) {
-    navigate(routes.SIGN_IN);
+    navigate(routes.LANDING);
   }
 };
 

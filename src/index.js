@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { ApolloProvider } from '@apollo/client';
-import { ApolloClient, InMemoryCache, createHttpLink, split } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink, split, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -22,6 +22,15 @@ const httpLink = createHttpLink({
 
 const wsLink = new GraphQLWsLink(createClient({
 	url: process.env.NODE_ENV === 'development' ? 'ws://localhost:8000/graphql' : 'wss://jmaxwell-code-talk-server.herokuapp.com/graphql',
+	connectionParams: () => {
+		const token = getToken();
+		if (token && !isTokenExpired(token)) {
+			return {
+				'x-token': token,
+			};
+		}
+		return {};
+	},
 }));
 
 const splitLink = split(
@@ -38,9 +47,11 @@ const splitLink = split(
 
 const authLink = setContext((_, { headers }) => {
 	const token = getToken();
+	console.log('Auth link - token found:', !!token);
 
 	// Check if token is expired before using it
 	if (token && !isTokenExpired(token)) {
+		console.log('Auth link - sending token in headers');
 		return {
 			headers: {
 				...headers,
@@ -48,8 +59,11 @@ const authLink = setContext((_, { headers }) => {
 			}
 		};
 	} else if (token && isTokenExpired(token)) {
+		console.log('Auth link - token expired, triggering logout');
 		// Token is expired, trigger logout
 		signOut(client, null);
+	} else {
+		console.log('Auth link - no valid token, sending headers without auth');
 	}
 
 	return { headers };
@@ -105,7 +119,7 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-	link: authLink.concat(errorLink).concat(splitLink),
+	link: from([authLink, errorLink, splitLink]),
 	cache,
 	connectToDevTools: true,
 });

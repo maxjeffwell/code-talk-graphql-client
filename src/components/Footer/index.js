@@ -7,6 +7,9 @@ const StyledFooter = styled.footer`
 	width: 100%;
 	grid-row-start: 2;
 	grid-row-end: 3;
+	padding: 1em;
+	text-align: center;
+	font-weight: bold;
 `;
 
 const Footer = () => (

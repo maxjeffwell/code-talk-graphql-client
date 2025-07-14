@@ -5,19 +5,20 @@ import styled from 'styled-components';
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
-const GET_ALL_ROOMS_QUERY = gql`
-    query {
-        rooms(order: "DESC") 
-        @connection(key: "RoomsConnection") {
-            edges {
-                id
-            }
-            pageInfo {
-                hasNextPage
-            }
-        }
-    }
-`;
+// Temporarily disabled - server doesn't support rooms query
+// const GET_ALL_ROOMS_QUERY = gql`
+//     query {
+//         rooms(order: "DESC") 
+//         @connection(key: "RoomsConnection") {
+//             edges {
+//                 id
+//             }
+//             pageInfo {
+//                 hasNextPage
+//             }
+//         }
+//     }
+// `;
 
 const DELETE_ROOM_MUTATION = gql`
     mutation($id: ID!) {
@@ -26,36 +27,37 @@ const DELETE_ROOM_MUTATION = gql`
 `;
 
 const RoomDelete = ({ room }) => {
-  const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
-    variables: { id: room.id },
-    update: (cache) => {
-      const data = cache.readQuery({
-        query: GET_ALL_ROOMS_QUERY,
-      });
+  // Temporarily disabled - server doesn't support rooms query
+  // const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
+  //   variables: { id: room.id },
+  //   update: (cache) => {
+  //     const data = cache.readQuery({
+  //       query: GET_ALL_ROOMS_QUERY,
+  //     });
 
-      cache.writeQuery({
-        query: GET_ALL_ROOMS_QUERY,
-        data: {
-          ...data,
-          rooms: {
-            ...data.rooms,
-            edges: data.rooms.edges.filter(
-              node => node.id !== room.id,
-            ),
-            pageInfo: data.rooms.pageInfo,
-          },
-        },
-      });
-    }
-  });
+  //     cache.writeQuery({
+  //       query: GET_ALL_ROOMS_QUERY,
+  //       data: {
+  //         ...data,
+  //         rooms: {
+  //           ...data.rooms,
+  //           edges: data.rooms.edges.filter(
+  //             node => node.id !== room.id,
+  //           ),
+  //           pageInfo: data.rooms.pageInfo,
+  //         },
+  //       },
+  //     });
+  //   }
+  // });
 
-  if (error) return <ErrorMessage error={error}/>;
+  // if (error) return <ErrorMessage error={error}/>;
 
-  if (loading) return <Loading />;
+  // if (loading) return <Loading />;
 
   return (
-    <StyledDeleteButton type="button" onClick={deleteRoom} disabled={loading}>
-      {loading ? 'Deleting...' : 'Delete'}
+    <StyledDeleteButton type="button" disabled={true}>
+      Delete (Disabled)
     </StyledDeleteButton>
   );
 };
