@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import debounce from "lodash/debounce";
 import { useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
@@ -51,8 +51,19 @@ const Editor = ({ roomId }) => {
   // TODO: Implement room-based code editing when backend supports it
   const { loading, error, data, subscribeToMore } = useQuery(READ_CODE_QUERY);
   const [typeCodeMutation] = useMutation(TYPE_CODE_MUTATION);
+  const [localCode, setLocalCode] = useState('');
+  const lastLocalUpdateRef = useRef(0);
+  const isTypingRef = useRef(false);
+  const typingTimeoutRef = useRef(null);
 
   const debouncedFnRef = useRef(null);
+
+  // Initialize local state when data loads
+  useEffect(() => {
+    if (data?.readCode?.body !== undefined && localCode === '') {
+      setLocalCode(data.readCode.body);
+    }
+  }, [data, localCode]);
 
   // Create debounced function only once
   useEffect(() => {
@@ -69,9 +80,28 @@ const Editor = ({ roomId }) => {
 
   const updateCode = (e) => {
     const newCode = e.currentTarget.value;
+    
+    // Mark as typing
+    isTypingRef.current = true;
+    lastLocalUpdateRef.current = Date.now();
+    
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    // Set local state immediately
+    setLocalCode(newCode);
+    
+    // Send to server with debounce
     if (debouncedFnRef.current) {
       debouncedFnRef.current(newCode);
     }
+    
+    // Stop marking as typing after 1 second of no activity
+    typingTimeoutRef.current = setTimeout(() => {
+      isTypingRef.current = false;
+    }, 1000);
   };
 
   useEffect(() => {
@@ -80,6 +110,16 @@ const Editor = ({ roomId }) => {
         document: TYPING_CODE_SUBSCRIPTION,
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
+          
+          // Only update if we're not actively typing
+          if (!isTypingRef.current) {
+            const newBody = subscriptionData.data.typingCode.body;
+            // Additional check: only update if the content is actually different
+            if (newBody !== localCode) {
+              setLocalCode(newBody);
+            }
+          }
+          
           return Object.assign({}, prev, {
             readCode: subscriptionData.data.typingCode
           });
@@ -87,7 +127,7 @@ const Editor = ({ roomId }) => {
       });
       return unsubscribe;
     }
-  }, [subscribeToMore]);
+  }, [subscribeToMore, localCode]);
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
@@ -107,7 +147,7 @@ const Editor = ({ roomId }) => {
             }
           }} 
           aria-label="Code editor"
-          value={data.readCode.body || ''}
+          value={localCode}
           placeholder="Collaborate on code here ..."
           onChange={updateCode}
           rows={60}
