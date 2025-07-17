@@ -1,41 +1,34 @@
 import React, { Fragment } from 'react';
-// import styled from 'styled-components';
-// import { withRouter } from 'react-router-dom';
 
 import { MessageCreate, Messages } from '../Message';
+import Editor from '../Editor';
+import * as Grid from '../Grid';
 
-// const StyledMessageList = styled.div`
-//     border: 5px solid ${props => props.theme.black};
-//     margin: auto 1rem;
-//     height: auto;
-//     width: auto;
-//     display: grid;
-//     max-width: 600px;
-//     background: ${props => props.theme.white};
-//     color: ${props => props.theme.black};
-//     button {
-//       cursor: pointer;
-//       font-size: 1em;
-//       margin: 5px 5px 5px;
-//       padding: .25em 1em;
-//       color: ${props => props.theme.green};
-//       background: ${props => props.theme.black};
-//       border: 5px solid ${props => props.theme.green};
-//       border-radius: 5px;
-//     }
-//     button:hover {
-//       box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px      25px 0 rgba(0,0,0,0.19);
-//     }
-// `;
-
-
-// const MessageContainer = ({ match }) => {
+const Row = Grid.Row;
+const Col = Grid.Column;
 
 const MessageContainer = ({ roomId }) => {
-	return <Fragment>
-		<MessageCreate roomId={roomId} />
-		<Messages limit={10} roomId={roomId} />
-	</Fragment>;
+	// If roomId is provided, render in room mode (messages only)
+	// If no roomId, render in global chat mode (messages + code editor)
+	if (roomId) {
+		return <Fragment>
+			<MessageCreate roomId={roomId} />
+			<Messages limit={10} roomId={roomId} />
+		</Fragment>;
+	}
+
+	// Global chat mode with code editor
+	return (
+		<Row>
+			<Col colspan="1">
+				<MessageCreate />
+				<Messages limit={10} />
+			</Col>
+			<Col colspan="2" last>
+				<Editor />
+			</Col>
+		</Row>
+	);
 };
 
 // export default withRouter(MessageContainer);

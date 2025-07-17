@@ -14,7 +14,7 @@ const StyledFooter = styled.footer`
 
 const Footer = () => (
 		<StyledFooter className="footer">
-			Copyright &copy; 2019 Code Talk
+			Copyright &copy; 2025 Code Talk
 		</StyledFooter>
 );
 

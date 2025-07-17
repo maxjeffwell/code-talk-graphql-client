@@ -27,16 +27,29 @@ const StyledButton = styled.button`
  }
 `;
 
-export const signOut = (client, navigate) => {
-  // Securely remove token from all storage locations
-  removeToken();
-  
-  // Clear Apollo cache
-  client.resetStore();
-  
-  // Redirect to landing page
-  if (navigate) {
-    navigate(routes.LANDING);
+export const signOut = async (client, navigate) => {
+  try {
+    // Securely remove token from all storage locations
+    removeToken();
+    
+    // Redirect to landing page immediately
+    if (navigate) {
+      navigate(routes.LANDING, { replace: true });
+    }
+    
+    // Clear Apollo cache after navigation
+    setTimeout(() => {
+      client.resetStore().catch(error => {
+        console.error('Error clearing Apollo cache:', error);
+      });
+    }, 100);
+    
+  } catch (error) {
+    console.error('Error during sign out:', error);
+    // Still navigate even if there's an error
+    if (navigate) {
+      navigate(routes.LANDING, { replace: true });
+    }
   }
 };
 
@@ -44,9 +57,21 @@ const SignOutButton = () => {
   const client = useApolloClient();
   const navigate = useNavigate();
   
+  const handleSignOut = async () => {
+    await signOut(client, navigate);
+  };
+  
   return (
     <div>
-      <StyledButton type="button" onClick={() => signOut(client, navigate)}>
+      <StyledButton 
+        type="button" 
+        onClick={handleSignOut}
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
+      >
         Sign Out
       </StyledButton>
     </div>

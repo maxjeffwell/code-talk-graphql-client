@@ -40,9 +40,11 @@ const StyledTextarea = styled(TextareaAutosize)`
   resize: none;
   box-sizing: border-box;
   width: 100%;
-  margin-right: 50px;
+  min-height: 70vh;
+  margin-right: 20px;
   margin-left: 10px;
-  padding: 10px 10px 10px 10px;
+  padding: 20px;
+  line-height: 1.5;
 `;
 
 const Editor = ({ roomId }) => {
@@ -89,24 +91,27 @@ const Editor = ({ roomId }) => {
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
+  if (!data || !data.readCode) return <Loading />;
 
   return (
     <Fragment>
-      <label>
+      <label htmlFor="code-editor">
         <StyledTextarea 
+          id="code-editor"
           theme={{
             textarea: {
-              fontSize: '1.2em',
+              fontSize: '1.4em',
               border: '5px solid #30d403',
               backgroundColor: '#393939',
               color: '#30d403',
             }
           }} 
-          aria-label="textarea"
-          value={data.readCode.body}
+          aria-label="Code editor"
+          value={data.readCode.body || ''}
           placeholder="Collaborate on code here ..."
           onChange={updateCode}
-          rows={50}
+          rows={60}
+          minRows={30}
         />
       </label>
     </Fragment>

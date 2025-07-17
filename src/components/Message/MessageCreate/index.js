@@ -192,25 +192,32 @@ const MessageCreate = ({ roomId }) => {
   };
 
   const validateInput = () => {
-    return !text;
+    return !text || text.trim().length === 0;
   };
 
   return (
     <StyledForm onSubmit={onSubmit}>
-      <label htmlFor="Message Input">
-        <StyledTextarea theme={{
-          textarea: {
-            fontSize: '1em',
-            border: '5px solid #30d403',
-            backgroundColor: '#EDEDED',
-            color: '#393939',
-            fontFamily: 'SerpentineStd-Medium, monospace',
-          }
-        }} aria-label="textarea"
-          name="text" autoFocus
+      <label htmlFor="message-input">
+        <StyledTextarea 
+          id="message-input"
+          theme={{
+            textarea: {
+              fontSize: '1em',
+              border: '5px solid #30d403',
+              backgroundColor: '#EDEDED',
+              color: '#393939',
+              fontFamily: 'SerpentineStd-Medium, monospace',
+              fontWeight: 'normal',
+            }
+          }} 
+          aria-label="Message input"
+          name="text" 
+          autoFocus
           value={text}
-          onChange={onChange} onKeyDown={onEnterPress}
-          placeholder="Type your messages here ..." required
+          onChange={onChange} 
+          onKeyDown={onEnterPress}
+          placeholder="Type your messages here ..." 
+          required
           rows={2}
           maxRows={7}
         />

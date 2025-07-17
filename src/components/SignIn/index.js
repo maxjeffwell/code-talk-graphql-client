@@ -228,41 +228,76 @@ const SignInForm = ({ refetch }) => {
   const isInvalid = password === '' || login === '';
 
   return (
-    <StyledDiv className="loginForm" aria-live="polite">
-    <StyledForm aria-label="Sign In" onSubmit={onSubmit}>
+    <StyledDiv 
+      className="loginForm" 
+      aria-live="polite"
+      theme={{
+        black: '#393939',
+        green: '#30d403',
+        white: '#EDEDED'
+      }}
+    >
+      <StyledForm aria-label="Sign In" onSubmit={onSubmit}>
 
-      <label htmlFor="Username" aria-label="Username">
-      <StyledInput
-        name="login"
-        value={login}
-        onChange={onChange}
-        type="text"
-        placeholder="Email or Username"
-      /></label>
-
-      <label htmlFor="Password" aria-label="Password">
-      <StyledInput
-        name="password"
-        value={password}
-        onChange={onChange}
-        type="password"
-        placeholder="Password"
-      /> </label>
-
-      <StyledHeader>
-        <StyledButton disabled={isInvalid || loading} type="submit" className="btn-login">
-        {loading ? 'Signing In...' : 'Sign In'}
-      </StyledButton>
-      </StyledHeader>
-
-      {loading && (
-        <LoadingSpinner 
-          text="Signing you in..." 
-          size="24px" 
-          padding="10px"
+        <label htmlFor="login-input">Email or Username</label>
+        <StyledInput
+          id="login-input"
+          name="login"
+          value={login}
+          onChange={onChange}
+          type="text"
+          placeholder="Email or Username"
+          theme={{
+            black: '#393939',
+            green: '#30d403',
+            white: '#EDEDED'
+          }}
         />
-      )}
-    </StyledForm>
+
+        <label htmlFor="password-input">Password</label>
+        <StyledInput
+          id="password-input"
+          name="password"
+          value={password}
+          onChange={onChange}
+          type="password"
+          placeholder="Password"
+          theme={{
+            black: '#393939',
+            green: '#30d403',
+            white: '#EDEDED'
+          }}
+        />
+
+        <StyledHeader
+          theme={{
+            black: '#393939',
+            green: '#30d403',
+            white: '#EDEDED'
+          }}
+        >
+          <StyledButton 
+            disabled={isInvalid || loading} 
+            type="submit" 
+            className="btn-login"
+            theme={{
+              black: '#393939',
+              green: '#30d403',
+              white: '#EDEDED'
+            }}
+          >
+            {loading ? 'Signing In...' : 'Sign In'}
+          </StyledButton>
+        </StyledHeader>
+
+        {loading && (
+          <LoadingSpinner 
+            text="Signing you in..." 
+            size="24px" 
+            padding="10px"
+          />
+        )}
+      </StyledForm>
       <DemoAccounts />
     </StyledDiv>
   );

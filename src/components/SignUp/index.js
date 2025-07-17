@@ -7,7 +7,9 @@ import styled from 'styled-components';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 import DemoAccounts from '../Demo';
-import { setToken } from '../../utils/auth';
+import { setToken, getToken } from '../../utils/auth';
+import { useNotifications } from '../Notifications/NotificationSystem';
+import LoadingSpinner from '../Loading/LoadingSpinner';
 
 import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
@@ -71,6 +73,7 @@ const SignUpPage = ({ refetch }) => (
 const SignUpForm = ({ refetch }) => {
   const [formState, setFormState] = useState({ ...INITIAL_STATE });
   const navigate = useNavigate();
+  const { success, error: showError } = useNotifications();
 
   const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
     variables: { 
@@ -101,14 +104,32 @@ const SignUpForm = ({ refetch }) => {
       const { data } = await signUp();
       setFormState({ ...INITIAL_STATE });
 
+      // Validate token before storing
+      if (!data?.signUp?.token) {
+        showError('Registration failed: No valid token received from server.', {
+          title: 'Registration Failed',
+          duration: 8000
+        });
+        return;
+      }
+
       // Use secure token storage
+      console.log('Registration successful, storing token:', data.signUp.token ? 'Token received' : 'No token received');
       setToken(data.signUp.token);
+      console.log('Token stored, checking storage:', !!getToken());
 
       await refetch();
 
+      success('Registration successful! Welcome to Code Talk.', {
+        duration: 3000
+      });
+
       navigate(routes.CHAT);
     } catch (error) {
-      // Error is handled by the error state from useMutation
+      showError('Registration failed. Please check your information and try again.', {
+        title: 'Registration Failed',
+        duration: 8000
+      });
     }
   };
 
@@ -127,47 +148,87 @@ const SignUpForm = ({ refetch }) => {
 
   return (
     <form aria-label="Sign Up" onSubmit={onSubmit}>
-      <label htmlFor="Username" aria-label="Username">
+      <label htmlFor="username-input">Username</label>
       <StyledInput
+        id="username-input"
         name="username"
         value={username}
         onChange={onChange}
         type="text"
         placeholder="Username"
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
       />
-      </label>
-      <label htmlFor="Email" aria-label="Email">
+
+      <label htmlFor="email-input">Email Address</label>
       <StyledInput
+        id="email-input"
         name="email"
         value={email}
         onChange={onChange}
-        type="text"
+        type="email"
         placeholder="Email Address"
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
       />
-      </label>
-      <label htmlFor="Password" aria-label="Password">
+
+      <label htmlFor="password-input">Password</label>
       <StyledInput
+        id="password-input"
         name="password"
         value={password}
         onChange={onChange}
         type="password"
         placeholder="Password"
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
       />
-      </label>
-      <label htmlFor="Confirm Password" aria-label="Confirm Password">
+
+      <label htmlFor="password-confirmation-input">Confirm Password</label>
       <StyledInput
+        id="password-confirmation-input"
         name="passwordConfirmation"
         value={passwordConfirmation}
         onChange={onChange}
         type="password"
         placeholder="Confirm Password"
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
       />
-      </label>
+
       <h1>
-      <StyledButton disabled={isInvalid || loading} type="submit">
-        Sign Up
-      </StyledButton>
+        <StyledButton 
+          disabled={isInvalid || loading} 
+          type="submit"
+          theme={{
+            black: '#393939',
+            green: '#30d403',
+            white: '#EDEDED'
+          }}
+        >
+          {loading ? 'Signing Up...' : 'Sign Up'}
+        </StyledButton>
       </h1>
+
+      {loading && (
+        <LoadingSpinner 
+          text="Creating your account..." 
+          size="24px" 
+          padding="10px"
+        />
+      )}
 
       {error && <ErrorMessage error={error}/>}
     </form>
@@ -180,7 +241,17 @@ const SignUpLink = () => (
       Haven't signed up yet?
     </p>
     <h2>
-      <StyledNavLink className="register-link" to={routes.SIGN_UP}>Register Here</StyledNavLink>
+      <StyledNavLink 
+        className="register-link" 
+        to={routes.SIGN_UP}
+        theme={{
+          black: '#393939',
+          green: '#30d403',
+          white: '#EDEDED'
+        }}
+      >
+        Register Here
+      </StyledNavLink>
     </h2>
   </StyledRegistrationDiv>
 );
