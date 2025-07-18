@@ -129,6 +129,10 @@ const MessageCreate = ({ roomId }) => {
             );
             
             if (!messageExists) {
+              // Add new message and sort by createdAt
+              const updatedEdges = [newMessage, ...existingData.messages.edges]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+              
               cache.writeQuery({
                 query,
                 variables: queryVariables,
@@ -136,7 +140,7 @@ const MessageCreate = ({ roomId }) => {
                   ...existingData,
                   messages: {
                     ...existingData.messages,
-                    edges: [newMessage, ...existingData.messages.edges],
+                    edges: updatedEdges,
                   },
                 },
               });

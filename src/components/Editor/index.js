@@ -56,6 +56,7 @@ const Editor = ({ roomId }) => {
   const isTypingRef = useRef(false);
   const typingTimeoutRef = useRef(null);
   const localCodeRef = useRef('');
+  const lastSentCodeRef = useRef('');
 
   const debouncedFnRef = useRef(null);
 
@@ -64,6 +65,7 @@ const Editor = ({ roomId }) => {
     if (data?.readCode?.body !== undefined && localCode === '') {
       setLocalCode(data.readCode.body);
       localCodeRef.current = data.readCode.body;
+      lastSentCodeRef.current = data.readCode.body;
     }
   }, [data, localCode]);
 
@@ -75,8 +77,9 @@ const Editor = ({ roomId }) => {
   // Create debounced function only once
   useEffect(() => {
     debouncedFnRef.current = debounce((newCode) => {
+      lastSentCodeRef.current = newCode;
       typeCodeMutation({ variables: { body: newCode } });
-    }, 200);
+    }, 300);
 
     return () => {
       if (debouncedFnRef.current) {
@@ -105,10 +108,10 @@ const Editor = ({ roomId }) => {
       debouncedFnRef.current(newCode);
     }
     
-    // Stop marking as typing after 1 second of no activity
+    // Stop marking as typing after debounce delay + buffer time
     typingTimeoutRef.current = setTimeout(() => {
       isTypingRef.current = false;
-    }, 1000);
+    }, 500);
   };
 
   useEffect(() => {
@@ -118,14 +121,17 @@ const Editor = ({ roomId }) => {
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev;
           
-          // Only update if we're not actively typing
-          if (!isTypingRef.current) {
-            const newBody = subscriptionData.data.typingCode.body;
-            // Additional check: only update if the content is actually different
-            if (newBody !== localCodeRef.current) {
-              setLocalCode(newBody);
-              localCodeRef.current = newBody;
-            }
+          const newBody = subscriptionData.data.typingCode.body;
+          
+          // Only update if:
+          // 1. We're not actively typing AND
+          // 2. The incoming content is different from our local content AND
+          // 3. The incoming content is different from what we last sent (to avoid echo)
+          if (!isTypingRef.current && 
+              newBody !== localCodeRef.current && 
+              newBody !== lastSentCodeRef.current) {
+            setLocalCode(newBody);
+            localCodeRef.current = newBody;
           }
           
           return Object.assign({}, prev, {

@@ -180,10 +180,15 @@ const Messages = memo(({ limit, roomId }) => {
 
   const { edges, pageInfo } = messages;
 
+  // Sort messages by createdAt in descending order (newest first)
+  const sortedMessages = [...edges].sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
   return (
     <Fragment>
       <MessageList
-        messages={edges}
+        messages={sortedMessages}
         subscribeToMore={subscribeToMore}
         roomId={roomId}
       />
@@ -224,13 +229,16 @@ const MoreMessagesButton = ({
             return previousResult;
           }
 
+          // Combine and sort all messages
+          const allEdges = [
+            ...fetchMoreResult.messages.edges,
+            ...previousResult.messages.edges,
+          ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
           return {
             messages: {
               ...fetchMoreResult.messages,
-              edges: [
-                ...fetchMoreResult.messages.edges,
-                ...previousResult.messages.edges,
-              ],
+              edges: allEdges,
             },
           };
         },
@@ -277,14 +285,17 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
         
         console.log('Message creation subscription: adding new message', newMessage.id, `"${newMessage.text.substring(0, 30)}..."`, 'from', newMessage.user.username);
 
+        // Add new message and sort by createdAt
+        const updatedEdges = [
+          newMessage,
+          ...previousResult.messages.edges,
+        ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
         return {
           ...previousResult,
           messages: {
             ...previousResult.messages,
-            edges: [
-              newMessage,
-              ...previousResult.messages.edges,
-            ],
+            edges: updatedEdges,
           },
         };
       },
