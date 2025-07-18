@@ -12,7 +12,7 @@ env:
 deploy:
   provider: heroku
   api_key:
-    secure: rVB2kbwj93iSkpiU8bOXrSo2clBQCykTaDShdIdvoUd5Vjrag8WutXJx0pF8b4pb+Jm/XfGhwR99w3xCZFGJWzkk5vdKVYGKS8DlpofLVoNQeKJ1QmTSyVPc9y//afrXnVuDnNU8RACPR/Pm/gAH8WSFJttXkDwQMq/jVwvLDx8CGfBqgI4hGUXTvmf6AuWMKQb+C4JysZRDcEGwBBS6mM5/Hnp99qbsgNJaWRxh/Yr1vmMJ1qdKo4eA+i1C3QI5/f/a2ogBYcSBN97aBAmaPi/65kgxKidkQOAB3sul3it+Xj0OA4BbFJq/ShqyIcf1CQoWBdsRF76gCX65P7nYWWJy814dOp8Ebftj+TNfw1Ctf7haP0DOcnTEpS1n8xzywoH25krFHFYhJDXQVvGLHW3bHrz/9XTQQ+lcqjFIv5dvWcr6RXrFZeD/UXILdXZrNLaCRPYiu0NEkIbx6MMfqLkWvxkEM5oRv51MlJe61xUqT+GfkIAm/ZRGTMC/uA0xreokZJ5yBKSd4NcktfDIohpz73AL+JwMu3KH9aJ+IMmfuGR0WmwEDH3+vzq+G0WJkkHCszXu97VjMvN/ry87XP4Kh9q+ho8fXp5oZ6JFVK7UCIDsAK4H3U1ZnrvIepsEUgp63Mp1qftCwPTfVVIajXkuaqJNUv4Y6o40wGz4LQU=
-  app: jmaxwell-code-talk-client
+    secure: HRKU-AAxaRf4F7aoZdwlExhiGfcz6ojqpD8RVag4g55skIy6Q_____wJL8iKbRivg
+  app: code-talk-client
   on:
     repo: maxjeffwell/code-talk-graphql-client
