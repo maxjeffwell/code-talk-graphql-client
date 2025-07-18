@@ -17,7 +17,11 @@ import logger from './utils/logger';
 import theme from './theme';
 
 const httpLink = createHttpLink({
-	uri: window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : 'https://code-talk-server-5f982138903e.herokuapp.com/graphql'
+	uri: window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : 'https://code-talk-server-5f982138903e.herokuapp.com/graphql',
+	fetchOptions: {
+		mode: 'cors',
+		credentials: 'include'
+	}
 });
 
 const wsLink = new GraphQLWsLink(createClient({
