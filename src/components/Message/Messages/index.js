@@ -19,7 +19,7 @@ const StyledMessage = styled.li`
     padding-right: 20px;
     padding-top: 5px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 `;
 
 export const StyledButton = styled.button`
@@ -228,8 +228,8 @@ const MoreMessagesButton = ({
             messages: {
               ...fetchMoreResult.messages,
               edges: [
-                ...previousResult.messages.edges,
                 ...fetchMoreResult.messages.edges,
+                ...previousResult.messages.edges,
               ],
             },
           };
@@ -399,12 +399,12 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
 
     return (
       <StyledMessage>
+        <StyledP>Username: {message.user.username}</StyledP>
+        <StyledP>Message: {message.text}</StyledP>
+        <StyledP>Time: {message.createdAt}</StyledP>
         {isOwner && (
           <MessageDelete message={message} roomId={roomId}/>
         )}
-        <StyledP>Time: {message.createdAt}</StyledP>
-        <StyledP>Username: {message.user.username}</StyledP>
-        <StyledP>Message: {message.text}</StyledP>
       </StyledMessage>
     );
   });

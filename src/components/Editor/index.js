@@ -55,6 +55,7 @@ const Editor = ({ roomId }) => {
   const lastLocalUpdateRef = useRef(0);
   const isTypingRef = useRef(false);
   const typingTimeoutRef = useRef(null);
+  const localCodeRef = useRef('');
 
   const debouncedFnRef = useRef(null);
 
@@ -62,8 +63,14 @@ const Editor = ({ roomId }) => {
   useEffect(() => {
     if (data?.readCode?.body !== undefined && localCode === '') {
       setLocalCode(data.readCode.body);
+      localCodeRef.current = data.readCode.body;
     }
   }, [data, localCode]);
+
+  // Keep ref in sync with state
+  useEffect(() => {
+    localCodeRef.current = localCode;
+  }, [localCode]);
 
   // Create debounced function only once
   useEffect(() => {
@@ -115,8 +122,9 @@ const Editor = ({ roomId }) => {
           if (!isTypingRef.current) {
             const newBody = subscriptionData.data.typingCode.body;
             // Additional check: only update if the content is actually different
-            if (newBody !== localCode) {
+            if (newBody !== localCodeRef.current) {
               setLocalCode(newBody);
+              localCodeRef.current = newBody;
             }
           }
           
@@ -127,7 +135,7 @@ const Editor = ({ roomId }) => {
       });
       return unsubscribe;
     }
-  }, [subscribeToMore, localCode]);
+  }, [subscribeToMore]);
 
   if (loading) return <Loading />;
   if (error) return <ErrorMessage error={error} />;
