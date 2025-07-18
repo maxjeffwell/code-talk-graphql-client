@@ -17,11 +17,11 @@ import logger from './utils/logger';
 import theme from './theme';
 
 const httpLink = createHttpLink({
-	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://code-talk-server-5f982138903e.herokuapp.com/'
+	uri: process.env.NODE_ENV === 'development' ? 'http://localhost:8000/graphql' : 'https://code-talk-server-5f982138903e.herokuapp.com/graphql'
 });
 
 const wsLink = new GraphQLWsLink(createClient({
-	url: process.env.NODE_ENV === 'development' ? 'ws://localhost:8000/graphql' : 'wss://code-talk-server-5f982138903e.herokuapp.com/',
+	url: process.env.NODE_ENV === 'development' ? 'ws://localhost:8000/graphql' : 'wss://code-talk-server-5f982138903e.herokuapp.com/graphql',
 	connectionParams: () => {
 		const token = getToken();
 		if (token && !isTokenExpired(token)) {
