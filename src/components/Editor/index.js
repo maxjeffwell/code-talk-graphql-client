@@ -57,6 +57,7 @@ const Editor = ({ roomId }) => {
   const typingTimeoutRef = useRef(null);
   const localCodeRef = useRef('');
   const lastSentCodeRef = useRef('');
+  const lastMutationTimeRef = useRef(0);
 
   const debouncedFnRef = useRef(null);
 
@@ -77,7 +78,12 @@ const Editor = ({ roomId }) => {
   // Create debounced function only once
   useEffect(() => {
     debouncedFnRef.current = debounce((newCode) => {
+      console.log('[Editor] Sending mutation:', {
+        length: newCode.length,
+        preview: newCode.substring(0, 50) + '...'
+      });
       lastSentCodeRef.current = newCode;
+      lastMutationTimeRef.current = Date.now();
       typeCodeMutation({ variables: { body: newCode } });
     }, 300);
 
@@ -90,6 +96,12 @@ const Editor = ({ roomId }) => {
 
   const updateCode = (e) => {
     const newCode = e.currentTarget.value;
+    
+    console.log('[Editor] Local update:', {
+      length: newCode.length,
+      lastChar: newCode[newCode.length - 1] || '(empty)',
+      isDeleting: newCode.length < localCodeRef.current.length
+    });
     
     // Mark as typing
     isTypingRef.current = true;
@@ -110,6 +122,7 @@ const Editor = ({ roomId }) => {
     
     // Stop marking as typing after debounce delay + buffer time
     typingTimeoutRef.current = setTimeout(() => {
+      console.log('[Editor] Typing timeout - setting isTyping to false');
       isTypingRef.current = false;
     }, 500);
   };
@@ -122,14 +135,27 @@ const Editor = ({ roomId }) => {
           if (!subscriptionData.data) return prev;
           
           const newBody = subscriptionData.data.typingCode.body;
+          const timeSinceLastMutation = Date.now() - lastMutationTimeRef.current;
+          const isLikelyOurOwnUpdate = timeSinceLastMutation < 1000 && newBody === lastSentCodeRef.current;
+          
+          console.log('[Editor] Subscription received:', {
+            length: newBody.length,
+            isTyping: isTypingRef.current,
+            localLength: localCodeRef.current.length,
+            lastSentLength: lastSentCodeRef.current.length,
+            timeSinceLastMutation,
+            isLikelyOurOwnUpdate,
+            willUpdate: !isTypingRef.current && newBody !== localCodeRef.current && !isLikelyOurOwnUpdate
+          });
           
           // Only update if:
           // 1. We're not actively typing AND
           // 2. The incoming content is different from our local content AND
-          // 3. The incoming content is different from what we last sent (to avoid echo)
+          // 3. It's not likely our own update (based on timing and content)
           if (!isTypingRef.current && 
               newBody !== localCodeRef.current && 
-              newBody !== lastSentCodeRef.current) {
+              !isLikelyOurOwnUpdate) {
+            console.log('[Editor] Applying subscription update');
             setLocalCode(newBody);
             localCodeRef.current = newBody;
           }
