@@ -53,5 +53,9 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "heroku-run-build-script": true
+  "heroku-run-build-script": true,
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  }
 }
