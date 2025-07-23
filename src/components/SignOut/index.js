@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import * as routes from '../../constants/routes';
 import styled from 'styled-components';
 import { removeToken } from '../../utils/auth';
+import { navigateToSignIn } from '../../utils/navigation';
 
 const StyledButton = styled.button`
   position: relative;
@@ -27,29 +28,24 @@ const StyledButton = styled.button`
  }
 `;
 
-export const signOut = async (client, navigate) => {
+export const signOut = async (client, navigate = null) => {
   try {
     // Securely remove token from all storage locations
     removeToken();
     
-    // Redirect to landing page immediately
-    if (navigate) {
-      navigate(routes.LANDING, { replace: true });
+    // Clear Apollo cache
+    if (client && client.clearStore) {
+      await client.clearStore();
     }
     
-    // Clear Apollo cache after navigation
-    setTimeout(() => {
-      client.resetStore().catch(error => {
-        console.error('Error clearing Apollo cache:', error);
-      });
-    }, 100);
+    // Force a complete page reload to ensure clean state
+    // This is the most reliable way to clear all React state and subscriptions
+    window.location.href = routes.SIGN_IN;
     
   } catch (error) {
     console.error('Error during sign out:', error);
     // Still navigate even if there's an error
-    if (navigate) {
-      navigate(routes.LANDING, { replace: true });
-    }
+    window.location.href = routes.SIGN_IN;
   }
 };
 

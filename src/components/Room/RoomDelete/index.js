@@ -5,21 +5,6 @@ import styled from 'styled-components';
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 
-// Temporarily disabled - server doesn't support rooms query
-// const GET_ALL_ROOMS_QUERY = gql`
-//     query {
-//         rooms(order: "DESC") 
-//         @connection(key: "RoomsConnection") {
-//             edges {
-//                 id
-//             }
-//             pageInfo {
-//                 hasNextPage
-//             }
-//         }
-//     }
-// `;
-
 const DELETE_ROOM_MUTATION = gql`
     mutation($id: ID!) {
         deleteRoom(id: $id)
@@ -27,47 +12,44 @@ const DELETE_ROOM_MUTATION = gql`
 `;
 
 const RoomDelete = ({ room }) => {
-  // Temporarily disabled - server doesn't support rooms query
-  // const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
-  //   variables: { id: room.id },
-  //   update: (cache) => {
-  //     const data = cache.readQuery({
-  //       query: GET_ALL_ROOMS_QUERY,
-  //     });
+  const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
+    variables: { id: room.id },
+    // No need for manual cache update - subscription will handle real-time updates
+  });
 
-  //     cache.writeQuery({
-  //       query: GET_ALL_ROOMS_QUERY,
-  //       data: {
-  //         ...data,
-  //         rooms: {
-  //           ...data.rooms,
-  //           edges: data.rooms.edges.filter(
-  //             node => node.id !== room.id,
-  //           ),
-  //           pageInfo: data.rooms.pageInfo,
-  //         },
-  //       },
-  //     });
-  //   }
-  // });
+  if (error) return <ErrorMessage error={error}/>;
 
-  // if (error) return <ErrorMessage error={error}/>;
-
-  // if (loading) return <Loading />;
+  const handleDelete = async () => {
+    if (window.confirm(`Are you sure you want to delete the room "${room.title}"?`)) {
+      try {
+        await deleteRoom();
+      } catch (error) {
+        console.error('Failed to delete room:', error);
+      }
+    }
+  };
 
   return (
-    <StyledDeleteButton type="button" disabled={true}>
-      Delete (Disabled)
+    <StyledDeleteButton 
+      type="button" 
+      onClick={handleDelete}
+      disabled={loading}
+    >
+      {loading ? 'Deleting...' : 'Delete'}
     </StyledDeleteButton>
   );
 };
 
 const StyledDeleteButton = styled.button`
-  padding: 5px 10px;
+  padding: 5px 15px;
   font-size: 14px;
+  font-weight: bold;
+  font-family: RussellSquareStd, monospace;
+  text-transform: uppercase;
   color: ${props => props.theme.white};
   background-color: #dc3545;
-  border: 2px solid #dc3545;
+  border: 5px solid #dc3545;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s;
   

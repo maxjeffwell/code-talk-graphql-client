@@ -24,20 +24,82 @@ const httpLink = createHttpLink({
 	}
 });
 
-const wsLink = new GraphQLWsLink(createClient({
-	url: window.location.hostname === 'localhost' ? 'ws://localhost:8000/graphql' : 'wss://code-talk-server-5f982138903e.herokuapp.com/graphql',
-	connectionParams: () => {
-		const token = getToken();
-		if (token && !isTokenExpired(token)) {
-			return {
-				'x-token': token,
-			};
-		}
-		return {};
-	},
-}));
+// Create WebSocket client factory
+const createWebSocketClient = () => {
+	const token = getToken();
+	console.log('[WebSocket] Creating client with token:', !!token);
+	
+	return createClient({
+		url: window.location.hostname === 'localhost' ? 'ws://localhost:8000/graphql' : 'wss://code-talk-server-5f982138903e.herokuapp.com/graphql',
+		connectionParams: () => {
+			const currentToken = getToken();
+			console.log('[WebSocket] Connection params - token:', !!currentToken);
+			if (currentToken && !isTokenExpired(currentToken)) {
+				console.log('[WebSocket] Sending token in connection params');
+				return {
+					'x-token': currentToken,
+				};
+			}
+			console.log('[WebSocket] No valid token for connection params');
+			return {};
+		},
+		shouldRetry: () => true,
+		retryAttempts: 5,
+		on: {
+			connected: () => console.log('[WebSocket] Connected'),
+			error: (error) => console.error('[WebSocket] Error:', error),
+			closed: () => console.log('[WebSocket] Closed'),
+		},
+	});
+};
 
-const splitLink = split(
+let wsClient = createWebSocketClient();
+let wsLink = new GraphQLWsLink(wsClient);
+
+// Store references for reconnection
+let apolloClient = null;
+let splitLinkRef = null;
+
+// Export function to reconnect WebSocket with new auth
+export const reconnectWebSocket = async () => {
+	console.log('[WebSocket] Reconnecting with new auth token');
+	
+	try {
+		// Dispose of the old WebSocket connection
+		if (wsClient) {
+			wsClient.dispose();
+		}
+		
+		// Create new WebSocket client with fresh auth
+		wsClient = createWebSocketClient();
+		wsLink = new GraphQLWsLink(wsClient);
+		
+		// Recreate the split link with the new WebSocket link
+		splitLinkRef = split(
+			({ query }) => {
+				const definition = getMainDefinition(query);
+				return (
+					definition.kind === 'OperationDefinition' &&
+					definition.operation === 'subscription'
+				);
+			},
+			wsLink,
+			httpLink,
+		);
+		
+		// Update Apollo Client with new link
+		if (apolloClient) {
+			console.log('[WebSocket] Updating Apollo Client link');
+			apolloClient.setLink(from([authLink, errorLink, splitLinkRef]));
+		}
+		
+		console.log('[WebSocket] Reconnection complete');
+	} catch (error) {
+		console.error('[WebSocket] Error during reconnection:', error);
+	}
+};
+
+splitLinkRef = split(
 	({ query }) => {
 		const definition = getMainDefinition(query);
 		return (
@@ -78,7 +140,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 		graphQLErrors.forEach(({ message, locations, path }) => {
 			logger.error('GraphQL error:', message, 'Location:', locations, 'Path:', path);
 
-			if (message === 'Not authenticated.') {
+			if (message === 'Not authenticated.' || message === 'Not authenticated as a user') {
+				console.log('[Auth] Authentication error detected, signing out');
 				signOut(client, null);
 			}
 		});
@@ -98,12 +161,17 @@ const cache = new InMemoryCache({
 		Query: {
 			fields: {
 				messages: {
-					keyArgs: false,
-					merge(existing = { edges: [], pageInfo: {} }, incoming) {
-						return {
-							...incoming,
-							edges: [...existing.edges, ...incoming.edges],
-						};
+					keyArgs: ["roomId"], // Include roomId in cache key to separate messages by room
+					merge(existing = { edges: [], pageInfo: {} }, incoming, { args }) {
+						// Only merge if it's a pagination request (has cursor)
+						if (args.cursor) {
+							return {
+								...incoming,
+								edges: [...existing.edges, ...incoming.edges],
+							};
+						}
+						// For initial queries, replace entirely
+						return incoming;
 					},
 				},
 			},
@@ -123,10 +191,13 @@ const cache = new InMemoryCache({
 });
 
 const client = new ApolloClient({
-	link: from([authLink, errorLink, splitLink]),
+	link: from([authLink, errorLink, splitLinkRef]),
 	cache,
 	connectToDevTools: true,
 });
+
+// Store reference for reconnection
+apolloClient = client;
 
 
 const container = document.getElementById('root');

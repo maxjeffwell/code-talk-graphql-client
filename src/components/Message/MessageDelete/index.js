@@ -26,14 +26,12 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
 
 const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
   query($cursor: String, $limit: Int!, $roomId: ID!) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-    @connection(key: "MessageConnection") {
+    messages(cursor: $cursor, limit: $limit, roomId: $roomId) {
       edges {
         id
         text
         createdAt
         roomId
-        userId
         user {
           id
           username

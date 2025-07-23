@@ -161,10 +161,8 @@ const ConnectionStatus = () => {
     setStatus('connecting');
     
     try {
-      // Clear Apollo cache and retry
-      if (client && client.clearStore) {
-        await client.clearStore();
-      }
+      // Only refetch queries, don't clear the cache
+      // Clearing cache would require re-authentication
       if (client && client.reFetchObservableQueries) {
         await client.reFetchObservableQueries();
       }

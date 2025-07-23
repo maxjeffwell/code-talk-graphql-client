@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
@@ -10,6 +10,7 @@ import ErrorBoundary from '../ErrorBoundary';
 import { NotificationProvider } from '../Notifications/NotificationSystem';
 import ConnectionStatus from '../ConnectionStatus';
 import withSession from '../Session/withSession';
+import { setNavigationInstance } from '../../utils/navigation';
 
 import * as routes from '../../constants/routes';
 
@@ -108,52 +109,64 @@ body {
 	}
 `;
 
+const AppRoutes = ({ session, refetch }) => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Register navigation instance for use throughout the app
+    setNavigationInstance(navigate);
+  }, [navigate]);
+
+  return (
+    <div className="routes" role="navigation">
+      <GlobalStyle />
+      <ConnectionStatus />
+      <Navigation session={session} />
+
+      <ErrorBoundary name="Routes">
+        <Suspense fallback={<LoadingSpinner text="Loading page..." minHeight="400px" />}>
+          <Routes>
+            <Route
+              path={routes.LANDING}
+              element={<LandingPage />}
+            />
+
+            <Route
+              path={routes.SIGN_UP}
+              element={<SignUpPage refetch={refetch} />}
+            />
+
+            <Route
+              path={routes.SIGN_IN}
+              element={<SignInPage refetch={refetch} />}
+            />
+
+            <Route
+              path={routes.CHAT}
+              element={<MessageContainer />}
+            />
+
+            <Route
+              path={routes.ROOMS}
+              element={<RoomList />}
+            />
+
+            <Route
+              path={routes.ROOM}
+              element={<Room />}
+            />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </div>
+  );
+};
+
 const App = ({ session, refetch }) => (
   <ErrorBoundary name="App">
     <NotificationProvider>
       <BrowserRouter>
-        <div className="routes" role="navigation">
-          <GlobalStyle />
-          <ConnectionStatus />
-          <Navigation session={session} />
-
-          <ErrorBoundary name="Routes">
-            <Suspense fallback={<LoadingSpinner text="Loading page..." minHeight="400px" />}>
-              <Routes>
-                <Route
-                  path={routes.LANDING}
-                  element={<LandingPage />}
-                />
-
-                <Route
-                  path={routes.SIGN_UP}
-                  element={<SignUpPage refetch={refetch} />}
-                />
-
-                <Route
-                  path={routes.SIGN_IN}
-                  element={<SignInPage refetch={refetch} />}
-                />
-
-                <Route
-                  path={routes.CHAT}
-                  element={<MessageContainer />}
-                />
-
-                <Route
-                  path={routes.ROOMS}
-                  element={<RoomList />}
-                />
-
-                <Route
-                  path={routes.ROOM}
-                  element={<Room />}
-                />
-              </Routes>
-            </Suspense>
-          </ErrorBoundary>
-
-        </div>
+        <AppRoutes session={session} refetch={refetch} />
       </BrowserRouter>
     </NotificationProvider>
   </ErrorBoundary>

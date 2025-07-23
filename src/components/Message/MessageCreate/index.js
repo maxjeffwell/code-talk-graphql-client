@@ -55,36 +55,13 @@ const CREATE_MESSAGE = gql`
 `;
 
 const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query($cursor: String, $limit: Int!) {
-    messages(cursor: $cursor, limit: $limit)
-    @connection(key: "MessageConnection") {
-      edges {
-        id
-        text
-        createdAt
-        user {
-          id
-          username
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-`;
-
-const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-  query($cursor: String, $limit: Int!, $roomId: ID!) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-    @connection(key: "MessageConnection") {
+  query($cursor: String, $limit: Int!, $roomId: ID) {
+    messages(cursor: $cursor, limit: $limit, roomId: $roomId) {
       edges {
         id
         text
         createdAt
         roomId
-        userId
         user {
           id
           username
@@ -113,8 +90,10 @@ const MessageCreate = ({ roomId }) => {
         if (!mutationData?.createMessage) return;
         
         const newMessage = mutationData.createMessage;
-        const query = roomId ? GET_PAGINATED_MESSAGES_BY_ROOM_QUERY : GET_PAGINATED_MESSAGES_QUERY;
-        const queryVariables = roomId ? { limit: 10, roomId } : { limit: 10 };
+        const query = GET_PAGINATED_MESSAGES_QUERY;
+        const queryVariables = { limit: 10, roomId: roomId || null };
+        
+        console.log('[MessageCreate] Updating cache for', roomId ? `room ${roomId}` : 'general chat');
         
         try {
           const existingData = cache.readQuery({
@@ -148,6 +127,8 @@ const MessageCreate = ({ roomId }) => {
             } else {
               console.log('Message creation mutation: message already exists in cache', newMessage.id, `"${newMessage.text.substring(0, 30)}..."`);
             }
+          } else {
+            console.log('[MessageCreate] No existing messages in cache');
           }
         } catch (error) {
           // Query might not exist in cache yet, that's okay

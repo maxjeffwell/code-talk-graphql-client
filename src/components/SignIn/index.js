@@ -9,6 +9,7 @@ import DemoAccounts from '../Demo';
 import { setToken, getToken } from '../../utils/auth';
 import { useNotifications } from '../Notifications/NotificationSystem';
 import LoadingSpinner from '../Loading/LoadingSpinner';
+import { reconnectWebSocket } from '../../index';
 
 import styled from 'styled-components';
 import { breakpoint } from '../Variables';
@@ -207,6 +208,19 @@ const SignInForm = ({ refetch }) => {
       console.log('Sign in successful, storing token:', data.signIn.token ? 'Token received' : 'No token received');
       setToken(data.signIn.token);
       console.log('Token stored, checking storage:', !!getToken());
+      
+      // Store token and wait a moment for it to be available
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Verify token is stored
+      const storedToken = getToken();
+      console.log('Token verification after storage:', !!storedToken);
+      
+      // Reconnect WebSocket with new authentication
+      await reconnectWebSocket();
+
+      // Wait for WebSocket to establish connection
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       await refetch();
 
@@ -214,7 +228,9 @@ const SignInForm = ({ refetch }) => {
         duration: 3000
       });
 
-      navigate(routes.CHAT);
+      // Force a full page reload to ensure all subscriptions restart with auth
+      // This is a workaround for WebSocket authentication issues
+      window.location.href = routes.CHAT;
     } catch (error) {
       showError('Failed to sign in. Please check your credentials and try again.', {
         title: 'Sign In Failed',

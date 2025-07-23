@@ -188,7 +188,7 @@ const Editor = ({ roomId }) => {
           }} 
           aria-label="Code editor"
           value={localCode}
-          placeholder="Collaborate on code here ..."
+          placeholder="Collaborate on code in this room..."
           onChange={updateCode}
           rows={60}
           minRows={30}

@@ -42,38 +42,21 @@ const StyledP = styled.p`
     margin: 5px auto;
 `;
 
-// const MESSAGE_CREATED_SUBSCRIPTION = gql`
-//     subscription($roomId: ID!) {
-//         messageCreated(roomId: $roomId) {
-//           message {
-//             id
-//             text
-//             createdAt
-//             roomId
-//             userId
-//             user {
-//               id
-//               username
-//             }
-//           }
-//         }
-//     }
-// `;
-
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
-  subscription{
-    messageCreated {
-      message {
-        id
-        text
-        createdAt
-        user {
-          id
-          username
+    subscription($roomId: ID) {
+        messageCreated(roomId: $roomId) {
+          message {
+            id
+            text
+            createdAt
+            roomId
+            user {
+              id
+              username
+            }
+          }
         }
-      }
     }
-  }
 `;
 
 const MESSAGE_DELETED_SUBSCRIPTION = gql`
@@ -91,39 +74,14 @@ const MESSAGE_DELETED_SUBSCRIPTION = gql`
   }
 `;
 
-const GET_PAGINATED_MESSAGES_BY_ROOM_QUERY = gql`
-  query($cursor: String, $limit: Int!, $roomId: ID!) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId)
-    @connection(key: "MessageConnection") {
+const GET_PAGINATED_MESSAGES_QUERY = gql`
+  query($cursor: String, $limit: Int!, $roomId: ID) {
+    messages(cursor: $cursor, limit: $limit, roomId: $roomId) {
       edges {
         id
         text
         createdAt
         roomId
-        userId
-        user {
-          id
-          username
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
-  }
-`;
-
-const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query($cursor: String, $limit: Int!) {
-    messages(cursor: $cursor, limit: $limit)
-    @connection(key: "MessageConnection") {
-      edges {
-        id
-        text
-        createdAt
-        #        roomId
-        #        userId
         user {
           id
           username
@@ -138,8 +96,13 @@ const GET_PAGINATED_MESSAGES_QUERY = gql`
 `;
 
 const Messages = memo(({ limit, roomId }) => {
-  const query = roomId ? GET_PAGINATED_MESSAGES_BY_ROOM_QUERY : GET_PAGINATED_MESSAGES_QUERY;
-  const variables = roomId ? { limit, roomId } : { limit };
+  const query = GET_PAGINATED_MESSAGES_QUERY;
+  const variables = { limit, roomId: roomId || null };
+  
+  console.log('[Messages Component] Rendering with:', {
+    roomId: roomId || 'null (global)',
+    variables
+  });
   
   const { data, loading, error, fetchMore, subscribeToMore } = useQuery(
     query,
@@ -222,7 +185,7 @@ const MoreMessagesButton = ({
         variables: {
           cursor: pageInfo.endCursor,
           limit,
-          ...(roomId && { roomId }),
+          roomId: roomId || null,
         },
         updateQuery: (previousResult, { fetchMoreResult }) => {
           if (!fetchMoreResult) {
@@ -253,8 +216,10 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
   // Note: Using subscribeToMore for message deletions to ensure proper integration
 
   const subscribeToMoreMessages = () => {
+    console.log('[MessageList] Setting up subscription for roomId:', roomId);
     return subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
+      variables: { roomId: roomId || null },
       updateQuery: (previousResult, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return previousResult;
@@ -263,15 +228,15 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
         const { messageCreated } = subscriptionData.data;
         const newMessage = messageCreated.message;
         
-        // If we're in a room-specific view, only handle creations for this room
-        if (roomId && newMessage.roomId && newMessage.roomId !== roomId) {
-          return previousResult;
-        }
+        console.log('[MessageList Subscription] New message received:', {
+          messageId: newMessage.id,
+          messageRoomId: newMessage.roomId,
+          currentRoomId: roomId,
+          previousEdgesCount: previousResult?.messages?.edges?.length || 0
+        });
         
-        // If we're in general view, only handle creations for messages without roomId
-        if (!roomId && newMessage.roomId) {
-          return previousResult;
-        }
+        // Server-side filtering is now handling room isolation
+        // Messages will only be received for the subscribed room
 
         // Check if message already exists to prevent duplicates
         const messageExists = previousResult.messages.edges.some(
@@ -291,13 +256,16 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
           ...previousResult.messages.edges,
         ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-        return {
+        const updatedResult = {
           ...previousResult,
           messages: {
             ...previousResult.messages,
             edges: updatedEdges,
           },
         };
+        
+        console.log('[MessageList Subscription] Returning updated result with', updatedEdges.length, 'messages');
+        return updatedResult;
       },
       onError: (error) => {
         console.error('Message creation subscription error:', error);
@@ -311,6 +279,7 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
     console.log('Setting up message deletion subscription for roomId:', roomId);
     return subscribeToMore({
       document: MESSAGE_DELETED_SUBSCRIPTION,
+      variables: roomId ? { roomId } : {},
       updateQuery: (previousResult, { subscriptionData }) => {
         console.log('Message deletion subscription triggered:', subscriptionData);
         
