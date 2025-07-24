@@ -100,11 +100,14 @@ npm run eject      # Eject from Create React App (irreversible)
 
 ## 🔐 Authentication
 
-Code Talk uses JWT-based authentication:
-1. Tokens are stored in localStorage
-2. Automatically attached to all GraphQL requests
+Code Talk uses JWT-based authentication with secure token storage:
+1. **Hybrid Storage Strategy**:
+   - **Production (HTTPS)**: Tokens stored in `sessionStorage` for enhanced security
+   - **Development/Non-HTTPS**: Falls back to `localStorage` for persistence
+2. Automatically attached to all GraphQL requests via Auth Link
 3. Session validation through `GET_ME` query
 4. Protected routes with HOC pattern
+5. Automatic token cleanup on logout from both storage types
 
 ## 🎨 Styling
 
@@ -219,7 +222,7 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 **Jeff Maxwell**
 - Email: [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com)
 - GitHub: [@maxjeffwell](https://github.com/maxjeffwell)
-- Portfolio: [el-jefe.me](https://www.el-jefe.me)
+- Portfolio: [https://www.el-jefe.me](https://www.el-jefe.me)
 
 ## 🙏 Acknowledgments
 
