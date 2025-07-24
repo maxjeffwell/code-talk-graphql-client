@@ -1,88 +1,232 @@
-# Code Talk
-![React](https://img.shields.io/badge/React-badge.svg?style=for-the-badge&logo=react&labelColor=393939&logoColor=30d403&color=grey&logoWidth=50)
-![GraphQL](https://img.shields.io/badge/GraphQL-badge.svg?style=for-the-badge&logo=graphql&labelColor=393939&logoColor=30d403&color=grey&logoWidth=50)
-> Real-time messaging and code collaboration environment
+# Code Talk Client
+
+![React](https://img.shields.io/badge/React-16.14.0-61dafb?style=for-the-badge&logo=react)
+![Apollo Client](https://img.shields.io/badge/Apollo%20Client-2.6.10-311C87?style=for-the-badge&logo=apollo-graphql)
+![GraphQL](https://img.shields.io/badge/GraphQL-14.7.0-E10098?style=for-the-badge&logo=graphql)
+![Styled Components](https://img.shields.io/badge/styled--components-4.4.1-db7093?style=for-the-badge&logo=styled-components)
+
+> Real-time collaborative code editor and messaging platform built with React and GraphQL
 
 <h1 align="center"><img width=100% src=https://github.com/maxjeffwell/code-talk-graphql-client/blob/master/src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
 
+## 🚀 Features
 
-## Build Status
-![React](https://img.shields.io/badge/react-16.8.0%2B-30d403.svg?style=popout&logo=react&labelColor=30d403&logoColor=393939&color=393939&logoWidth=30) [![npm version](https://img.shields.io/badge/npm%20package-6.4.1-30d403.svg?style=popout&logo=npm&labelColor=30d403&color=393939&logoWidth=30)](https://badge.fury.io/js/npm) ![Dependencies](https://img.shields.io/badge/dependencies-up%20to%20date-30d403.svg?style=popout&logo=appveyor&logoColor=393939&labelColor=30d403&color=393939&logoWidth=30) [![Live Demo](https://img.shields.io/badge/demo-online-30d403.svg?style=popout&logo=heroku&logoColor=30d403&logoWidth=30)](https://jmaxwell-code-talk-client.herokuapp.com/)
+- **Real-time Collaboration** - Synchronized text editing across multiple users
+- **Live Messaging** - Instant messaging with GraphQL subscriptions
+- **Secure Authentication** - JWT-based authentication with automatic token management
+- **Modern UI** - Responsive design with styled-components
+- **WebSocket Support** - Real-time updates through GraphQL subscriptions
 
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 16.14.0** - Component-based UI framework
+- **Apollo Client 2.6.10** - GraphQL client with caching and real-time subscriptions
+- **Styled Components 4.4.1** - CSS-in-JS styling solution
+- **React Router DOM 5.2.0** - Client-side routing
+- **GraphQL 14.7.0** - Query language for API
+
+### Key Features
+- **GraphQL Subscriptions** for real-time updates
+- **Apollo Link** architecture for authentication and error handling
+- **InMemoryCache** for efficient data management
+- **Component-based architecture** with HOCs for cross-cutting concerns
+
+## 🏗️ Architecture
+
+### Apollo Client Configuration
+- **Split Link** - Intelligent routing between HTTP and WebSocket connections
+- **Auth Link** - Automatic JWT token attachment
+- **Error Link** - Centralized error handling with auto-logout
+- **WebSocket Link** - Real-time subscription support
+
+### Component Structure
 ```
-Demo Accounts
-
-username: demo
-password: demopassword
-
-username: demo2
-password: demopassword
+src/
+├── components/
+│   ├── App/                    # Main app with routing
+│   ├── Session/                # Authentication & session management
+│   ├── Message/                # Real-time messaging
+│   ├── Editor/                 # Collaborative text editor
+│   ├── Room/                   # Chat room interface
+│   ├── Navigation/             # Auth-aware navigation
+│   └── [Auth Components]       # SignIn, SignUp, SignOut
+├── constants/                  # Routes and configuration
+└── index.js                    # Apollo Client setup
 ```
 
-## Motivation
-Code Talk is a code collaboration tool with real-time text editing and real-time messaging features. It emerged from a fascination with GraphQL subscriptions as well as from the immediate satisfaction inherent to real-time applications.
+## 🚦 Getting Started
 
-## Screenshots
+### Prerequisites
+- Node.js 12+
+- npm or yarn
+- [Code Talk Server](https://github.com/maxjeffwell/code-talk-graphql-server) running
 
-[![Code Talk Landing](https://i.gyazo.com/2c79818082923f3328d830a02e90a2e7.png)](https://gyazo.com/2c79818082923f3328d830a02e90a2e7)
+### Installation
 
-[![Code Talk Room - Desktop View](https://i.gyazo.com/e9c5d834029981dabe5da31660a14fd0.png)](https://gyazo.com/e9c5d834029981dabe5da31660a14fd0)
-
-[![Code Talk Login](https://i.gyazo.com/09e498593bdf0113793a21096ae94edb.png)](https://gyazo.com/09e498593bdf0113793a21096ae94edb)
-
-[![Code Talk Registration](https://i.gyazo.com/0b77085d85be51cdaeaf2c985f50e6d0.png)](https://gyazo.com/0b77085d85be51cdaeaf2c985f50e6d0)
-
-[![GraphQL Playground](https://i.gyazo.com/d6fd9aa100d384ffa77676a4de49aff7.png)](https://gyazo.com/d6fd9aa100d384ffa77676a4de49aff7)
-
-
-## Technology Stack
-**Front End**
-* React with Apollo Client
-    * Queries, Mutations, Subscriptions
-* CSS styling implemented with Styled Components
-
-**Back End**  [Server GitHub Repo](https://github.com/maxjeffwell/code-talk-graphql-server)
-
-[Explore the API with GraphQL Playground](https://jmaxwell-code-talk-server.herokuapp.com/graphql)
+1. Clone the repository
+```bash
+git clone https://github.com/maxjeffwell/code-talk-graphql-client.git
+cd code-talk-graphql-client
 ```
-Please note that in order to perform queries, mutations (other than the login mutation), or subscriptions using GraphQL Playground, you will have to provide an authorization token in the Playground's http headers, which can be found in the lower left corner of the Playground.
-The format of the header is as follows:
 
-{"x-token": "your token here"}
-
-You can retrieve a token by performing a login mutation and requesting the token in the return object. Or, you can log in client-side and your token will be available in your browser's local storage.
+2. Install dependencies
+```bash
+npm install
 ```
-* GraphQL API built using Apollo Server with Express middleware
-* Security
-    * JWT authentication and password hashing with bcrypt.js
-* Testing
-     * Integration and End-to-End testing using Mocha and Chai
-* Authorization
-    * Session-based protected resolvers
-    * Session-based protected routes
 
-**Data Persistence**
-* PostgreSQL connected to Express via Sequelize
+3. Start the development server
+```bash
+npm start
+```
 
-**Hosting / SaaS / DBaaS / CICD**
-* Github
-* Heroku
-* Heroku Redis
-* Heroku Postgres
+The app will be available at `http://localhost:3000`
 
-**Optimizations**
-* Cursor-based pagination
-* Implementation of Facebook's DataLoader
-* Redis Pub/Sub Engine supporting a horizontally scalable GraphQL subscriptions server 
+### Environment Configuration
 
-## Next Steps
-* Implement RedisCache as a shared cache storage backend for retrieval of data from the 
-code collaboration textarea. Currently, users who join subsequent to another user's
-input of text in the textarea are not able to see that prior textarea history. 
+The app automatically detects development vs production environments:
+- **Development**: Connects to `http://localhost:4000/graphql`
+- **Production**: Connects to deployed server URL
 
-## Meta
+## 📜 Available Scripts
 
-by Jeff Maxwell [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com) | [https://github.com/maxjeffwell](https://github.com/maxjeffwell) | [https://www.el-jefe.me](https://www.el-jefe.me)
+```bash
+npm start          # Start development server
+npm run build      # Build for production
+npm test           # Run test suite
+npm run lint       # Run ESLint
+npm run eject      # Eject from Create React App (irreversible)
+```
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge&color=30d403)](https://www.gnu.org/licenses/gpl-3.0)
-Distributed under the GNU GPLv3 License. See ``LICENSE`` for more information.
+## 🔐 Authentication
+
+Code Talk uses JWT-based authentication:
+1. Tokens are stored in localStorage
+2. Automatically attached to all GraphQL requests
+3. Session validation through `GET_ME` query
+4. Protected routes with HOC pattern
+
+## 🎨 Styling
+
+Built with styled-components featuring:
+- **Theme Provider** with consistent color palette
+- **Custom Fonts**: RussellSquareStd, SerpentineStd-Medium, FloodStd
+- **Primary Colors**: 
+  - Green: `#30d403`
+  - Black: `#393939`
+  - White: `#EDEDED`
+
+## 🧪 Testing
+
+- **Jest** - Testing framework
+- **Enzyme** - React component testing
+- Tests colocated with components (`.test.js`)
+- Run tests with `npm test`
+
+## 📦 Deployment
+
+### Heroku Deployment
+
+The app includes Heroku configuration:
+- `Procfile` for static file serving
+- Automatic build process
+- Environment-based API endpoints
+
+```bash
+git push heroku master
+```
+
+## 🔮 Future Enhancements
+
+- [ ] Redis cache for persistent editor state
+- [ ] Multi-room support with permissions
+- [ ] User presence indicators
+- [ ] Code syntax highlighting
+- [ ] File upload and sharing
+- [ ] Progressive Web App features
+- [ ] React Native mobile app
+
+## 📋 Next Steps
+
+### Immediate Priorities
+
+1. **Fix Editor State Persistence**
+   - Implement Redis caching for collaborative editor content
+   - Ensure new users can see existing editor content when joining a room
+   - Add debounced auto-save functionality
+
+2. **Enhance Room Management**
+   - Add room creation and deletion UI
+   - Implement room permissions (public/private)
+   - Display active users in each room
+   - Add room search/filter functionality
+
+3. **Improve Error Handling**
+   - Add user-friendly error messages for network failures
+   - Implement retry logic for failed subscriptions
+   - Add offline mode detection and recovery
+
+### Short-term Goals
+
+4. **Performance Optimizations**
+   - Implement virtual scrolling for message lists
+   - Add message pagination with infinite scroll
+   - Optimize bundle size with code splitting
+   - Add service worker for caching
+
+5. **UI/UX Improvements**
+   - Add typing indicators
+   - Implement message read receipts
+   - Add emoji support in messages
+   - Create dark mode theme option
+   - Add message search functionality
+
+6. **Developer Experience**
+   - Add comprehensive test coverage
+   - Set up CI/CD pipeline
+   - Add Storybook for component documentation
+   - Implement E2E tests with Cypress
+
+### Long-term Vision
+
+7. **Advanced Features**
+   - Code syntax highlighting with language detection
+   - File sharing and code snippet storage
+   - Voice/video chat integration
+   - Screen sharing capabilities
+   - Integration with popular IDEs
+
+8. **Platform Expansion**
+   - React Native mobile applications
+   - Desktop app with Electron
+   - Browser extension for quick access
+   - REST API for third-party integrations
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE) file for details.
+
+## 👤 Author
+
+**Jeff Maxwell**
+- Email: [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com)
+- GitHub: [@maxjeffwell](https://github.com/maxjeffwell)
+- Portfolio: [el-jefe.me](https://www.el-jefe.me)
+
+## 🙏 Acknowledgments
+
+- Built with Create React App
+- Powered by Apollo GraphQL
+- Styled with styled-components
+
+---
+
+<p align="center">Made with ❤️ and GraphQL</p>
