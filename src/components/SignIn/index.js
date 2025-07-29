@@ -229,8 +229,27 @@ const SignInForm = ({ refetch }) => {
       // This is a workaround for WebSocket authentication issues
       window.location.href = routes.CHAT;
     } catch (error) {
-      showError('Failed to sign in. Please check your credentials and try again.', {
-        title: 'Sign In Failed',
+      console.error('Sign in error details:', error);
+      
+      // Check for specific error messages
+      const errorMessage = error.graphQLErrors?.[0]?.message || error.message || '';
+      
+      let displayMessage = 'Failed to sign in. Please check your credentials and try again.';
+      let title = 'Sign In Failed';
+      
+      if (errorMessage.toLowerCase().includes('password') || 
+          errorMessage.toLowerCase().includes('credential') ||
+          errorMessage.toLowerCase().includes('invalid')) {
+        displayMessage = 'Incorrect password. Please check your password and try again.';
+        title = 'Incorrect Password';
+      } else if (errorMessage.toLowerCase().includes('user') && 
+                 errorMessage.toLowerCase().includes('not found')) {
+        displayMessage = 'User not found. Please check your email/username and try again.';
+        title = 'User Not Found';
+      }
+      
+      showError(displayMessage, {
+        title: title,
         duration: 8000
       });
     }
