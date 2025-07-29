@@ -50,8 +50,8 @@ const StyledDiv = styled.div`
   color: ${props => props.theme.green};
   border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
-  min-height: calc(100vh - 40px);
-  margin: 20px;
+  min-height: calc(100vh - 80px);
+  margin: 40px 20px 20px 20px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -59,17 +59,17 @@ const StyledDiv = styled.div`
   padding: 2rem;
   
   @media (max-width: ${breakpoint.tablet}) {
-    margin: 15px;
+    margin: 30px 15px 15px 15px;
     border-width: 3px;
-    min-height: calc(100vh - 30px);
+    min-height: calc(100vh - 60px);
     padding: 1.5rem;
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
-    margin: 10px;
+    margin: 20px 10px 10px 10px;
     border-width: 2px;
     border-radius: 3px;
-    min-height: calc(100vh - 20px);
+    min-height: calc(100vh - 40px);
     padding: 1rem;
   }
 `;

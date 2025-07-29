@@ -7,9 +7,8 @@ import NavigationNonAuth from './NonAuth';
 export const Logo = styled.h1`
   font-size: 1.5rem;
   text-align: center;
-  margin: 1rem 0;
+  margin: 1rem 0 2rem 0;
   position: relative;
-  z-index: 10;
   a  { 
     display: inline-block;
     padding: 0.5rem 1rem;

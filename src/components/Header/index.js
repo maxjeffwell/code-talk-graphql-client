@@ -18,7 +18,9 @@ const StyledHeader = styled.header`
     display: flex;
     margin: auto;
     max-width: 50%;
-    max-height: 450px;
+    max-height: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 `;
 

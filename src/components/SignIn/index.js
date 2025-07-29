@@ -55,7 +55,7 @@ const StyledDiv = styled.div`
   text-align: center;
   width: 100%;
   max-width: 500px;
-  margin: 20px auto;
+  margin: 40px auto 20px auto;
   padding: 2rem;
   background: ${props => props.theme.black};
   color: ${props => props.theme.green};
@@ -63,13 +63,13 @@ const StyledDiv = styled.div`
   border-radius: 10px;
   
   @media (max-width: ${breakpoint.tablet}) {
-    margin: 15px auto;
+    margin: 30px auto 15px auto;
     padding: 1.5rem;
     max-width: 90%;
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
-    margin: 10px auto;
+    margin: 20px auto 10px auto;
     padding: 1rem;
     max-width: 95%;
   }
