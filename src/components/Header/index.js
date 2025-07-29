@@ -31,6 +31,22 @@ const StyledHeader = styled.header`
     grid-template-columns: auto 1fr;
     justify-content: space-evenly;
     align-items: stretch;
+    
+    @media (min-width: ${breakpoint.tablet}) {
+      height: 180px;
+    }
+    
+    @media (min-width: ${breakpoint.laptop}) {
+      height: 200px;
+    }
+    
+    @media (min-width: ${breakpoint.laptopL}) {
+      height: 220px;
+    }
+    
+    @media (min-width: ${breakpoint.desktop}) {
+      height: 250px;
+    }
     }  
   
   .logo-container {
