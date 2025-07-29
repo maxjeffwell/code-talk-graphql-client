@@ -24,7 +24,7 @@ const NavigationAuth = ({ session }) => {
 			{!isOnChatPage && <Link to={routes.CHAT}>Main Chat</Link>}
 			{!isOnChatPage && !isOnRoomsPage && <span> | </span>}
 			{!isOnRoomsPage && <Link to={routes.ROOMS}>Chat Rooms</Link>}
-			{isOnRoomsPage && isOnRoomPage && <span> | </span>}
+			{!isOnRoomsPage && isOnRoomPage && <span> | </span>}
 			{isOnRoomPage && <Link to={routes.ROOMS}>Back to Rooms</Link>}
 		</Logo>
 	</Fragment>;

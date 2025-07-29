@@ -53,7 +53,7 @@ WebFont.load({
 const GlobalStyle = createGlobalStyle`
 	@font-face {
 		font-family: RussellSquareStd;
-		src: url('../../../public/fonts/RussellSquareStd.otf') format('opentype');
+		src: url('/fonts/RussellSquareStd.otf') format('opentype');
 		font-weight: normal;
 		font-style: normal;
 		font-display: swap;
@@ -61,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
 	
   @font-face {
 	  font-family: SerpentineStd-Medium;
-	  src: url('../../../public/fonts/SerpentineStd-Medium.otf') format('opentype');
+	  src: url('/fonts/SerpentineStd-Medium.otf') format('opentype');
 	  font-weight: 300;
 	  font-style: normal;
 	  font-display: swap;
@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
 	  font-family: FloodStd;
-	  src: url('../../../public/fonts/FloodStd.otf') format('opentype');
+	  src: url('/fonts/FloodStd.otf') format('opentype');
 	  font-weight: normal;
 	  font-style: normal;
 	  font-display: swap;
