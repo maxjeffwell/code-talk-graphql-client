@@ -1,6 +1,6 @@
-import React, { useEffect, Fragment, memo, useMemo } from 'react';
+import React, { useEffect, memo, useMemo } from 'react';
 import styled from 'styled-components';
-import { useQuery, useSubscription } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
 
 import MessageDelete from '../MessageDelete';
@@ -246,7 +246,7 @@ const MoreMessagesButton = ({
 const MessageList = ({ messages, subscribeToMore, roomId }) => {
   // Note: Using subscribeToMore for message deletions to ensure proper integration
 
-  const subscribeToMoreMessages = () => {
+  const subscribeToMoreMessages = React.useCallback(() => {
     console.log('[MessageList] Setting up subscription for roomId:', roomId);
     return subscribeToMore({
       document: MESSAGE_CREATED_SUBSCRIPTION,
@@ -302,11 +302,11 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
         console.error('Message creation subscription error:', error);
       },
     });
-  };
+  }, [subscribeToMore, roomId]);
 
   // Message deletion subscription is now handled above
 
-  const subscribeToMessageDeletions = () => {
+  const subscribeToMessageDeletions = React.useCallback(() => {
     console.log('Setting up message deletion subscription for roomId:', roomId);
     return subscribeToMore({
       document: MESSAGE_DELETED_SUBSCRIPTION,
@@ -374,7 +374,7 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
         console.error('Subscription will attempt to reconnect automatically');
       },
     });
-  };
+  }, [subscribeToMore, roomId]);
 
   useEffect(() => {
     let unsubscribeCreated;
@@ -400,7 +400,7 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
         console.error('Failed to unsubscribe from message subscriptions:', error);
       }
     };
-  }, [subscribeToMore, roomId]);
+  }, [subscribeToMore, roomId, subscribeToMessageDeletions, subscribeToMoreMessages]);
 
   const MessageItemBase = memo(({ message, session }) => {
     const isOwner = useMemo(() => 

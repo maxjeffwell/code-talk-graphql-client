@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import styled from 'styled-components';
@@ -28,29 +28,7 @@ const ROOM_DELETED_SUBSCRIPTION = gql`
   }
 `;
 
-const ROOM_USER_JOINED_SUBSCRIPTION = gql`
-  subscription {
-      roomUserJoined {
-          room {
-              id
-              title
-          }
-          user {
-              id
-              username
-          }
-      }
-  }
-`;
 
-const ROOM_USER_LEFT_SUBSCRIPTION = gql`
-  subscription {
-      roomUserLeft {
-          roomId
-          userId
-      }
-  }
-`;
 
 // Simplified query - only request fields that server provides
 const GET_PAGINATED_ROOMS_QUERY = gql`
@@ -88,7 +66,7 @@ const Rooms = () => {
     };
   }, []);
 
-  const { data, loading, error, subscribeToMore, refetch } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
+  const { data, loading, error, subscribeToMore } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
     fetchPolicy: 'cache-and-network',
     pollInterval: isAuthenticated ? 5000 : 0, // Only poll when authenticated
     skip: !isAuthenticated // Skip query if not authenticated
@@ -127,40 +105,6 @@ const Rooms = () => {
   );
 };
 
-const GetMoreRoomsButton = ({
-  limit,
-  pageInfo,
-  fetchMore,
-  children
-}) => (
-  <button
-    type="button"
-    onClick={() => fetchMore({
-      variables: {
-        cursor: pageInfo?.endCursor || null,
-        limit
-      },
-      updateQuery: (previousResult, { fetchMoreResult }) => {
-        if (!fetchMoreResult) {
-          return previousResult;
-        }
-
-        return {
-          rooms: {
-            ...fetchMoreResult.rooms,
-            edges: [
-              ...(previousResult.rooms.edges || []),
-              ...(fetchMoreResult.rooms.edges || [])
-            ],
-          },
-        };
-      },
-    })
-    }
-  >
-    {children}
-  </button>
-);
 
 const RoomList = ({ rooms, subscribeToMore }) => {
   useEffect(() => {

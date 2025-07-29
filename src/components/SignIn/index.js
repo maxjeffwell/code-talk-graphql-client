@@ -1,5 +1,4 @@
 import React, { useState, Fragment } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 
@@ -170,7 +169,6 @@ const INITIAL_STATE = {
 
 const SignInForm = ({ refetch }) => {
   const [formState, setFormState] = useState({ ...INITIAL_STATE });
-  const navigate = useNavigate();
   const { success, error: showError } = useNotifications();
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {

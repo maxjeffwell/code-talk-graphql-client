@@ -40,7 +40,7 @@ export const useIntersectionObserver = (
     return () => {
       observer.disconnect();
     };
-  }, [callback, ...dependencies]);
+  }, [callback, options, dependencies]);
 
   return { targetRef, isIntersecting, entry };
 };

@@ -3,7 +3,6 @@ import { useMutation, gql } from '@apollo/client';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
-import Loading from '../../Loading';
 
 const DELETE_ROOM_MUTATION = gql`
     mutation($id: ID!) {
@@ -12,7 +11,7 @@ const DELETE_ROOM_MUTATION = gql`
 `;
 
 const RoomDelete = ({ room }) => {
-  const [deleteRoom, { data, loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
+  const [deleteRoom, { loading, error }] = useMutation(DELETE_ROOM_MUTATION, {
     variables: { id: room.id },
     // No need for manual cache update - subscription will handle real-time updates
   });

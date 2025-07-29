@@ -105,7 +105,7 @@ const MessageCreate = ({ roomId }) => {
   const mutation = roomId ? CREATE_MESSAGE_WITH_ROOM : CREATE_MESSAGE;
   const variables = roomId ? { text, roomId } : { text };
   
-  const [createMessage, { data, loading, error }] = useMutation(
+  const [createMessage, { loading, error }] = useMutation(
     mutation,
     {
       variables,

@@ -139,7 +139,7 @@ const SignUpForm = ({ refetch }) => {
   const navigate = useNavigate();
   const { success, error: showError } = useNotifications();
 
-  const [signUp, { data, loading, error }] = useMutation(SIGN_UP, {
+  const [signUp, { loading, error }] = useMutation(SIGN_UP, {
     variables: { 
       username: formState.username, 
       email: formState.email, 

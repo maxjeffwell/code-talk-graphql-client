@@ -278,6 +278,13 @@ const NotificationItemComponent = ({ notification }) => {
   const duration = notification.duration || 5000;
   const showProgress = notification.showProgress !== false;
 
+  const handleClose = React.useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      removeNotification(notification.id);
+    }, 300);
+  }, [removeNotification, notification.id]);
+
   useEffect(() => {
     if (duration > 0) {
       const interval = setInterval(() => {
@@ -296,14 +303,7 @@ const NotificationItemComponent = ({ notification }) => {
         clearTimeout(timeout);
       };
     }
-  }, [duration]);
-
-  const handleClose = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      removeNotification(notification.id);
-    }, 300);
-  };
+  }, [duration, handleClose]);
 
   return (
     <NotificationItemWrapper

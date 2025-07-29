@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import * as routes from '../../constants/routes';
 import styled from 'styled-components';
 import { removeToken } from '../../utils/auth';
-import { navigateToSignIn } from '../../utils/navigation';
 
 const StyledButton = styled.button`
   position: relative;

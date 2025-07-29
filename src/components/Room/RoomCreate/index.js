@@ -3,7 +3,6 @@ import { useMutation, gql } from '@apollo/client';
 import styled from 'styled-components';
 
 import ErrorMessage from '../../Error';
-import Loading from '../../Loading';
 
 const CREATE_ROOM = gql`
   mutation ($title: String!) {
@@ -14,21 +13,11 @@ const CREATE_ROOM = gql`
   }
 `;
 
-const GET_ALL_ROOMS_QUERY = gql`
-    query {
-        rooms {
-            edges {
-                id
-                title
-            }
-        }
-    }
-`;
 
 const RoomCreate = () => {
   const [title, setTitle] = useState('');
   
-  const [createRoom, { data, loading, error }] = useMutation(CREATE_ROOM, {
+  const [createRoom, { loading, error }] = useMutation(CREATE_ROOM, {
     variables: { title },
     // Don't update cache here - the subscription will handle it
     // This prevents duplicate rooms from appearing
