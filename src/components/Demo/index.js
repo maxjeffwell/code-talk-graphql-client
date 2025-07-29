@@ -50,11 +50,11 @@ const DemoAccounts = () => (
 	<StyledDemo className="demos">
 		<p>DEMO ACCOUNTS AVAILABLE</p>
 		<p>
-			<span>USERNAME: demo </span>
+			<span>USERNAME: demo</span>
 			<span>PASSWORD: demopassword</span>
 		</p>
 		<p>
-			<span>USERNAME: demo2 </span>
+			<span>USERNAME: demo2</span>
 			<span>PASSWORD: demopassword</span>
 		</p>
 	</StyledDemo>

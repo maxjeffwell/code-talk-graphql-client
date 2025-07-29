@@ -13,12 +13,22 @@ import LoadingSpinner from '../Loading/LoadingSpinner';
 
 import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
+import { breakpoint } from '../Variables';
 
 const StyledHeader = styled.h1`
-  color: ${props => props.theme.black};
+  color: ${props => props.theme.green};
   font-size: 2rem;
-  display: inline-block;
-  padding: 5px 10px;
+  margin-bottom: 2rem;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const StyledNavLink = styled(Link)`
@@ -36,12 +46,66 @@ const StyledNavLink = styled(Link)`
 `;
 
 const StyledDiv = styled.div`
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   text-align: center;
+  padding: 2rem;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px;
+    border-width: 3px;
+    min-height: calc(100vh - 30px);
+    padding: 1.5rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px;
+    border-width: 2px;
+    border-radius: 3px;
+    min-height: calc(100vh - 20px);
+    padding: 1rem;
+  }
 `;
 
 const StyledRegistrationDiv = styled.div`
   margin: auto;
   text-align: center;
+`;
+
+const StyledForm = styled.form`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 2rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: ${props => props.theme.green};
+  }
+  
+  h1 {
+    margin: 2rem 0 1rem 0;
+    text-align: center;
+  }
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const SIGN_UP = gql`
@@ -147,7 +211,7 @@ const SignUpForm = ({ refetch }) => {
     username === '';
 
   return (
-    <form aria-label="Sign Up" onSubmit={onSubmit}>
+    <StyledForm aria-label="Sign Up" onSubmit={onSubmit}>
       <label htmlFor="username-input">Username</label>
       <StyledInput
         id="username-input"
@@ -156,11 +220,6 @@ const SignUpForm = ({ refetch }) => {
         onChange={onChange}
         type="text"
         placeholder="Username"
-        theme={{
-          black: '#393939',
-          green: '#30d403',
-          white: '#EDEDED'
-        }}
       />
 
       <label htmlFor="email-input">Email Address</label>
@@ -171,11 +230,6 @@ const SignUpForm = ({ refetch }) => {
         onChange={onChange}
         type="email"
         placeholder="Email Address"
-        theme={{
-          black: '#393939',
-          green: '#30d403',
-          white: '#EDEDED'
-        }}
       />
 
       <label htmlFor="password-input">Password</label>
@@ -186,11 +240,6 @@ const SignUpForm = ({ refetch }) => {
         onChange={onChange}
         type="password"
         placeholder="Password"
-        theme={{
-          black: '#393939',
-          green: '#30d403',
-          white: '#EDEDED'
-        }}
       />
 
       <label htmlFor="password-confirmation-input">Confirm Password</label>
@@ -201,22 +250,12 @@ const SignUpForm = ({ refetch }) => {
         onChange={onChange}
         type="password"
         placeholder="Confirm Password"
-        theme={{
-          black: '#393939',
-          green: '#30d403',
-          white: '#EDEDED'
-        }}
       />
 
       <h1>
         <StyledButton 
           disabled={isInvalid || loading} 
           type="submit"
-          theme={{
-            black: '#393939',
-            green: '#30d403',
-            white: '#EDEDED'
-          }}
         >
           {loading ? 'Signing Up...' : 'Sign Up'}
         </StyledButton>
@@ -231,7 +270,7 @@ const SignUpForm = ({ refetch }) => {
       )}
 
       {error && <ErrorMessage error={error}/>}
-    </form>
+    </StyledForm>
   );
 };
 
@@ -244,11 +283,6 @@ const SignUpLink = () => (
       <StyledNavLink 
         className="register-link" 
         to={routes.SIGN_UP}
-        theme={{
-          black: '#393939',
-          green: '#30d403',
-          white: '#EDEDED'
-        }}
       >
         Register Here
       </StyledNavLink>

@@ -116,19 +116,16 @@ export const StyledInput = styled.input`
   }
 `;
 
-const StyledHeader = styled.h1`
-  margin: 1.5rem 0 1rem 0;
-  color: ${props => props.theme.green};
-  font-size: 1.5rem;
+const StyledHeader = styled.div`
+  margin: 2rem 0 1rem 0;
+  text-align: center;
   
   @media (max-width: ${breakpoint.tablet}) {
-    font-size: 1.3rem;
-    margin: 1.2rem 0 0.8rem 0;
+    margin: 1.5rem 0 0.8rem 0;
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
-    font-size: 1.1rem;
-    margin: 1rem 0 0.6rem 0;
+    margin: 1.2rem 0 0.6rem 0;
   }
 `;
 
@@ -244,15 +241,7 @@ const SignInForm = ({ refetch }) => {
   const isInvalid = password === '' || login === '';
 
   return (
-    <StyledDiv 
-      className="loginForm" 
-      aria-live="polite"
-      theme={{
-        black: '#393939',
-        green: '#30d403',
-        white: '#EDEDED'
-      }}
-    >
+    <StyledDiv className="loginForm" aria-live="polite">
       <StyledForm aria-label="Sign In" onSubmit={onSubmit}>
 
         <label htmlFor="login-input">Email or Username</label>
@@ -263,11 +252,6 @@ const SignInForm = ({ refetch }) => {
           onChange={onChange}
           type="text"
           placeholder="Email or Username"
-          theme={{
-            black: '#393939',
-            green: '#30d403',
-            white: '#EDEDED'
-          }}
         />
 
         <label htmlFor="password-input">Password</label>
@@ -278,29 +262,13 @@ const SignInForm = ({ refetch }) => {
           onChange={onChange}
           type="password"
           placeholder="Password"
-          theme={{
-            black: '#393939',
-            green: '#30d403',
-            white: '#EDEDED'
-          }}
         />
 
-        <StyledHeader
-          theme={{
-            black: '#393939',
-            green: '#30d403',
-            white: '#EDEDED'
-          }}
-        >
+        <StyledHeader>
           <StyledButton 
             disabled={isInvalid || loading} 
             type="submit" 
             className="btn-login"
-            theme={{
-              black: '#393939',
-              green: '#30d403',
-              white: '#EDEDED'
-            }}
           >
             {loading ? 'Signing In...' : 'Sign In'}
           </StyledButton>

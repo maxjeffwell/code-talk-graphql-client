@@ -30,74 +30,83 @@ const StyledLanding = styled.div`
   color: ${props => props.theme.green};
   border: 5px solid ${props => props.theme.green};
   border-radius: 5px;
-  min-height: 100vh;
-  margin: 20px 30px 10px;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  overflow: auto;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   
   @media (max-width: ${breakpoint.tablet}) {
-    margin: 15px 20px 10px;
+    margin: 15px;
     border-width: 3px;
+    min-height: calc(100vh - 30px);
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
-    margin: 10px 15px 10px;
+    margin: 10px;
     border-width: 2px;
     border-radius: 3px;
+    min-height: calc(100vh - 20px);
   }
 `;
 
 const StyledContent = styled.div`
-  margin: 20px 20px;
+  flex: 1;
+  padding: 20px;
   font-weight: bold;
-  padding-bottom: 2em;
+  overflow-y: auto;
   
   @media (max-width: ${breakpoint.tablet}) {
-    margin: 15px 15px;
+    padding: 15px;
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
-    margin: 10px 10px;
+    padding: 10px;
   }
   
   h1 {
-    overflow: hidden;
     border-right: 3px solid;
     white-space: nowrap;
     animation-name: ${typewriter}, ${blinkCursor};
     animation-duration: 3s, 0.75s;
     animation-timing-function: steps(40, end), step-end;
     animation-iteration-count: 1, infinite;
-    font-size: 2em;
-    margin-bottom: 2em;
+    font-size: 2.5em;
+    margin-bottom: 1.5em;
+    width: fit-content;
     
     @media (max-width: ${breakpoint.tablet}) {
-      font-size: 1.8em;
-      margin-bottom: 1.5em;
+      font-size: 2em;
+      margin-bottom: 1.2em;
     }
     
     @media (max-width: ${breakpoint.mobileL}) {
       font-size: 1.5em;
-      margin-bottom: 1.2em;
+      margin-bottom: 1em;
+      white-space: normal;
+      border-right: none;
+      animation: none;
     }
   }
   
   p {
-    margin: 1.5em 0;
+    margin: 1.2em 0;
     line-height: 1.6;
     opacity: 0;
     animation: ${fadeIn} 1s ease-in-out 3s forwards;
+    font-size: 1.1em;
     
     @media (max-width: ${breakpoint.tablet}) {
-      margin: 1.2em 0;
-      font-size: 0.95em;
+      margin: 1em 0;
+      font-size: 1em;
     }
     
     @media (max-width: ${breakpoint.mobileL}) {
-      margin: 1em 0;
+      margin: 0.8em 0;
       font-size: 0.9em;
       line-height: 1.5;
+      animation: none;
+      opacity: 1;
     }
   }
 `;

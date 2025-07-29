@@ -240,40 +240,103 @@ const RoomList = ({ rooms, subscribeToMore }) => {
 };
 
 const RoomsContainer = styled.div`
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 20px;
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  padding: 2rem;
+  
+  h1 {
+    color: ${props => props.theme.green};
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-family: RussellSquareStd, monospace;
+  }
+  
+  p {
+    color: ${props => props.theme.green};
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    margin: 15px;
+    border-width: 3px;
+    min-height: calc(100vh - 30px);
+    padding: 1.5rem;
+    
+    h1 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 425px) {
+    margin: 10px;
+    border-width: 2px;
+    border-radius: 3px;
+    min-height: calc(100vh - 20px);
+    padding: 1rem;
+    
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
 `;
 
 const StyledRoomList = styled.ul`
   list-style-type: none;
   margin: 20px 0;
   padding: 0;
+  
   li {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
+    background: ${props => props.theme.black};
+    border: 2px solid ${props => props.theme.green};
+    border-radius: 5px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+    }
   }
 `;
 
 const StyledRoomLink = styled(Link)`
   color: ${props => props.theme.green};
   background-color: ${props => props.theme.black};
-  border: 7px solid ${props => props.theme.green};
+  border: 3px solid ${props => props.theme.green};
   border-radius: 5px;
-  padding: 0 8px;
-  height: auto;
-  &:hover {
-      text-decoration: underline;
-  }
+  padding: 12px 20px;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
   display: inline-block;
   white-space: nowrap;
+  font-family: RussellSquareStd, monospace;
+  transition: all 0.2s ease;
+  flex: 1;
+  
+  &:hover {
+    background-color: ${props => props.theme.green};
+    color: ${props => props.theme.black};
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 1em;
+    padding: 10px 15px;
+  }
 `;
 
 const RoomListItem = ({ room }) => (

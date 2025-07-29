@@ -1,33 +1,110 @@
 import React, { Fragment } from 'react';
+import styled from 'styled-components';
 
 import { MessageCreate, Messages } from '../Message';
 import Editor from '../Editor';
-import * as Grid from '../Grid';
+import { breakpoint } from '../Variables';
 
-const Row = Grid.Row;
-const Col = Grid.Column;
+const ChatContainer = styled.div`
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  display: flex;
+  overflow: hidden;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px;
+    border-width: 3px;
+    min-height: calc(100vh - 30px);
+    flex-direction: column;
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px;
+    border-width: 2px;
+    border-radius: 3px;
+    min-height: calc(100vh - 20px);
+  }
+`;
+
+const LeftPanel = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 3px solid ${props => props.theme.green};
+  overflow: hidden;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    border-right: none;
+    border-bottom: 3px solid ${props => props.theme.green};
+    flex: none;
+    height: 50vh;
+  }
+`;
+
+const RightPanel = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    flex: 1;
+  }
+`;
+
+const RoomContainer = styled.div`
+  background: ${props => props.theme.black};
+  color: ${props => props.theme.green};
+  border: 5px solid ${props => props.theme.green};
+  border-radius: 5px;
+  min-height: calc(100vh - 40px);
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: hidden;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 15px;
+    border-width: 3px;
+    min-height: calc(100vh - 30px);
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    margin: 10px;
+    border-width: 2px;
+    border-radius: 3px;
+    min-height: calc(100vh - 20px);
+  }
+`;
 
 const MessageContainer = ({ roomId }) => {
 	// If roomId is provided, render in room mode (messages only)
 	// If no roomId, render in global chat mode (messages + code editor)
 	if (roomId) {
-		return <Fragment>
-			<MessageCreate roomId={roomId} />
-			<Messages limit={10} roomId={roomId} />
-		</Fragment>;
+		return (
+			<RoomContainer>
+				<MessageCreate roomId={roomId} />
+				<Messages limit={10} roomId={roomId} />
+			</RoomContainer>
+		);
 	}
 
 	// Global chat mode with code editor
 	return (
-		<Row>
-			<Col colspan="1">
+		<ChatContainer>
+			<LeftPanel>
 				<MessageCreate />
 				<Messages limit={10} />
-			</Col>
-			<Col colspan="2" last>
+			</LeftPanel>
+			<RightPanel>
 				<Editor />
-			</Col>
-		</Row>
+			</RightPanel>
+		</ChatContainer>
 	);
 };
 

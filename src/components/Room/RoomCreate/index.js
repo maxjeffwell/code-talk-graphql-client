@@ -74,51 +74,65 @@ const RoomCreate = () => {
 const StyledForm = styled.form`
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: ${props => props.theme.black};
+  border: 2px solid ${props => props.theme.green};
+  border-radius: 5px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 15px;
+  }
 `;
 
 const StyledInput = styled.input`
   flex: 1;
-  padding: 10px;
+  padding: 12px 15px;
   font-size: 16px;
   font-family: RussellSquareStd, monospace;
-  border: 7px solid ${props => props.theme.green};
+  border: 2px solid ${props => props.theme.green};
   border-radius: 5px;
   background-color: ${props => props.theme.black};
   color: ${props => props.theme.green};
   
   &::placeholder {
     color: ${props => props.theme.green};
-    opacity: 0.6;
+    opacity: 0.7;
+    font-family: RussellSquareStd, monospace;
   }
   
   &:focus {
     outline: none;
-    box-shadow: 0 0 5px ${props => props.theme.green};
+    box-shadow: 0 0 0 2px rgba(48, 212, 3, 0.3);
+    border-color: ${props => props.theme.green};
   }
 `;
 
 const StyledButton = styled.button`
-  padding: 10px 20px;
+  padding: 12px 20px;
   font-size: 16px;
   font-weight: bold;
   font-family: RussellSquareStd, monospace;
   text-transform: uppercase;
   color: ${props => props.theme.black};
   background-color: ${props => props.theme.green};
-  border: 7px solid ${props => props.theme.green};
+  border: 2px solid ${props => props.theme.green};
   border-radius: 5px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  white-space: nowrap;
   
   &:hover:not(:disabled) {
     background-color: ${props => props.theme.black};
     color: ${props => props.theme.green};
+    transform: translateY(-1px);
   }
   
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
   }
 `;
 

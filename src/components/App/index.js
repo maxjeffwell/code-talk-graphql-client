@@ -87,8 +87,8 @@ html {
 body {
 		padding: 0;
 		margin: 0;
-		font-size: 1.5rem;
-		line-height: 2;
+		font-size: 1rem;
+		line-height: 1.6;
 		font-family: RussellSquareStd, monospace;
 		
 		/* Optimize font loading states */

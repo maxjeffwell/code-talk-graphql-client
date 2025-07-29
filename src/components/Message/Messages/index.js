@@ -9,17 +9,17 @@ import ErrorMessage from '../../Error';
 import { MessageSkeleton } from '../../Loading/SkeletonLoader';
 
 const StyledMessage = styled.li`
-    border-top: 3px solid ${props => props.theme.black};
-    margin: 5px auto;
-    line-height: 1;
-    overflow: auto;
-    grid-column: 3;
-    grid-row: 2;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 5px;
-    display: flex;
-    flex-direction: column;
+    background: ${props => props.theme.black};
+    border: 2px solid ${props => props.theme.green};
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 15px;
+    list-style: none;
+    
+    &:hover {
+      border-color: ${props => props.theme.green};
+      box-shadow: 0 0 10px rgba(48, 212, 3, 0.3);
+    }
 `;
 
 export const StyledButton = styled.button`
@@ -38,8 +38,39 @@ export const StyledButton = styled.button`
 const StyledP = styled.p`
     word-wrap: break-word;
     width: 100%;
-    line-height: 1;
-    margin: 5px auto;
+    line-height: 1.4;
+    margin: 8px 0;
+    color: ${props => props.theme.green};
+    font-family: RussellSquareStd, monospace;
+    
+    &:first-child {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    
+    &:last-child {
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+`;
+
+const MessagesContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  > div {
+    color: ${props => props.theme.green};
+    text-align: center;
+    padding: 20px;
+    font-family: RussellSquareStd, monospace;
+  }
 `;
 
 const MESSAGE_CREATED_SUBSCRIPTION = gql`
@@ -149,7 +180,7 @@ const Messages = memo(({ limit, roomId }) => {
   });
 
   return (
-    <Fragment>
+    <MessagesContainer>
       <MessageList
         messages={sortedMessages}
         subscribeToMore={subscribeToMore}
@@ -165,7 +196,7 @@ const Messages = memo(({ limit, roomId }) => {
           Get More Messages
         </MoreMessagesButton>
       )}
-    </Fragment>
+    </MessagesContainer>
   );
 });
 
@@ -397,9 +428,13 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
   // This allows messages with duplicate content but different IDs to be displayed
   console.log('Message rendering - Total messages:', messages.length);
   
-  return messages.map((message, index) => (
-    <MessageItem key={`${message.id}-${index}`} message={message} />
-  ));
+  return (
+    <ul>
+      {messages.map((message, index) => (
+        <MessageItem key={`${message.id}-${index}`} message={message} />
+      ))}
+    </ul>
+  );
 };
 
 export default Messages;

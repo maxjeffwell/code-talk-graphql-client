@@ -8,21 +8,44 @@ import Loading from '../../Loading';
 import { StyledButton } from '../Messages';
 
 const StyledTextarea = styled(TextareaAutosize)`
-  font-size: ${({ theme }) => theme.textarea.fontSize};
-  font-family: ${({ theme }) => theme.textarea.fontFamily};
-  font-weight: ${({ theme }) => theme.textarea.fontWeight};
-  border: ${({ theme }) => theme.textarea.border};
-  background-color: ${({ theme }) => theme.textarea.backgroundColor};
-  color: ${({ theme}) => theme.textarea.color};
+  font-size: 1rem;
+  font-family: RussellSquareStd, monospace;
+  font-weight: normal;
+  border: 2px solid ${props => props.theme.green};
+  background-color: ${props => props.theme.black};
+  color: ${props => props.theme.green};
   resize: none;
   box-sizing: border-box;
   width: 100%;
-  margin-top: 2px;
-  padding: 3px 3px 3px 3px;
+  margin-bottom: 10px;
+  padding: 12px;
+  border-radius: 5px;
+  
+  &::placeholder {
+    color: ${props => props.theme.green};
+    opacity: 0.7;
+    font-family: RussellSquareStd, monospace;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(48, 212, 3, 0.3);
+    border-color: ${props => props.theme.green};
+  }
 `;
 
 const StyledForm = styled.form`
-  margin-bottom: 5px;
+  padding: 1rem;
+  border-bottom: 2px solid ${props => props.theme.green};
+  background: ${props => props.theme.black};
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: ${props => props.theme.green};
+    font-family: RussellSquareStd, monospace;
+    font-weight: bold;
+  }
 `;
 
 const CREATE_MESSAGE_WITH_ROOM = gql`
@@ -185,16 +208,6 @@ const MessageCreate = ({ roomId }) => {
       <label htmlFor="message-input">
         <StyledTextarea 
           id="message-input"
-          theme={{
-            textarea: {
-              fontSize: '1em',
-              border: '5px solid #30d403',
-              backgroundColor: '#EDEDED',
-              color: '#393939',
-              fontFamily: 'SerpentineStd-Medium, monospace',
-              fontWeight: 'normal',
-            }
-          }} 
           aria-label="Message input"
           name="text" 
           autoFocus
