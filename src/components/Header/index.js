@@ -27,25 +27,33 @@ const StyledHeader = styled.header`
 
   .bar {
     display: flex;
-    height: 150px;
+    height: 70px;
     grid-template-columns: auto 1fr;
     justify-content: space-evenly;
     align-items: stretch;
     
+    @media (min-width: ${breakpoint.mobileM}) {
+      height: 80px;
+    }
+    
+    @media (min-width: ${breakpoint.mobileL}) {
+      height: 100px;
+    }
+    
     @media (min-width: ${breakpoint.tablet}) {
-      height: 180px;
+      height: 130px;
     }
     
     @media (min-width: ${breakpoint.laptop}) {
-      height: 200px;
+      height: 160px;
     }
     
     @media (min-width: ${breakpoint.laptopL}) {
-      height: 220px;
+      height: 180px;
     }
     
     @media (min-width: ${breakpoint.desktop}) {
-      height: 250px;
+      height: 200px;
     }
     }  
   
