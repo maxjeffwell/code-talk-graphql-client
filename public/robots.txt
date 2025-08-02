@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or sensitive areas (if any exist in future)
+# Disallow: /admin
+# Disallow: /api
+
+# Allow crawling of main pages
+Allow: /
+Allow: /signin
+Allow: /signup
+
+# Sitemap location
+Sitemap: https://code-talk-client-c46118c24c30.herokuapp.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to search engines)
+Crawl-delay: 1

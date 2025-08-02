@@ -8,6 +8,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { ThemeProvider } from 'styled-components';
+import { HelmetProvider } from 'react-helmet-async';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
@@ -205,11 +206,13 @@ const root = createRoot(container);
 
 root.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <ApolloProvider client={client}>
-                <App />
-            </ApolloProvider>
-        </ThemeProvider>
+        <HelmetProvider>
+            <ThemeProvider theme={theme}>
+                <ApolloProvider client={client}>
+                    <App />
+                </ApolloProvider>
+            </ThemeProvider>
+        </HelmetProvider>
     </React.StrictMode>
 );
 

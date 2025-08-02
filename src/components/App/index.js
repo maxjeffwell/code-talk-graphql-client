@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 import { createGlobalStyle } from 'styled-components';
 import WebFont from 'webfontloader';
@@ -119,6 +120,11 @@ const AppRoutes = ({ session, refetch }) => {
 
   return (
     <div className="routes" role="navigation">
+      <Helmet>
+        <title>Code Talk - Real-time Code Collaboration Platform</title>
+        <meta name="description" content="Join Code Talk for real-time collaborative coding, live chat, and seamless project sharing with developers worldwide." />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
       <GlobalStyle />
       <ConnectionStatus />
       <Navigation session={session} />

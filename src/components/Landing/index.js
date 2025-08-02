@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 
 import Footer from '../Footer';
 import { breakpoint } from '../Variables';
@@ -113,27 +114,42 @@ const StyledContent = styled.div`
 
 const Landing = () => (
   <StyledLanding>
-    <StyledContent>
-      <h1>Welcome to Code Talk</h1>
-      <p>
-        Code Talk is all about real-time code collaboration with concurrent real-time messaging capability.
-        This is the place where you can write about writing code.
-      </p>
-      <p>
-        <strong>So meta?</strong> Maybe. <strong>Too meta?</strong> Never.
-      </p>
-      <p>
-        Click the sign in button above (if you haven't already signed in) to sign in as either an existing user 
-        or to find the link to register as a new one. Once signed in, you'll be taken to the Code Talk Chat Room.
-      </p>
-      <p>
-        There, you can communicate with other users in real-time by using the chat app on the left sidebar. 
-        At the same time, you'll see a textarea on the right where you and other users can collaborate on code 
-        that will immediately be made visible to everyone in the room.
-      </p>
-      <p>
-        Account info for two demo accounts can be found on both the login and registration pages.
-      </p>
+    <Helmet>
+      <title>Code Talk - Real-time Collaborative Coding Platform</title>
+      <meta name="description" content="Welcome to Code Talk - the ultimate real-time code collaboration platform. Chat, code, and collaborate with developers worldwide. Sign up now for free!" />
+      <meta property="og:title" content="Code Talk - Real-time Collaborative Coding Platform" />
+      <meta property="og:description" content="Join developers worldwide on Code Talk for real-time code collaboration and chat." />
+      <meta name="keywords" content="code collaboration, real-time coding, developer platform, programming chat, collaborative editor" />
+    </Helmet>
+    <StyledContent as="main" role="main">
+      <header>
+        <h1>Welcome to Code Talk</h1>
+      </header>
+      <section aria-label="Platform Description">
+        <p>
+          Code Talk is all about real-time code collaboration with concurrent real-time messaging capability.
+          This is the place where you can write about writing code.
+        </p>
+        <p>
+          <strong>So meta?</strong> Maybe. <strong>Too meta?</strong> Never.
+        </p>
+      </section>
+      <section aria-label="Getting Started Guide">
+        <p>
+          Click the sign in button above (if you haven't already signed in) to sign in as either an existing user 
+          or to find the link to register as a new one. Once signed in, you'll be taken to the Code Talk Chat Room.
+        </p>
+        <p>
+          There, you can communicate with other users in real-time by using the chat app on the left sidebar. 
+          At the same time, you'll see a textarea on the right where you and other users can collaborate on code 
+          that will immediately be made visible to everyone in the room.
+        </p>
+        <aside aria-label="Demo Account Information">
+          <p>
+            Account info for two demo accounts can be found on both the login and registration pages.
+          </p>
+        </aside>
+      </section>
     </StyledContent>
     <Footer />
   </StyledLanding>
