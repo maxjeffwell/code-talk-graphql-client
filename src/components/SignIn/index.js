@@ -8,7 +8,6 @@ import DemoAccounts from '../Demo';
 import { setToken, getToken } from '../../utils/auth';
 import { useNotifications } from '../Notifications/NotificationSystem';
 import LoadingSpinner from '../Loading/LoadingSpinner';
-import { reconnectWebSocket } from '../../index';
 
 import styled from 'styled-components';
 import { breakpoint } from '../Variables';
@@ -234,11 +233,7 @@ const SignInForm = ({ refetch }) => {
       const storedToken = getToken();
       console.log('Token verification after storage:', !!storedToken);
       
-      // Reconnect WebSocket with new authentication
-      await reconnectWebSocket();
-
-      // Wait for WebSocket to establish connection
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // WebSocket will reconnect automatically with new token
 
       await refetch();
 
