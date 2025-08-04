@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
@@ -169,6 +170,7 @@ const INITIAL_STATE = {
 const SignInForm = ({ refetch }) => {
   const [formState, setFormState] = useState({ ...INITIAL_STATE });
   const { success, error: showError } = useNotifications();
+  const navigate = useNavigate();
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
     variables: { 
@@ -241,9 +243,8 @@ const SignInForm = ({ refetch }) => {
         duration: 3000
       });
 
-      // Force a full page reload to ensure all subscriptions restart with auth
-      // This is a workaround for WebSocket authentication issues
-      window.location.href = routes.CHAT;
+      console.log('Navigating to chat room:', routes.CHAT);
+      navigate(routes.CHAT);
     } catch (error) {
       console.error('Sign in error details:', error);
       
