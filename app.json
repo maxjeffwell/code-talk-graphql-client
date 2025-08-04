@@ -1,0 +1,25 @@
+{
+  "name": "Code Talk Client",
+  "description": "Real-time collaborative coding platform client",
+  "repository": "https://github.com/maxjeffwell/code-talk-graphql-client",
+  "keywords": ["react", "graphql", "collaboration", "chat"],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-static"
+    }
+  ],
+  "env": {
+    "NODE_ENV": {
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  }
+}
