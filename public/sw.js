@@ -1,12 +1,10 @@
-const CACHE_NAME = 'code-talk-v1';
+const CACHE_NAME = 'code-talk-v2';
 const urlsToCache = [
   '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/static/media/CodeTalk_Title_Logo.png',
   '/fonts/RussellSquareStd.otf',
   '/fonts/SerpentineStd-Medium.otf',
-  '/manifest.json'
+  '/fonts/FloodStd.otf',
+  '/site.webmanifest'
 ];
 
 // Install service worker

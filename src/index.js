@@ -216,16 +216,13 @@ root.render(
     </React.StrictMode>
 );
 
-// Register service worker (disabled in development)
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                logger.info('SW registered:', registration);
-            })
-            .catch((registrationError) => {
-                logger.error('SW registration failed:', registrationError);
-            });
+// Unregister any existing service workers to prevent cache conflicts
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) {
+            registration.unregister();
+            logger.info('SW unregistered:', registration);
+        }
     });
 }
 
