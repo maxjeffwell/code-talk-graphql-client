@@ -216,25 +216,24 @@ root.render(
     </React.StrictMode>
 );
 
-// Simple service worker cleanup without reload
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        registrations.forEach(function(registration) {
-            registration.unregister();
-            console.log('Service worker unregistered');
-        });
-    });
-    
-    // Clear caches without blocking
-    if ('caches' in window) {
-        caches.keys().then(function(cacheNames) {
-            cacheNames.forEach(function(cacheName) {
-                caches.delete(cacheName);
-                console.log('Cache cleared:', cacheName);
-            });
-        });
-    }
-}
+// Service worker cleanup completely disabled to prevent reload loops
+// if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.getRegistrations().then(function(registrations) {
+//         registrations.forEach(function(registration) {
+//             registration.unregister();
+//             console.log('Service worker unregistered');
+//         });
+//     });
+//     
+//     if ('caches' in window) {
+//         caches.keys().then(function(cacheNames) {
+//             cacheNames.forEach(function(cacheName) {
+//                 caches.delete(cacheName);
+//                 console.log('Cache cleared:', cacheName);
+//             });
+//         });
+//     }
+// }
 
 // Initialize performance monitoring
 observeLongTasks();
