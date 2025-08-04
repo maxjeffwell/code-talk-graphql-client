@@ -237,3 +237,6 @@ root.render(
 
 // Initialize performance monitoring
 observeLongTasks();
+
+// Force rebuild timestamp
+console.log('App initialized at:', new Date().toISOString());
