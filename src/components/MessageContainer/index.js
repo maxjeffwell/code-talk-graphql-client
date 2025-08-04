@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { MessageCreate, Messages } from '../Message';
 import Editor from '../Editor';
+import SignOutButton from '../SignOut';
 import { breakpoint } from '../Variables';
+import * as routes from '../../constants/routes';
 
 const ChatContainer = styled.div`
   background: ${props => props.theme.black};
@@ -13,13 +16,13 @@ const ChatContainer = styled.div`
   min-height: calc(100vh - 80px);
   margin: 40px 20px 20px 20px;
   display: flex;
+  flex-direction: column;
   overflow: hidden;
   
   @media (max-width: ${breakpoint.tablet}) {
     margin: 30px 15px 15px 15px;
     border-width: 3px;
     min-height: calc(100vh - 60px);
-    flex-direction: column;
   }
   
   @media (max-width: ${breakpoint.mobileL}) {
@@ -27,6 +30,16 @@ const ChatContainer = styled.div`
     border-width: 2px;
     border-radius: 3px;
     min-height: calc(100vh - 40px);
+  }
+`;
+
+const ChatContent = styled.div`
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    flex-direction: column;
   }
 `;
 
@@ -82,12 +95,78 @@ const RoomContainer = styled.div`
   }
 `;
 
+const TopBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid ${props => props.theme.green};
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+`;
+
+const Navigation = styled.nav`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  
+  @media (max-width: ${breakpoint.tablet}) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+`;
+
+const NavLink = styled(Link)`
+  color: ${props => props.theme.green};
+  text-decoration: none;
+  padding: 0.4rem 0.8rem;
+  border: 2px solid ${props => props.theme.green};
+  border-radius: 3px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: ${props => props.theme.green};
+    color: ${props => props.theme.black};
+  }
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+`;
+
+const Title = styled.h2`
+  color: ${props => props.theme.green};
+  font-size: 1.2rem;
+  margin: 0;
+  text-transform: uppercase;
+  
+  @media (max-width: ${breakpoint.mobileL}) {
+    font-size: 1rem;
+  }
+`;
+
 const MessageContainer = ({ roomId }) => {
 	// If roomId is provided, render in room mode (messages only)
 	// If no roomId, render in global chat mode (messages + code editor)
 	if (roomId) {
 		return (
 			<RoomContainer>
+				<TopBar>
+					<Title>Room Chat</Title>
+					<Navigation>
+						<NavLink to={routes.CHAT}>Main Chat</NavLink>
+						<NavLink to={routes.ROOMS}>All Rooms</NavLink>
+						<SignOutButton />
+					</Navigation>
+				</TopBar>
 				<MessageCreate roomId={roomId} />
 				<Messages limit={10} roomId={roomId} />
 			</RoomContainer>
@@ -97,13 +176,22 @@ const MessageContainer = ({ roomId }) => {
 	// Global chat mode with code editor
 	return (
 		<ChatContainer>
-			<LeftPanel>
-				<MessageCreate />
-				<Messages limit={10} />
-			</LeftPanel>
-			<RightPanel>
-				<Editor />
-			</RightPanel>
+			<TopBar>
+				<Title>Code Talk Chat</Title>
+				<Navigation>
+					<NavLink to={routes.ROOMS}>Chat Rooms</NavLink>
+					<SignOutButton />
+				</Navigation>
+			</TopBar>
+			<ChatContent>
+				<LeftPanel>
+					<MessageCreate />
+					<Messages limit={10} />
+				</LeftPanel>
+				<RightPanel>
+					<Editor />
+				</RightPanel>
+			</ChatContent>
 		</ChatContainer>
 	);
 };
