@@ -184,6 +184,29 @@ const SignInForm = ({ refetch }) => {
     },
     onError: (error) => {
       console.error('Sign in error:', error);
+      
+      // Provide more specific error messaging based on error type
+      let errorMessage = 'Sign in failed. Please check your credentials and try again.';
+      let errorTitle = 'Sign In Failed';
+      
+      if (error.message?.includes('Database operation failed')) {
+        errorMessage = 'Our servers are experiencing database issues. Please try again in a few minutes.';
+        errorTitle = 'Service Temporarily Unavailable';
+      } else if (error.message?.includes('Internal Server Error')) {
+        errorMessage = 'Our servers are experiencing technical difficulties. Please try again later.';
+        errorTitle = 'Server Error';
+      } else if (error.message?.includes('Invalid login credentials') || error.message?.includes('User not found')) {
+        errorMessage = 'Invalid username/email or password. Please check your credentials and try again.';
+        errorTitle = 'Invalid Credentials';
+      } else if (error.message?.includes('validation')) {
+        errorMessage = 'Please enter both username/email and password.';
+        errorTitle = 'Missing Information';
+      }
+      
+      showError(errorMessage, {
+        title: errorTitle,
+        duration: 8000
+      });
     }
   });
 

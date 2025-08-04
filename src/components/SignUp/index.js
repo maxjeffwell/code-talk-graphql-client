@@ -153,6 +153,29 @@ const SignUpForm = ({ refetch }) => {
     },
     onError: (error) => {
       console.error('Sign up error:', error);
+      
+      // Provide more specific error messaging based on error type
+      let errorMessage = 'Registration failed. Please try again.';
+      let errorTitle = 'Registration Failed';
+      
+      if (error.message?.includes('Database operation failed')) {
+        errorMessage = 'Our servers are experiencing database issues. Please try again in a few minutes.';
+        errorTitle = 'Service Temporarily Unavailable';
+      } else if (error.message?.includes('Internal Server Error')) {
+        errorMessage = 'Our servers are experiencing technical difficulties. Please try again later.';
+        errorTitle = 'Server Error';
+      } else if (error.message?.includes('User already exists') || error.message?.includes('already registered')) {
+        errorMessage = 'An account with this email or username already exists. Please try signing in instead.';
+        errorTitle = 'Account Already Exists';
+      } else if (error.message?.includes('validation')) {
+        errorMessage = 'Please check that all fields are filled out correctly.';
+        errorTitle = 'Invalid Information';
+      }
+      
+      showError(errorMessage, {
+        title: errorTitle,
+        duration: 10000
+      });
     }
   });
 
@@ -190,10 +213,17 @@ const SignUpForm = ({ refetch }) => {
 
       navigate(routes.CHAT);
     } catch (error) {
-      showError('Registration failed. Please check your information and try again.', {
-        title: 'Registration Failed',
-        duration: 8000
-      });
+      console.error('Sign up submission error:', error);
+      
+      // The onError callback above should handle specific error messaging,
+      // but this catch block handles any submission errors
+      if (!error.message?.includes('Database operation failed') && 
+          !error.message?.includes('Internal Server Error')) {
+        showError('Registration failed. Please check your information and try again.', {
+          title: 'Registration Failed',
+          duration: 8000
+        });
+      }
     }
   };
 
