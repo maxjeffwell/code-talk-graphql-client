@@ -232,4 +232,4 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 
 ---
 
-<p align="center">Made with ❤️ and GraphQL</p>
+<p align="center">Made with ❤️ and GraphQL</p># Force deployment with correct buildpack setup
