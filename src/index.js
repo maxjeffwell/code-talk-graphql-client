@@ -216,12 +216,35 @@ root.render(
     </React.StrictMode>
 );
 
-// Unregister any existing service workers to prevent cache conflicts
+// Aggressively clear service workers and caches
 if ('serviceWorker' in navigator) {
+    // Clear all caches first
+    if ('caches' in window) {
+        caches.keys().then(function(cacheNames) {
+            return Promise.all(
+                cacheNames.map(function(cacheName) {
+                    console.log('Deleting cache:', cacheName);
+                    return caches.delete(cacheName);
+                })
+            );
+        }).then(() => {
+            console.log('All caches cleared');
+        });
+    }
+    
+    // Unregister all service workers
     navigator.serviceWorker.getRegistrations().then(function(registrations) {
-        for(let registration of registrations) {
-            registration.unregister();
-            logger.info('SW unregistered:', registration);
+        return Promise.all(
+            registrations.map(function(registration) {
+                console.log('Unregistering service worker:', registration);
+                return registration.unregister();
+            })
+        );
+    }).then(() => {
+        console.log('All service workers unregistered');
+        // Force reload to ensure clean state
+        if (window.location.search.indexOf('sw-cleared') === -1) {
+            window.location.search += (window.location.search ? '&' : '?') + 'sw-cleared=1';
         }
     });
 }
