@@ -239,6 +239,9 @@ const SignInForm = ({ refetch }) => {
 
       await refetch();
 
+      // Small delay to ensure session data is fully updated
+      await new Promise(resolve => setTimeout(resolve, 200));
+
       success('Successfully signed in! Welcome back.', {
         duration: 3000
       });

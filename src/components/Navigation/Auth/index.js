@@ -17,7 +17,7 @@ const NavigationAuth = ({ session }) => {
 	return <Fragment>
 		<Header/>
 		<Logo>
-			<StyledParagraph>Current User: {session.me.username}</StyledParagraph>
+			<StyledParagraph>Current User: {session?.me?.username || 'Loading...'}</StyledParagraph>
 		</Logo>
 		<SignOutButton/>
 		<Logo>
@@ -31,7 +31,7 @@ const NavigationAuth = ({ session }) => {
 };
 
 NavigationAuth.propTypes = {
-	session: PropTypes.object.isRequired,
+	session: PropTypes.object,
 };
 
 export default NavigationAuth;

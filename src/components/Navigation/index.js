@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import NavigationAuth from './Auth';
 import NavigationNonAuth from './NonAuth';
+import { hasToken } from '../../utils/auth';
 
 export const Logo = styled.h1`
   font-size: 1.5rem;
@@ -37,15 +38,23 @@ export const StyledParagraph = styled.p`
     }
 `;
 
-const Navigation = memo(({ session }) => (
-  <Fragment>
-    {session && session.me ? (
-      <NavigationAuth session={session} />
-    ) : (
-      <NavigationNonAuth />
-    )}
-  </Fragment>
-));
+const Navigation = memo(({ session, sessionLoading }) => {
+  const hasAuthToken = hasToken();
+  
+  // If we have a token but session is still loading, show authenticated nav
+  // This prevents the sign-in button from flashing while session loads
+  const shouldShowAuthenticatedNav = (session && session.me) || (hasAuthToken && sessionLoading);
+  
+  return (
+    <Fragment>
+      {shouldShowAuthenticatedNav ? (
+        <NavigationAuth session={session} />
+      ) : (
+        <NavigationNonAuth />
+      )}
+    </Fragment>
+  );
+});
 
 Navigation.displayName = 'Navigation';
 

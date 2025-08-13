@@ -110,7 +110,7 @@ body {
 	}
 `;
 
-const AppRoutes = ({ session, refetch }) => {
+const AppRoutes = ({ session, refetch, sessionLoading }) => {
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -127,7 +127,7 @@ const AppRoutes = ({ session, refetch }) => {
       </Helmet>
       <GlobalStyle />
       <ConnectionStatus />
-      <Navigation session={session} />
+      <Navigation session={session} sessionLoading={sessionLoading} />
 
       <ErrorBoundary name="Routes">
         <Suspense fallback={<LoadingSpinner text="Loading page..." minHeight="400px" />}>
@@ -168,11 +168,11 @@ const AppRoutes = ({ session, refetch }) => {
   );
 };
 
-const App = ({ session, refetch }) => (
+const App = ({ session, refetch, sessionLoading }) => (
   <ErrorBoundary name="App">
     <NotificationProvider>
       <BrowserRouter>
-        <AppRoutes session={session} refetch={refetch} />
+        <AppRoutes session={session} refetch={refetch} sessionLoading={sessionLoading} />
       </BrowserRouter>
     </NotificationProvider>
   </ErrorBoundary>
