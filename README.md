@@ -35,6 +35,29 @@
 
 </div>
 
+## 📱 Screenshots
+
+<div align="center">
+
+### Mobile Interface
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="./screenshots/ios-17.0-iPhone-15 Pro.png" alt="Code Talk Mobile Interface - Main View" width="300">
+      <br>
+      <sub><b>Main Chat Interface</b></sub>
+    </td>
+    <td align="center">
+      <img src="./screenshots/ios-17.0-iPhone-15 Pro (1).png" alt="Code Talk Mobile Interface - Editor View" width="300">
+      <br>
+      <sub><b>Collaborative Editor</b></sub>
+    </td>
+  </tr>
+</table>
+
+</div>
+
 ## 🛠️ Tech Stack
 
 ### Frontend
