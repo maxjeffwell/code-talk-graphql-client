@@ -149,19 +149,19 @@ The app uses a carefully curated color scheme defined in `src/theme.js`:
     <td><strong>Primary Green</strong></td>
     <td><code>#30d403</code></td>
     <td>Accents, buttons, borders, text highlights</td>
-    <td><img src="https://via.placeholder.com/60x30/30d403/30d403.png" alt="Primary Green" /></td>
+    <td>🟢</td>
   </tr>
   <tr>
     <td><strong>Dark Gray</strong></td>
     <td><code>#393939</code></td>
     <td>Backgrounds, containers, secondary text</td>
-    <td><img src="https://via.placeholder.com/60x30/393939/393939.png" alt="Dark Gray" /></td>
+    <td>⬛</td>
   </tr>
   <tr>
     <td><strong>Light Gray</strong></td>
     <td><code>#EDEDED</code></td>
     <td>Primary text, light backgrounds</td>
-    <td><img src="https://via.placeholder.com/60x30/EDEDED/EDEDED.png" alt="Light Gray" /></td>
+    <td>⬜</td>
   </tr>
 </table>
 
@@ -171,9 +171,9 @@ The app uses a carefully curated color scheme defined in `src/theme.js`:
 
 ### 🎨 **Color Showcase**
 
-<img src="https://via.placeholder.com/150x80/30d403/FFFFFF?text=PRIMARY" alt="Primary Green" />
-<img src="https://via.placeholder.com/150x80/393939/30d403?text=DARK" alt="Dark Theme" />
-<img src="https://via.placeholder.com/150x80/EDEDED/393939?text=LIGHT" alt="Light Theme" />
+🟢 **PRIMARY** `#30d403` 🟢  
+⬛ **DARK** `#393939` ⬛  
+⬜ **LIGHT** `#EDEDED` ⬜
 
 </div>
 
