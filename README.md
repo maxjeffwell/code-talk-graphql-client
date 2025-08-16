@@ -1,21 +1,33 @@
 # Code Talk Client
 
-![React](https://img.shields.io/badge/React-16.14.0-61dafb?style=for-the-badge&logo=react)
-![Apollo Client](https://img.shields.io/badge/Apollo%20Client-2.6.10-311C87?style=for-the-badge&logo=apollo-graphql)
-![GraphQL](https://img.shields.io/badge/GraphQL-14.7.0-E10098?style=for-the-badge&logo=graphql)
-![Styled Components](https://img.shields.io/badge/styled--components-4.4.1-db7093?style=for-the-badge&logo=styled-components)
+<div align="center">
 
-> Real-time collaborative code editor and messaging platform built with React and GraphQL
+![React](https://img.shields.io/badge/React-16.14.0-30d403?style=for-the-badge&logo=react&logoColor=white&labelColor=393939)
+![Apollo Client](https://img.shields.io/badge/Apollo%20Client-2.6.10-30d403?style=for-the-badge&logo=apollo-graphql&logoColor=white&labelColor=393939)
+![GraphQL](https://img.shields.io/badge/GraphQL-14.7.0-30d403?style=for-the-badge&logo=graphql&logoColor=white&labelColor=393939)
+![Styled Components](https://img.shields.io/badge/styled--components-4.4.1-30d403?style=for-the-badge&logo=styled-components&logoColor=white&labelColor=393939)
+
+</div>
+
+<div align="center">
+<img src="https://via.placeholder.com/800x100/393939/30d403?text=Real-time+Collaborative+Code+Editor+%26+Messaging+Platform" alt="Code Talk Description" />
+</div>
 
 <h1 align="center"><img width=100% src=https://github.com/maxjeffwell/code-talk-graphql-client/blob/master/src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
 
 ## 🚀 Features
 
-- **Real-time Collaboration** - Synchronized text editing across multiple users
-- **Live Messaging** - Instant messaging with GraphQL subscriptions
-- **Secure Authentication** - JWT-based authentication with automatic token management
-- **Modern UI** - Responsive design with styled-components
-- **WebSocket Support** - Real-time updates through GraphQL subscriptions
+<div align="center">
+
+| Feature | Description |
+|---------|-------------|
+| <img src="https://via.placeholder.com/120x30/30d403/393939?text=REAL-TIME" alt="Real-time" /> | **Synchronized text editing** across multiple users |
+| <img src="https://via.placeholder.com/120x30/30d403/393939?text=MESSAGING" alt="Messaging" /> | **Instant messaging** with GraphQL subscriptions |
+| <img src="https://via.placeholder.com/120x30/30d403/393939?text=SECURE" alt="Secure" /> | **JWT-based authentication** with automatic token management |
+| <img src="https://via.placeholder.com/120x30/30d403/393939?text=MODERN+UI" alt="Modern UI" /> | **Responsive design** with styled-components |
+| <img src="https://via.placeholder.com/120x30/30d403/393939?text=WEBSOCKET" alt="WebSocket" /> | **Real-time updates** through GraphQL subscriptions |
+
+</div>
 
 ## 🛠️ Tech Stack
 
@@ -109,15 +121,74 @@ Code Talk uses JWT-based authentication with secure token storage:
 4. Protected routes with HOC pattern
 5. Automatic token cleanup on logout from both storage types
 
-## 🎨 Styling
+## 🎨 Styling & Theme
 
-Built with styled-components featuring:
-- **Theme Provider** with consistent color palette
-- **Custom Fonts**: RussellSquareStd, SerpentineStd-Medium, FloodStd
-- **Primary Colors**: 
-  - Green: `#30d403`
-  - Black: `#393939`
-  - White: `#EDEDED`
+<div align="center">
+  
+### 🎯 **Code Talk Design System**
+
+</div>
+
+Built with styled-components featuring a cohesive design system:
+
+### Color Palette
+The app uses a carefully curated color scheme defined in `src/theme.js`:
+
+<table align="center">
+  <tr>
+    <th>Color</th>
+    <th>Hex Code</th>
+    <th>Usage</th>
+    <th>Preview</th>
+  </tr>
+  <tr>
+    <td><strong>Primary Green</strong></td>
+    <td><code>#30d403</code></td>
+    <td>Accents, buttons, borders, text highlights</td>
+    <td><img src="https://via.placeholder.com/60x30/30d403/30d403.png" alt="Primary Green" /></td>
+  </tr>
+  <tr>
+    <td><strong>Dark Gray</strong></td>
+    <td><code>#393939</code></td>
+    <td>Backgrounds, containers, secondary text</td>
+    <td><img src="https://via.placeholder.com/60x30/393939/393939.png" alt="Dark Gray" /></td>
+  </tr>
+  <tr>
+    <td><strong>Light Gray</strong></td>
+    <td><code>#EDEDED</code></td>
+    <td>Primary text, light backgrounds</td>
+    <td><img src="https://via.placeholder.com/60x30/EDEDED/EDEDED.png" alt="Light Gray" /></td>
+  </tr>
+</table>
+
+<div align="center">
+
+---
+
+### 🎨 **Color Showcase**
+
+<img src="https://via.placeholder.com/150x80/30d403/FFFFFF?text=PRIMARY" alt="Primary Green" />
+<img src="https://via.placeholder.com/150x80/393939/30d403?text=DARK" alt="Dark Theme" />
+<img src="https://via.placeholder.com/150x80/EDEDED/393939?text=LIGHT" alt="Light Theme" />
+
+</div>
+
+### Typography
+- **Primary**: RussellSquareStd - Modern, clean headers
+- **Secondary**: SerpentineStd-Medium - UI elements and navigation  
+- **Code**: FloodStd - Monospace for editor and code display
+
+### Component Styling
+- **Theme Provider** integration across all components
+- **Consistent spacing** and border radius patterns
+- **Hover states** with color transitions
+- **Responsive design** with mobile-first approach
+
+<div align="center">
+
+> **Design Philosophy**: Minimalist cyberpunk aesthetic with high contrast and clean typography
+
+</div>
 
 ## 🧪 Testing
 
@@ -220,7 +291,7 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 ## 👤 Author
 
 **Jeff Maxwell**
-- Email: [maxjeffwell@gmail.com](mailto:maxjeffwell@gmail.com)
+- Email: [jeff@el-jefe.me](mailto:jeff@el-jefe.me)
 - GitHub: [@maxjeffwell](https://github.com/maxjeffwell)
 - Portfolio: [https://www.el-jefe.me](https://www.el-jefe.me)
 
@@ -232,4 +303,12 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 
 ---
 
-<p align="center">Made with ❤️ and GraphQL</p># Force deployment with correct buildpack setup
+<div align="center">
+
+<img src="https://via.placeholder.com/600x80/393939/30d403?text=Made+with+%E2%9D%A4%EF%B8%8F+and+GraphQL" alt="Made with love and GraphQL" />
+
+<br><br>
+
+<img src="https://via.placeholder.com/300x40/30d403/393939?text=Code+Talk+Client" alt="Code Talk Client" />
+
+</div>
