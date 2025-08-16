@@ -17,7 +17,7 @@
 
 </div>
 
-<h1 align="center"><img width=100% src=https://github.com/maxjeffwell/code-talk-graphql-client/blob/master/src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
+<h1 align="center"><img width=100% src=./src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
 
 ## 🚀 Features
 
@@ -309,10 +309,10 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 
 <div align="center">
 
-<img src="https://via.placeholder.com/600x80/393939/30d403?text=Made+with+%E2%9D%A4%EF%B8%8F+and+GraphQL" alt="Made with love and GraphQL" />
+💚 **Made with ❤️ and GraphQL** 💚
 
 <br><br>
 
-<img src="https://via.placeholder.com/300x40/30d403/393939?text=Code+Talk+Client" alt="Code Talk Client" />
+🚀 **Code Talk Client** 🚀
 
 </div>
