@@ -10,7 +10,11 @@
 </div>
 
 <div align="center">
-<img src="https://via.placeholder.com/800x100/393939/30d403?text=Real-time+Collaborative+Code+Editor+%26+Messaging+Platform" alt="Code Talk Description" />
+
+**Real-time Collaborative Code Editor & Messaging Platform**
+
+*Build, chat, and collaborate seamlessly with developers worldwide*
+
 </div>
 
 <h1 align="center"><img width=100% src=https://github.com/maxjeffwell/code-talk-graphql-client/blob/master/src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
@@ -21,11 +25,11 @@
 
 | Feature | Description |
 |---------|-------------|
-| <img src="https://via.placeholder.com/120x30/30d403/393939?text=REAL-TIME" alt="Real-time" /> | **Synchronized text editing** across multiple users |
-| <img src="https://via.placeholder.com/120x30/30d403/393939?text=MESSAGING" alt="Messaging" /> | **Instant messaging** with GraphQL subscriptions |
-| <img src="https://via.placeholder.com/120x30/30d403/393939?text=SECURE" alt="Secure" /> | **JWT-based authentication** with automatic token management |
-| <img src="https://via.placeholder.com/120x30/30d403/393939?text=MODERN+UI" alt="Modern UI" /> | **Responsive design** with styled-components |
-| <img src="https://via.placeholder.com/120x30/30d403/393939?text=WEBSOCKET" alt="WebSocket" /> | **Real-time updates** through GraphQL subscriptions |
+| 🔄 **REAL-TIME** | **Synchronized text editing** across multiple users |
+| 💬 **MESSAGING** | **Instant messaging** with GraphQL subscriptions |
+| 🔐 **SECURE** | **JWT-based authentication** with automatic token management |
+| 🎨 **MODERN UI** | **Responsive design** with styled-components |
+| ⚡ **WEBSOCKET** | **Real-time updates** through GraphQL subscriptions |
 
 </div>
 
