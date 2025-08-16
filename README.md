@@ -369,7 +369,4 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 ---
 
 <div align="center">
-
-💚 **Made with ❤️ and GraphQL** 💚
-
-<br><br></div>
+</div>
