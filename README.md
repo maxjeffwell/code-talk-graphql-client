@@ -130,7 +130,7 @@ Code Talk uses JWT-based authentication with secure token storage:
 ## 🎨 Styling & Theme
 
 <div align="center">
-  
+
 ### 🎯 **Code Talk Design System**
 
 </div>
@@ -313,8 +313,4 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 
 💚 **Made with ❤️ and GraphQL** 💚
 
-<br><br>
-
-🚀 **Code Talk Client** 🚀
-
-</div>
+<br><br></div>
