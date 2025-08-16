@@ -39,53 +39,53 @@
 
 <div align="center">
 
-### Desktop Interface
+### Mobile Interface (iPhone 13)
 
 <table>
   <tr>
     <td align="center">
-      <img src="./screenshots/Screen Shot 2025-08-16 at 05.58.11.png" alt="Code Talk Desktop Interface - Main View" width="400">
+      <img src="./screenshots/Screen Shot 2025-08-16 at 05.58.11.png" alt="Code Talk iPhone 13 Interface - Main View" width="300">
       <br>
       <sub><b>Main Chat Interface</b></sub>
     </td>
     <td align="center">
-      <img src="./screenshots/Screen Shot 2025-08-16 at 05.58.54.png" alt="Code Talk Desktop Interface - Editor View" width="400">
+      <img src="./screenshots/Screen Shot 2025-08-16 at 05.58.54.png" alt="Code Talk iPhone 13 Interface - Editor View" width="300">
       <br>
       <sub><b>Collaborative Editor</b></sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="./screenshots/Screenshot_2025-08-16_05-54-06.png" alt="Code Talk Desktop Interface - Landing Page" width="400">
+      <img src="./screenshots/Screenshot_2025-08-16_05-54-06.png" alt="Code Talk iPhone 13 Interface - Landing Page" width="300">
       <br>
       <sub><b>Landing Page</b></sub>
     </td>
     <td align="center">
-      <img src="./screenshots/Screenshot_2025-08-16_05-55-40.png" alt="Code Talk Desktop Interface - Authentication" width="400">
+      <img src="./screenshots/Screenshot_2025-08-16_05-55-40.png" alt="Code Talk iPhone 13 Interface - Authentication" width="300">
       <br>
       <sub><b>Authentication</b></sub>
     </td>
   </tr>
   <tr>
     <td align="center" colspan="2">
-      <img src="./screenshots/Screenshot_2025-08-16_05-57-03.png" alt="Code Talk Desktop Interface - Full View" width="600">
+      <img src="./screenshots/Screenshot_2025-08-16_05-57-03.png" alt="Code Talk iPhone 13 Interface - Full View" width="400">
       <br>
       <sub><b>Full Application View</b></sub>
     </td>
   </tr>
 </table>
 
-### Mobile Interface
+### Mobile Interface (iPhone 15 Pro)
 
 <table>
   <tr>
     <td align="center">
-      <img src="./screenshots/ios-17.0-iPhone-15 Pro.png" alt="Code Talk Mobile Interface - Main View" width="300">
+      <img src="./screenshots/ios-17.0-iPhone-15 Pro.png" alt="Code Talk iPhone 15 Pro Interface - Main View" width="300">
       <br>
       <sub><b>Main Chat Interface</b></sub>
     </td>
     <td align="center">
-      <img src="./screenshots/ios-17.0-iPhone-15 Pro (1).png" alt="Code Talk Mobile Interface - Editor View" width="300">
+      <img src="./screenshots/ios-17.0-iPhone-15 Pro (1).png" alt="Code Talk iPhone 15 Pro Interface - Editor View" width="300">
       <br>
       <sub><b>Collaborative Editor</b></sub>
     </td>
