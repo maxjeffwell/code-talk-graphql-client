@@ -15,6 +15,8 @@
 
 *Build, chat, and collaborate seamlessly with developers worldwide*
 
+🌐 **[Live Demo](https://code-talk-client-c46118c24c30.herokuapp.com/)** 🌐
+
 </div>
 
 <h1 align="center"><img width=100% src=./src/components/Images/Logo/CodeTalk_Title_Logo.png alt="Code Talk Logo"></h1>
