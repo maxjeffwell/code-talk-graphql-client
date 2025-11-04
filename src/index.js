@@ -194,7 +194,9 @@ const cache = new InMemoryCache({
 const client = new ApolloClient({
 	link: from([authLink, errorLink, splitLinkRef]),
 	cache,
-	connectToDevTools: true,
+	devtools: {
+		enabled: true
+	},
 });
 
 // Store reference for reconnection
