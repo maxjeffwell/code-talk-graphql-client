@@ -5,11 +5,10 @@ import { hasToken } from '../../utils/auth';
 
 const withSession = Component => props => {
   const { data, refetch, loading } = useQuery(GET_ME, {
-    skip: !hasToken(),
     fetchPolicy: 'cache-and-network',
     errorPolicy: 'ignore',
   });
-  
+
   return (
     <Component {...props} session={data} refetch={refetch} sessionLoading={loading} />
   );
