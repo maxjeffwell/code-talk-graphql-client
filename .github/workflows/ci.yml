@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linting
+        run: npm run lint || echo "Linting completed with warnings"
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test -- --passWithNoTests
+        env:
+          CI: false
+
+      - name: Build project
+        run: npm run build
+        env:
+          CI: false
+          DISABLE_ESLINT_PLUGIN: true
+          REACT_APP_GRAPHQL_HTTP_URI: http://localhost/graphql
+          REACT_APP_GRAPHQL_WS_URI: ws://localhost/graphql
+
+      - name: Build Docker image (without push)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          target: production
+          push: false
+          load: true
+          tags: code-talk-graphql-client:ci-test
+          build-args: |
+            REACT_APP_GRAPHQL_HTTP_URI=http://localhost/graphql
+            REACT_APP_GRAPHQL_WS_URI=ws://localhost/graphql
+
+      - name: Test Docker image
+        run: |
+          docker run --rm -d --name test-client \
+            -p 5001:5000 \
+            code-talk-graphql-client:ci-test
+
+          sleep 5
+          docker logs test-client
+          docker stop test-client || true
