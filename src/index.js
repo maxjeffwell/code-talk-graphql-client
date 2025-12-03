@@ -18,7 +18,7 @@ import logger from './utils/logger';
 import theme from './theme';
 
 const httpLink = createHttpLink({
-	uri: window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : 'https://code-talk-server-5f982138903e.herokuapp.com/graphql',
+	uri: window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : 'https://code-talk.el-jefe.me/graphql',
 	fetchOptions: {
 		mode: 'cors',
 		credentials: 'include'
@@ -31,7 +31,7 @@ const createWebSocketClient = () => {
 	console.log('[WebSocket] Creating client with token:', !!token);
 	
 	return createClient({
-		url: window.location.hostname === 'localhost' ? 'ws://localhost:8000/graphql' : 'wss://code-talk-server-5f982138903e.herokuapp.com/graphql',
+		url: window.location.hostname === 'localhost' ? 'ws://localhost:8000/graphql' : 'wss://code-talk.el-jefe.me/graphql',
 		connectionParams: () => {
 			const currentToken = getToken();
 			console.log('[WebSocket] Connection params - token:', !!currentToken);
