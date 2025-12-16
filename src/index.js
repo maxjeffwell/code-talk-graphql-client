@@ -18,7 +18,7 @@ import logger from './utils/logger';
 import theme from './theme';
 
 const httpLink = createHttpLink({
-	uri: window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : '/graphql',
+	uri: process.env.REACT_APP_API_BASE_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : '/graphql'),
 	fetchOptions: {
 		mode: 'cors',
 		credentials: 'include'
@@ -29,9 +29,19 @@ const httpLink = createHttpLink({
 const createWebSocketClient = () => {
 	const token = getToken();
 	console.log('[WebSocket] Creating client with token:', !!token);
-	
+
+	// Derive WebSocket URL from API base URL or use defaults
+	const getWsUrl = () => {
+		if (process.env.REACT_APP_API_BASE_URL) {
+			return process.env.REACT_APP_API_BASE_URL.replace(/^http/, 'ws');
+		}
+		return window.location.hostname === 'localhost'
+			? 'ws://localhost:8000/graphql'
+			: `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/graphql`;
+	};
+
 	return createClient({
-		url: window.location.hostname === 'localhost' ? 'ws://localhost:8000/graphql' : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/graphql`,
+		url: getWsUrl(),
 		connectionParams: () => {
 			const currentToken = getToken();
 			console.log('[WebSocket] Connection params - token:', !!currentToken);
