@@ -22,6 +22,7 @@ const SignInPage = React.lazy(() => import('../SignIn'));
 const Room = React.lazy(() => import('../Room'));
 const RoomList = React.lazy(() => import('../Room/RoomList'));
 const MessageContainer = React.lazy(() => import('../MessageContainer'));
+const AIChatPage = React.lazy(() => import('../AIChatPage'));
 
 // Lazy load heavy components (prepared for future implementation)
 // const MessagesList = React.lazy(() => import('../Message/Messages'));
@@ -150,6 +151,11 @@ const AppRoutes = ({ session, refetch, sessionLoading }) => {
             <Route
               path={routes.CHAT}
               element={<MessageContainer />}
+            />
+
+            <Route
+              path={routes.AI_CHAT}
+              element={<AIChatPage />}
             />
 
             <Route

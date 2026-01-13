@@ -13,6 +13,7 @@ const NavigationAuth = ({ session }) => {
 	const isOnChatPage = location.pathname === routes.CHAT;
 	const isOnRoomsPage = location.pathname === routes.ROOMS;
 	const isOnRoomPage = location.pathname.startsWith('/rooms/');
+	const isOnAIChatPage = location.pathname === routes.AI_CHAT;
 
 	return <Fragment>
 		<Header/>
@@ -22,7 +23,9 @@ const NavigationAuth = ({ session }) => {
 		<SignOutButton/>
 		<Logo>
 			{!isOnChatPage && <Link to={routes.CHAT}>Main Chat</Link>}
-			{!isOnChatPage && !isOnRoomsPage && <span> | </span>}
+			{!isOnChatPage && <span> | </span>}
+			{!isOnAIChatPage && <Link to={routes.AI_CHAT}>AI Chat</Link>}
+			{!isOnAIChatPage && !isOnRoomsPage && <span> | </span>}
 			{!isOnRoomsPage && <Link to={routes.ROOMS}>Chat Rooms</Link>}
 			{!isOnRoomsPage && isOnRoomPage && <span> | </span>}
 			{isOnRoomPage && <Link to={routes.ROOMS}>Back to Rooms</Link>}
