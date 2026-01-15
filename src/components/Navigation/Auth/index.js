@@ -27,8 +27,6 @@ const NavigationAuth = ({ session }) => {
 			{!isOnAIChatPage && <Link to={routes.AI_CHAT}>AI Chat</Link>}
 			{!isOnAIChatPage && !isOnRoomsPage && <span> | </span>}
 			{!isOnRoomsPage && <Link to={routes.ROOMS}>Chat Rooms</Link>}
-			{!isOnRoomsPage && isOnRoomPage && <span> | </span>}
-			{isOnRoomPage && <Link to={routes.ROOMS}>Back to Rooms</Link>}
 		</Logo>
 	</Fragment>;
 };

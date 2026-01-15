@@ -124,21 +124,22 @@ const Navigation = styled.nav`
 const NavLink = styled(Link)`
   color: ${props => props.theme.green};
   text-decoration: none;
-  padding: 0.4rem 0.8rem;
+  padding: 0.6rem 1.2rem;
   border: 2px solid ${props => props.theme.green};
   border-radius: 3px;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
+  font-weight: bold;
   text-transform: uppercase;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: ${props => props.theme.green};
     color: ${props => props.theme.black};
   }
-  
+
   @media (max-width: ${breakpoint.mobileL}) {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
   }
 `;
 
@@ -164,7 +165,6 @@ const MessageContainer = ({ roomId }) => {
 					<Navigation>
 						<NavLink to={routes.CHAT}>Main Chat</NavLink>
 						<NavLink to={routes.ROOMS}>All Rooms</NavLink>
-						<SignOutButton />
 					</Navigation>
 				</TopBar>
 				<MessageCreate roomId={roomId} />
@@ -180,7 +180,6 @@ const MessageContainer = ({ roomId }) => {
 				<Title>Code Talk Chat</Title>
 				<Navigation>
 					<NavLink to={routes.ROOMS}>Chat Rooms</NavLink>
-					<SignOutButton />
 				</Navigation>
 			</TopBar>
 			<ChatContent>
