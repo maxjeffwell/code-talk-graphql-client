@@ -1,7 +1,7 @@
 # Multi-stage build for code-talk React client
 
 # Build stage
-FROM node:18-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -29,7 +29,7 @@ ENV DISABLE_ESLINT_PLUGIN=true
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine AS production
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
@@ -62,7 +62,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=20s --retries=3 \
 CMD ["npm", "start"]
 
 # Development stage
-FROM node:18-alpine AS development
+FROM node:20-alpine AS development
 
 WORKDIR /app
 
