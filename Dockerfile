@@ -5,24 +5,25 @@ FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Build argument for API URL
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies (BuildKit cache speeds up repeated builds)
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
+# Copy application files
+COPY . .
+
+# Build arguments for API URL (after npm install for better caching)
 ARG REACT_APP_GRAPHQL_HTTP_URI
 ARG REACT_APP_GRAPHQL_WS_URI
 ENV REACT_APP_GRAPHQL_HTTP_URI=$REACT_APP_GRAPHQL_HTTP_URI
 ENV REACT_APP_GRAPHQL_WS_URI=$REACT_APP_GRAPHQL_WS_URI
 
-# Disable ESLint warnings as errors (CI=false prevents treating warnings as errors)
+# Disable ESLint warnings as errors
 ENV CI=false
 ENV DISABLE_ESLINT_PLUGIN=true
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy application files
-COPY . .
 
 # Build the application
 RUN npm run build
@@ -36,8 +37,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only express (needed for server.js)
-RUN npm install express --production && \
-    npm cache clean --force
+RUN --mount=type=cache,target=/root/.npm \
+    npm install express --production
 
 # Copy server.js and build artifacts
 COPY server.js ./
@@ -68,8 +69,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install all dependencies
-RUN npm install
+# Install all dependencies (BuildKit cache speeds up repeated builds)
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 
 # Copy application files
 COPY . .
