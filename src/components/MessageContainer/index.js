@@ -1,12 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
 
 import { MessageCreate, Messages } from '../Message';
 import Editor from '../Editor';
 import SignOutButton from '../SignOut';
 import { breakpoint } from '../Variables';
 import * as routes from '../../constants/routes';
+
+const GET_ROOM = gql`
+  query GetRoom($id: ID!) {
+    room(id: $id) {
+      id
+      title
+    }
+  }
+`;
 
 const ChatContainer = styled.div`
   background: ${props => props.theme.black};
@@ -155,13 +165,21 @@ const Title = styled.h2`
 `;
 
 const MessageContainer = ({ roomId }) => {
+	// Fetch room data when in room mode
+	const { data: roomData } = useQuery(GET_ROOM, {
+		variables: { id: roomId },
+		skip: !roomId,
+	});
+
+	const roomTitle = roomData?.room?.title || 'Room Chat';
+
 	// If roomId is provided, render in room mode (messages only)
 	// If no roomId, render in global chat mode (messages + code editor)
 	if (roomId) {
 		return (
 			<RoomContainer>
 				<TopBar>
-					<Title>Room Chat</Title>
+					<Title>{roomTitle}</Title>
 					<Navigation>
 						<NavLink to={routes.CHAT}>Main Chat</NavLink>
 						<NavLink to={routes.ROOMS}>All Rooms</NavLink>
