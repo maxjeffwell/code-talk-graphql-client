@@ -1,12 +1,16 @@
 import React, { useEffect, memo, useMemo } from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/client';
-import { gql } from '@apollo/client';
 
 import MessageDelete from '../MessageDelete';
 import withSession from '../../Session/withSession';
 import ErrorMessage from '../../Error';
 import { MessageSkeleton } from '../../Loading/SkeletonLoader';
+import {
+  GET_PAGINATED_MESSAGES_QUERY,
+  MESSAGE_CREATED_SUBSCRIPTION,
+  MESSAGE_DELETED_SUBSCRIPTION,
+} from '../queries';
 
 const StyledMessage = styled.li`
     background: ${props => props.theme.black};
@@ -70,59 +74,6 @@ const MessagesContainer = styled.div`
     text-align: center;
     padding: 20px;
     font-family: RussellSquareStd, monospace;
-  }
-`;
-
-const MESSAGE_CREATED_SUBSCRIPTION = gql`
-    subscription($roomId: ID) {
-        messageCreated(roomId: $roomId) {
-          message {
-            id
-            text
-            createdAt
-            roomId
-            user {
-              id
-              username
-            }
-          }
-        }
-    }
-`;
-
-const MESSAGE_DELETED_SUBSCRIPTION = gql`
-  subscription {
-    messageDeleted {
-      id
-      text
-      createdAt
-      roomId
-      user {
-        id
-        username
-      }
-    }
-  }
-`;
-
-const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query($cursor: String, $limit: Int!, $roomId: ID) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId) {
-      edges {
-        id
-        text
-        createdAt
-        roomId
-        user {
-          id
-          username
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-    }
   }
 `;
 
