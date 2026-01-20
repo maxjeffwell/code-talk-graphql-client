@@ -16,11 +16,14 @@ const CREATE_ROOM = gql`
 
 const RoomCreate = () => {
   const [title, setTitle] = useState('');
-  
+
   const [createRoom, { loading, error }] = useMutation(CREATE_ROOM, {
-    variables: { title },
-    // Don't update cache here - the subscription will handle it
-    // This prevents duplicate rooms from appearing
+    onCompleted: () => {
+      setTitle('');
+    },
+    onError: (err) => {
+      console.error('Failed to create room:', err.message);
+    },
   });
 
   const onChange = event => {
@@ -30,14 +33,11 @@ const RoomCreate = () => {
     }
   };
 
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
-    try {
-      if (title.trim()) {
-        await createRoom();
-        setTitle('');
-      }
-    } catch (error) {}
+    if (title.trim()) {
+      createRoom({ variables: { title: title.trim() } });
+    }
   };
 
   return (
