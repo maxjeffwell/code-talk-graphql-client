@@ -18,7 +18,8 @@ const RoomCreate = () => {
   const [title, setTitle] = useState('');
 
   const [createRoom, { loading, error }] = useMutation(CREATE_ROOM, {
-    onCompleted: () => {
+    onCompleted: (data) => {
+      console.log('Room created successfully:', data);
       setTitle('');
     },
     onError: (err) => {
@@ -33,10 +34,16 @@ const RoomCreate = () => {
     }
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    if (title.trim()) {
-      createRoom({ variables: { title: title.trim() } });
+    const trimmedTitle = title.trim();
+    if (trimmedTitle) {
+      console.log('Submitting room creation with title:', trimmedTitle);
+      try {
+        await createRoom({ variables: { title: trimmedTitle } });
+      } catch (err) {
+        console.error('Room creation failed:', err);
+      }
     }
   };
 
