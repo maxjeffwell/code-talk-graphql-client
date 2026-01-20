@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ErrorMessage from '../../Error';
 import Loading from '../../Loading';
 import { StyledButton } from '../Messages';
+import { GET_PAGINATED_MESSAGES_QUERY } from '../queries';
 
 const StyledTextarea = styled(TextareaAutosize)`
   font-size: 1rem;
@@ -69,30 +70,10 @@ const CREATE_MESSAGE = gql`
       id
       createdAt
       text
+      roomId
       user {
         id
         username
-      }
-    }
-  }
-`;
-
-const GET_PAGINATED_MESSAGES_QUERY = gql`
-  query($cursor: String, $limit: Int!, $roomId: ID) {
-    messages(cursor: $cursor, limit: $limit, roomId: $roomId) {
-      edges {
-        id
-        text
-        createdAt
-        roomId
-        user {
-          id
-          username
-        }
-      }
-      pageInfo {
-        hasNextPage
-        endCursor
       }
     }
   }
@@ -163,8 +144,8 @@ const MessageCreate = ({ roomId }) => {
           __typename: 'Message',
           id: `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           text,
-          createdAt: new Date().toISOString(),
-          ...(roomId && { roomId }),
+          createdAt: new Date().toLocaleString(),
+          roomId: roomId || null,
           user: {
             __typename: 'User',
             id: 'temp-user',
