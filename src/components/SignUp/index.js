@@ -7,9 +7,9 @@ import styled from 'styled-components';
 import * as routes from '../../constants/routes';
 import ErrorMessage from '../Error';
 import DemoAccounts from '../Demo';
-import { setToken, getToken } from '../../utils/auth';
 import { useNotifications } from '../Notifications/NotificationSystem';
 import LoadingSpinner from '../Loading/LoadingSpinner';
+// Note: Tokens are now stored in httpOnly cookies by the server
 
 import { StyledInput } from '../SignIn';
 import { StyledButton } from '../SignIn';
@@ -111,7 +111,12 @@ const StyledForm = styled.form`
 const SIGN_UP = gql`
     mutation($username: String!, $email: String!, $password: String!) {
         signUp(username: $username, email: $email, password: $password) {
-            token
+            success
+            user {
+                id
+                username
+                email
+            }
         }
     }
 `;
@@ -140,15 +145,14 @@ const SignUpForm = ({ refetch }) => {
   const { success, error: showError } = useNotifications();
 
   const [signUp, { loading, error }] = useMutation(SIGN_UP, {
-    variables: { 
-      username: formState.username, 
-      email: formState.email, 
-      password: formState.password 
+    variables: {
+      username: formState.username,
+      email: formState.email,
+      password: formState.password
     },
     onCompleted: (data) => {
-      if (data?.signUp?.token) {
-        console.log('Sign up mutation completed successfully');
-        // Don't reload page - let the normal flow handle navigation
+      if (data?.signUp?.success) {
+        console.log('Sign up mutation completed successfully - cookies set by server');
       }
     },
     onError: (error) => {
@@ -186,24 +190,22 @@ const SignUpForm = ({ refetch }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
       const { data } = await signUp();
       setFormState({ ...INITIAL_STATE });
 
-      // Validate token before storing
-      if (!data?.signUp?.token) {
-        showError('Registration failed: No valid token received from server.', {
+      // Auth tokens are now set as httpOnly cookies by the server
+      // No client-side token storage needed
+      console.log('Registration successful:', data.signUp.success ? 'Cookies set by server' : 'Auth failed');
+
+      if (!data?.signUp?.success) {
+        showError('Registration failed. Please try again.', {
           title: 'Registration Failed',
           duration: 8000
         });
         return;
       }
-
-      // Use secure token storage
-      console.log('Registration successful, storing token:', data.signUp.token ? 'Token received' : 'No token received');
-      setToken(data.signUp.token);
-      console.log('Token stored, checking storage:', !!getToken());
 
       await refetch();
 
@@ -214,10 +216,10 @@ const SignUpForm = ({ refetch }) => {
       navigate(routes.CHAT);
     } catch (error) {
       console.error('Sign up submission error:', error);
-      
+
       // The onError callback above should handle specific error messaging,
       // but this catch block handles any submission errors
-      if (!error.message?.includes('Database operation failed') && 
+      if (!error.message?.includes('Database operation failed') &&
           !error.message?.includes('Internal Server Error')) {
         showError('Registration failed. Please check your information and try again.', {
           title: 'Registration Failed',

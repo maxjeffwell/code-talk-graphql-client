@@ -1,113 +1,89 @@
-// Secure token management utilities
+/**
+ * Authentication Utilities
+ *
+ * IMPORTANT: Authentication is now handled via httpOnly cookies.
+ * - Tokens are set/cleared by the server, not the client
+ * - JavaScript cannot read httpOnly cookies (this is a security feature)
+ * - Authentication status should be determined via the `me` GraphQL query
+ *
+ * This file is kept for backwards compatibility but most functions
+ * are no longer needed.
+ */
+
 import logger from './logger';
+
+// ============================================================================
+// DEPRECATED - These functions are kept for backwards compatibility only
+// With httpOnly cookies, the client cannot access tokens
+// ============================================================================
 
 const TOKEN_KEY = 'auth_token';
 
-// Check if we're in a secure context (HTTPS or localhost)
-const isSecureContext = () => {
-  return window.location.protocol === 'https:' || 
-         window.location.hostname === 'localhost' ||
-         window.location.hostname === '127.0.0.1';
-};
-
-// Get token from secure storage
+/**
+ * @deprecated Tokens are now stored in httpOnly cookies
+ */
 export const getToken = () => {
-  try {
-    // In production with HTTPS, prefer sessionStorage for better security
-    if (isSecureContext() && process.env.NODE_ENV === 'production') {
-      return sessionStorage.getItem(TOKEN_KEY);
-    }
-    // Fallback to localStorage for development
-    return localStorage.getItem(TOKEN_KEY);
-  } catch (error) {
-    logger.warn('Failed to retrieve token:', error);
-    return null;
-  }
+  logger.warn('getToken() is deprecated - auth now uses httpOnly cookies');
+  return null;
 };
 
-// Set token in secure storage
+/**
+ * @deprecated Tokens are now set by the server via httpOnly cookies
+ */
 export const setToken = (token) => {
-  try {
-    if (!token) {
-      removeToken();
-      return;
-    }
-    
-    // In production with HTTPS, prefer sessionStorage
-    if (isSecureContext() && process.env.NODE_ENV === 'production') {
-      sessionStorage.setItem(TOKEN_KEY, token);
-    } else {
-      // Fallback to localStorage for development
-      localStorage.setItem(TOKEN_KEY, token);
-    }
-  } catch (error) {
-    logger.warn('Failed to store token:', error);
-  }
-};
-
-// Remove token from storage
-export const removeToken = () => {
+  logger.warn('setToken() is deprecated - auth now uses httpOnly cookies');
+  // Clean up any legacy tokens
   try {
     localStorage.removeItem(TOKEN_KEY);
     sessionStorage.removeItem(TOKEN_KEY);
-  } catch (error) {
-    logger.warn('Failed to remove token:', error);
+  } catch (e) {
+    // Ignore errors
   }
 };
 
-// Check if token exists
+/**
+ * @deprecated Tokens are now cleared by the server via signOut mutation
+ */
+export const removeToken = () => {
+  logger.warn('removeToken() is deprecated - use signOut mutation instead');
+  // Clean up any legacy tokens
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+  } catch (e) {
+    // Ignore errors
+  }
+};
+
+/**
+ * @deprecated Cannot check token existence with httpOnly cookies
+ * Use the `me` query to check authentication status
+ */
 export const hasToken = () => {
-  return !!getToken();
+  logger.warn('hasToken() is deprecated - use session.me to check auth status');
+  return false;
 };
 
-// Decode JWT payload (without verification - for client-side info only)
+/**
+ * @deprecated Cannot decode httpOnly cookie tokens client-side
+ */
 export const decodeTokenPayload = (token) => {
-  try {
-    if (!token) return null;
-    
-    const parts = token.split('.');
-    if (parts.length !== 3) return null;
-    
-    const payload = parts[1];
-    const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
-    return decoded;
-  } catch (error) {
-    logger.warn('Failed to decode token:', error);
-    return null;
-  }
+  logger.warn('decodeTokenPayload() is deprecated - tokens are in httpOnly cookies');
+  return null;
 };
 
-// Check if token is expired
+/**
+ * @deprecated Cannot check expiration of httpOnly cookie tokens
+ */
 export const isTokenExpired = (token = null) => {
-  try {
-    const tokenToCheck = token || getToken();
-    if (!tokenToCheck) return true;
-    
-    const payload = decodeTokenPayload(tokenToCheck);
-    if (!payload || !payload.exp) return true;
-    
-    // Check if token expires within the next 30 seconds
-    const now = Math.floor(Date.now() / 1000);
-    return payload.exp <= (now + 30);
-  } catch (error) {
-    logger.warn('Failed to check token expiration:', error);
-    return true;
-  }
+  logger.warn('isTokenExpired() is deprecated - server handles token expiration');
+  return false;
 };
 
-// Get time until token expiration (in seconds)
+/**
+ * @deprecated Cannot get expiry of httpOnly cookie tokens
+ */
 export const getTokenTimeToExpiry = (token = null) => {
-  try {
-    const tokenToCheck = token || getToken();
-    if (!tokenToCheck) return 0;
-    
-    const payload = decodeTokenPayload(tokenToCheck);
-    if (!payload || !payload.exp) return 0;
-    
-    const now = Math.floor(Date.now() / 1000);
-    return Math.max(0, payload.exp - now);
-  } catch (error) {
-    logger.warn('Failed to get token expiry time:', error);
-    return 0;
-  }
+  logger.warn('getTokenTimeToExpiry() is deprecated - tokens are in httpOnly cookies');
+  return 0;
 };

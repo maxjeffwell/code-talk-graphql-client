@@ -1,17 +1,23 @@
 import React from 'react';
-import { useApolloClient } from '@apollo/client';
+import { useApolloClient, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
 import * as routes from '../../constants/routes';
 import styled from 'styled-components';
-import { removeToken } from '../../utils/auth';
+
+// GraphQL mutation to clear httpOnly auth cookies on server
+const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut
+  }
+`;
 
 const StyledButton = styled.button`
   position: relative;
   display: block;
   margin: 0 auto;
   text-align: center;
-  background: ${props => props.theme.black}; 
+  background: ${props => props.theme.black};
   cursor: pointer;
   color: ${props => props.theme.green};
   text-transform: uppercase;
@@ -29,21 +35,23 @@ const StyledButton = styled.button`
 
 export const signOut = async (client, navigate = null) => {
   try {
-    // Securely remove token from all storage locations
-    removeToken();
-    
+    // Call server to clear httpOnly cookies
+    if (client && client.mutate) {
+      await client.mutate({ mutation: SIGN_OUT });
+    }
+
     // Clear Apollo cache
     if (client && client.clearStore) {
       await client.clearStore();
     }
-    
+
     // Force a complete page reload to ensure clean state
     // This is the most reliable way to clear all React state and subscriptions
     window.location.href = routes.SIGN_IN;
-    
+
   } catch (error) {
     console.error('Error during sign out:', error);
-    // Still navigate even if there's an error
+    // Still navigate even if there's an error - cookies might be cleared anyway
     window.location.href = routes.SIGN_IN;
   }
 };

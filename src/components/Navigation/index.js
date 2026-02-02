@@ -3,14 +3,14 @@ import styled from 'styled-components';
 
 import NavigationAuth from './Auth';
 import NavigationNonAuth from './NonAuth';
-import { hasToken } from '../../utils/auth';
+// Note: Authentication uses httpOnly cookies - we rely on session data, not token checks
 
 export const Logo = styled.h1`
   font-size: 1.5rem;
   text-align: center;
   margin: 1rem 0 2rem 0;
   position: relative;
-  a  { 
+  a  {
     display: inline-block;
     padding: 0.5rem 1rem;
     background: ${props => props.theme.black};
@@ -39,15 +39,13 @@ export const StyledParagraph = styled.p`
 `;
 
 const Navigation = memo(({ session, sessionLoading }) => {
-  const hasAuthToken = hasToken();
-  
-  // If we have a token but session is still loading, show authenticated nav
-  // This prevents the sign-in button from flashing while session loads
-  const shouldShowAuthenticatedNav = (session && session.me) || (hasAuthToken && sessionLoading);
-  
+  // With httpOnly cookies, we rely solely on session data for auth status
+  // While loading, we show non-auth nav to avoid flash (brief loading state is acceptable)
+  const isAuthenticated = session && session.me;
+
   return (
     <Fragment>
-      {shouldShowAuthenticatedNav ? (
+      {isAuthenticated ? (
         <NavigationAuth session={session} />
       ) : (
         <NavigationNonAuth />

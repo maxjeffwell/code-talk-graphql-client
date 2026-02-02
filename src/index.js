@@ -12,10 +12,10 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import App from './components/App';
 import { signOut } from './components/SignOut';
-import { getToken, isTokenExpired } from './utils/auth';
 import { observeLongTasks } from './utils/performance';
 import logger from './utils/logger';
 import theme from './theme';
+// Note: Authentication now uses httpOnly cookies - no client-side token management needed
 
 const httpLink = createHttpLink({
 	uri: process.env.REACT_APP_API_BASE_URL || (window.location.hostname === 'localhost' ? 'http://localhost:8000/graphql' : '/graphql'),
@@ -26,9 +26,9 @@ const httpLink = createHttpLink({
 });
 
 // Create WebSocket client factory
+// Authentication uses httpOnly cookies sent with the HTTP upgrade request
 const createWebSocketClient = () => {
-	const token = getToken();
-	console.log('[WebSocket] Creating client with token:', !!token);
+	console.log('[WebSocket] Creating client (auth via httpOnly cookies)');
 
 	// Derive WebSocket URL from API base URL or use defaults
 	const getWsUrl = () => {
@@ -42,18 +42,7 @@ const createWebSocketClient = () => {
 
 	return createClient({
 		url: getWsUrl(),
-		connectionParams: () => {
-			const currentToken = getToken();
-			console.log('[WebSocket] Connection params - token:', !!currentToken);
-			if (currentToken && !isTokenExpired(currentToken)) {
-				console.log('[WebSocket] Sending token in connection params');
-				return {
-					'x-token': currentToken,
-				};
-			}
-			console.log('[WebSocket] No valid token for connection params');
-			return {};
-		},
+		// No connectionParams needed - auth is via httpOnly cookies in HTTP upgrade
 		shouldRetry: () => true,
 		retryAttempts: 5,
 		on: {
@@ -71,20 +60,21 @@ let wsLink = new GraphQLWsLink(wsClient);
 let apolloClient = null;
 let splitLinkRef = null;
 
-// Export function to reconnect WebSocket with new auth
+// Export function to reconnect WebSocket after auth change
+// This is needed because httpOnly cookies are only sent with the initial HTTP upgrade
 export const reconnectWebSocket = async () => {
-	console.log('[WebSocket] Reconnecting with new auth token');
-	
+	console.log('[WebSocket] Reconnecting to pick up new auth cookies');
+
 	try {
 		// Dispose of the old WebSocket connection
 		if (wsClient) {
 			wsClient.dispose();
 		}
-		
-		// Create new WebSocket client with fresh auth
+
+		// Create new WebSocket client - will use current cookies for auth
 		wsClient = createWebSocketClient();
 		wsLink = new GraphQLWsLink(wsClient);
-		
+
 		// Recreate the split link with the new WebSocket link
 		splitLinkRef = split(
 			({ query }) => {
@@ -97,13 +87,13 @@ export const reconnectWebSocket = async () => {
 			wsLink,
 			httpLink,
 		);
-		
+
 		// Update Apollo Client with new link
 		if (apolloClient) {
 			console.log('[WebSocket] Updating Apollo Client link');
 			apolloClient.setLink(from([authLink, errorLink, splitLinkRef]));
 		}
-		
+
 		console.log('[WebSocket] Reconnection complete');
 	} catch (error) {
 		console.error('[WebSocket] Error during reconnection:', error);
@@ -122,27 +112,10 @@ splitLinkRef = split(
 	httpLink,
 );
 
+// Auth link is now minimal - httpOnly cookies are sent automatically
+// via credentials: 'include' in the httpLink
 const authLink = setContext((_, { headers }) => {
-	const token = getToken();
-	console.log('Auth link - token found:', !!token);
-
-	// Check if token is expired before using it
-	if (token && !isTokenExpired(token)) {
-		console.log('Auth link - sending token in headers');
-		return {
-			headers: {
-				...headers,
-				'x-token': token,
-			}
-		};
-	} else if (token && isTokenExpired(token)) {
-		console.log('Auth link - token expired, triggering logout');
-		// Token is expired, trigger logout
-		signOut(client, null);
-	} else {
-		console.log('Auth link - no valid token, sending headers without auth');
-	}
-
+	// Just pass through headers - cookies handle authentication
 	return { headers };
 });
 

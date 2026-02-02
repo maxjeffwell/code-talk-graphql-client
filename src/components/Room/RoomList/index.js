@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import styled from 'styled-components';
-import { hasToken } from '../../../utils/auth';
+// Note: Authentication uses httpOnly cookies - we don't check tokens client-side
 
 import ErrorMessage from '../../Error';
 import RoomCreate from '../RoomCreate';
@@ -43,33 +43,11 @@ const GET_PAGINATED_ROOMS_QUERY = gql`
 `;
 
 const Rooms = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(hasToken());
-
-  // Update authentication state when token changes
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsAuthenticated(hasToken());
-    };
-
-    // Check immediately
-    checkAuth();
-
-    // Listen for storage events (token changes)
-    window.addEventListener('storage', checkAuth);
-    
-    // Also check periodically since storage events don't fire in same tab
-    const interval = setInterval(checkAuth, 1000);
-
-    return () => {
-      window.removeEventListener('storage', checkAuth);
-      clearInterval(interval);
-    };
-  }, []);
-
+  // With httpOnly cookies, we let the server handle auth via cookies
+  // The query will succeed if user is authenticated (has valid cookies)
   const { data, loading, error, subscribeToMore } = useQuery(GET_PAGINATED_ROOMS_QUERY, {
     fetchPolicy: 'cache-and-network',
-    pollInterval: isAuthenticated ? 5000 : 0, // Only poll when authenticated
-    skip: !isAuthenticated // Skip query if not authenticated
+    pollInterval: 5000, // Poll for updates
   });
 
   if (loading || !data) {

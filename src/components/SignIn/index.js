@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { SignUpLink } from '../SignUp';
 import * as routes from '../../constants/routes';
 import DemoAccounts from '../Demo';
-import { setToken, getToken } from '../../utils/auth';
 import { useNotifications } from '../Notifications/NotificationSystem';
 import LoadingSpinner from '../Loading/LoadingSpinner';
 import { reconnectWebSocket } from '../../index';
+// Note: Tokens are now stored in httpOnly cookies by the server
 
 import styled from 'styled-components';
 import { breakpoint } from '../Variables';
@@ -151,7 +151,12 @@ const StyledForm = styled.form`
 const SIGN_IN = gql`
     mutation($login: String!, $password: String!) {
         signIn(login: $login, password: $password) {
-            token
+            success
+            user {
+                id
+                username
+                email
+            }
         }
     }
 `;
@@ -174,14 +179,13 @@ const SignInForm = ({ refetch }) => {
   const navigate = useNavigate();
 
   const [signIn, { loading }] = useMutation(SIGN_IN, {
-    variables: { 
-      login: formState.login, 
-      password: formState.password 
+    variables: {
+      login: formState.login,
+      password: formState.password
     },
     onCompleted: (data) => {
-      if (data?.signIn?.token) {
-        console.log('Sign in mutation completed successfully');
-        // Don't reload page - let the normal flow handle navigation
+      if (data?.signIn?.success) {
+        console.log('Sign in mutation completed successfully - cookies set by server');
       }
     },
     onError: (error) => {
@@ -219,24 +223,20 @@ const SignInForm = ({ refetch }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    
+
     try {
       const { data } = await signIn();
       setFormState({ ...INITIAL_STATE });
 
-      // Use secure token storage
-      console.log('Sign in successful, storing token:', data.signIn.token ? 'Token received' : 'No token received');
-      setToken(data.signIn.token);
-      console.log('Token stored, checking storage:', !!getToken());
-      
-      // Store token and wait a moment for it to be available
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Verify token is stored
-      const storedToken = getToken();
-      console.log('Token verification after storage:', !!storedToken);
+      // Auth tokens are now set as httpOnly cookies by the server
+      // No client-side token storage needed
+      console.log('Sign in successful:', data.signIn.success ? 'Cookies set by server' : 'Auth failed');
 
-      // Reconnect WebSocket with new auth token
+      if (!data.signIn.success) {
+        throw new Error('Authentication failed');
+      }
+
+      // Reconnect WebSocket (will use cookies from HTTP upgrade)
       await reconnectWebSocket();
 
       await refetch();
@@ -252,24 +252,24 @@ const SignInForm = ({ refetch }) => {
       navigate(routes.CHAT);
     } catch (error) {
       console.error('Sign in error details:', error);
-      
+
       // Check for specific error messages
       const errorMessage = error.graphQLErrors?.[0]?.message || error.message || '';
-      
+
       let displayMessage = 'Failed to sign in. Please check your credentials and try again.';
       let title = 'Sign In Failed';
-      
-      if (errorMessage.toLowerCase().includes('password') || 
+
+      if (errorMessage.toLowerCase().includes('password') ||
           errorMessage.toLowerCase().includes('credential') ||
           errorMessage.toLowerCase().includes('invalid')) {
         displayMessage = 'Incorrect password. Please check your password and try again.';
         title = 'Incorrect Password';
-      } else if (errorMessage.toLowerCase().includes('user') && 
+      } else if (errorMessage.toLowerCase().includes('user') &&
                  errorMessage.toLowerCase().includes('not found')) {
         displayMessage = 'User not found. Please check your email/username and try again.';
         title = 'User Not Found';
       }
-      
+
       showError(displayMessage, {
         title: title,
         duration: 8000
