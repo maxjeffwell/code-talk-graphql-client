@@ -112,11 +112,27 @@ splitLinkRef = split(
 	httpLink,
 );
 
-// Auth link is now minimal - httpOnly cookies are sent automatically
-// via credentials: 'include' in the httpLink
-const authLink = setContext((_, { headers }) => {
-	// Just pass through headers - cookies handle authentication
-	return { headers };
+// Helper function to read cookies by name
+const getCookie = (name) => {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+	return null;
+};
+
+// Auth link handles CSRF protection for mutations
+// Authentication uses httpOnly cookies sent automatically via credentials: 'include'
+const authLink = setContext((operation, { headers }) => {
+	// Read CSRF token from cookie and add to header
+	// The server sets this cookie on GET requests
+	const csrfToken = getCookie('csrf-token');
+
+	return {
+		headers: {
+			...headers,
+			...(csrfToken && { 'x-csrf-token': csrfToken }),
+		},
+	};
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
