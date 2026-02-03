@@ -156,9 +156,13 @@ const NavLink = styled(Link)`
 const Title = styled.h2`
   color: ${props => props.theme.green};
   font-size: 1.2rem;
-  margin: 0;
+  margin: 0 1rem 0 0;
   text-transform: uppercase;
-  
+
+  @media (max-width: ${breakpoint.tablet}) {
+    margin: 0 0 0.5rem 0;
+  }
+
   @media (max-width: ${breakpoint.mobileL}) {
     font-size: 1rem;
   }
