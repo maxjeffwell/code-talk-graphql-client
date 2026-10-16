@@ -61,15 +61,22 @@ const Editor = ({ roomId }) => {
   const recentLocalUpdatesRef = useRef(new Set());
 
   const debouncedFnRef = useRef(null);
+  const seededRef = useRef(false);
 
-  // Initialize local state when data loads
+  // Seed local state ONCE from the initial readCode result. This used to be
+  // keyed on `localCode === ''`, which is also what the box looks like after
+  // the user backspaces everything out, so the last server echo (kept in the
+  // cache by the subscription) was pasted back in the moment the last
+  // character was deleted.
   useEffect(() => {
-    if (data?.readCode?.body !== undefined && localCode === '') {
+    if (seededRef.current) return;
+    if (data?.readCode?.body !== undefined) {
+      seededRef.current = true;
       setLocalCode(data.readCode.body);
       localCodeRef.current = data.readCode.body;
       lastSentCodeRef.current = data.readCode.body;
     }
-  }, [data, localCode]);
+  }, [data]);
 
   // Keep ref in sync with state
   useEffect(() => {
@@ -174,9 +181,10 @@ const Editor = ({ roomId }) => {
             localCodeRef.current = newBody;
           }
           
-          return Object.assign({}, prev, {
-            readCode: subscriptionData.data.typingCode
-          });
+          // Do not mirror the live stream into the cached readCode: the
+          // component owns `localCode`, and a changing `data` would just give
+          // every effect keyed on it a second, hidden subscription.
+          return prev;
         }
       });
       return unsubscribe;
