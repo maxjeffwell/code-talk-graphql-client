@@ -12,7 +12,6 @@ const NavigationAuth = ({ session }) => {
 
 	const isOnChatPage = location.pathname === routes.CHAT;
 	const isOnRoomsPage = location.pathname === routes.ROOMS;
-	const isOnRoomPage = location.pathname.startsWith('/rooms/');
 	const isOnAIChatPage = location.pathname === routes.AI_CHAT;
 
 	return <Fragment>

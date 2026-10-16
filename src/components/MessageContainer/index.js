@@ -5,7 +5,6 @@ import { useQuery, gql } from '@apollo/client';
 
 import { MessageCreate, Messages } from '../Message';
 import Editor from '../Editor';
-import SignOutButton from '../SignOut';
 import { breakpoint } from '../Variables';
 import * as routes from '../../constants/routes';
 
