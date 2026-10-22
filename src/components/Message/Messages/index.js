@@ -93,24 +93,16 @@ const Messages = memo(({ limit, roomId }) => {
     }
   );
 
-  const memoizedData = useMemo(() => {
-    if (!data) {
-      return null;
-    }
-    return data;
-  }, [data]);
-
-  if (!memoizedData) {
-    return (
-      <div>
-        <p>No messages have been created yet ... Create one here ...</p>
-      </div>
-    );
+  // Order matters: a failed query must surface as an error, not as the
+  // "no messages" placeholder (which is what happened when an empty room's
+  // page failed server-side and the message list -- and its subscriptions --
+  // never mounted). The placeholder itself is rendered by MessageList so an
+  // empty room is still subscribed to new messages.
+  if (error) {
+    return <ErrorMessage error={error} />;
   }
 
-  const { messages } = memoizedData;
-
-  if (loading || !messages) {
+  if (loading || !data?.messages) {
     return (
       <div>
         {Array.from({ length: 3 }).map((_, index) => (
@@ -119,11 +111,8 @@ const Messages = memo(({ limit, roomId }) => {
       </div>
     );
   }
-  if (error) {
-    return <ErrorMessage error={error} />;
-  }
 
-  const { edges, pageInfo } = messages;
+  const { edges, pageInfo } = data.messages;
 
   // Sort messages by createdAt in descending order (newest first)
   const sortedMessages = [...edges].sort((a, b) => {
@@ -378,7 +367,15 @@ const MessageList = ({ messages, subscribeToMore, roomId }) => {
   // Note: We rely on cache-level deduplication rather than render-time filtering
   // This allows messages with duplicate content but different IDs to be displayed
   console.log('Message rendering - Total messages:', messages.length);
-  
+
+  if (messages.length === 0) {
+    return (
+      <div>
+        <p>No messages have been created yet ... Create one here ...</p>
+      </div>
+    );
+  }
+
   return (
     <ul>
       {messages.map((message, index) => (
